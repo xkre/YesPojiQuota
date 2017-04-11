@@ -1,0 +1,69 @@
+﻿<Page
+    x:Class="YesPojiQuota.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:YesPojiQuota.Views"
+    xmlns:partial="using:YesPojiQuota.Views.Partials"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    DataContext="{Binding MainPage, Source={StaticResource Locator}}"
+    mc:Ignorable="d">
+
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Label="Add Account" Icon="Add" Click="AppBarButton_Click">
+            </AppBarButton>
+            <AppBarButton Label="Refresh" Icon="Refresh" Click="{x:Bind vm.RefreshAccounts}"/>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Label="Settings / About" Icon="Setting" Command="{Binding NavigateToSettings}"/>
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition  Height="30"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <local:AccountsPanel Grid.RowSpan="2" Margin="0 10"/>
+
+        <Grid Grid.Row="0" Background="Transparent"
+              Visibility="{x:Bind vm.NotiVisible, Mode=OneWay}">
+            <local:BackDrop BlurAmount="2"
+                            TintColor="Aqua"
+                            TintAlpha="80"
+                            SaturationIntensity="1.8"/>
+            <Grid>
+                <TextBlock Text="{x:Bind vm.NotiMessage, Mode=OneWay}"
+                           Padding="5"/>
+            </Grid>
+        </Grid>
+        <!--<Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>-->
+
+
+        <!--<StackPanel HorizontalAlignment="Center" Grid.Row="0">
+            <Button Click="{x:Bind vm.SendNotificationMessage}" 
+                    Content="Send Message"
+                    Width="250"/>
+            <Button Click="{x:Bind vm.DoLogin}" 
+                    Content="Send Message"
+                    Width="250"/>
+            <Button Command="{Binding ShowWarning}"
+                    Content="Show Warning" 
+                    Width="250"/>
+            <Button Command="{Binding NavigateToSecondPage}"
+                    Content="Go to Second Page" 
+                    Width="250"/>
+            <Button Command="{Binding NavigateToAddZone}"
+                    Content="Add Zone" 
+                    Width="250"/>
+
+            
+        </StackPanel>-->
+    </Grid>
+</Page>

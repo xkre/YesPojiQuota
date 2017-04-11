@@ -1,0 +1,36 @@
+﻿<Page
+    x:Class="YesPojiQuota.Views.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:YesPojiQuota.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    DataContext="{Binding Settings, Source={StaticResource Locator}}"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+
+        <Pivot>
+            <PivotItem>
+                <PivotItem.Header>
+                    Settings
+                </PivotItem.Header>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Dummy Settings" />
+                    <ToggleSwitch Header="Track Session Usage"/>
+                    <ToggleSwitch Header="Track Daily Quota Usage"/>
+                </StackPanel>
+            </PivotItem>
+            <PivotItem>
+                <PivotItem.Header>
+                    About
+                </PivotItem.Header>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="YesPojiQuota" />
+                    <TextBlock Text="Version 0.0.1.0" />
+                </StackPanel>
+            </PivotItem>
+        </Pivot>
+    </Grid>
+</Page>
