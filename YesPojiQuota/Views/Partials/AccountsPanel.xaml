@@ -13,45 +13,63 @@
     d:DesignWidth="400">
 
     <UserControl.Resources>
+
         <DataTemplate x:Name="AccountsPanelTemplate" x:DataType="viewModels:AccountViewModel">
-            <Grid HorizontalAlignment="Stretch" Padding="0,10,0,10">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                </Grid.RowDefinitions>
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="125"/>
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Text="{x:Bind Username}" FontSize="16"
-                           Grid.Row="0" Grid.ColumnSpan="2"/>
-
-                <TextBlock Text="{x:Bind QuotaString, Mode=OneWay}" Grid.Row="1" 
-                           HorizontalAlignment="Stretch" Grid.ColumnSpan="2" FontSize="12
-                           "/>
-
-                <ProgressBar Value="{x:Bind Quota, Mode=OneWay}" Maximum="{x:Bind MaxQuota}" 
-                             Grid.Row="2" Grid.Column="0" 
-                             HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
-                             Margin="0,0,50,10" >
-                    <ProgressBar.Foreground>
-                        <SolidColorBrush Color="{ThemeResource SystemAltMediumColor}"/>
-                    </ProgressBar.Foreground>
-                </ProgressBar>
-
-                <Button Content="Connect" Click="{x:Bind Login}"
-                        Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch"
-                        IsEnabled="{x:Bind CanLogin, Mode=OneWay}" />
-
+            <Grid>
                 <Grid.ContextFlyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Text="Delete" Click="{x:Bind Remove}" />
+                        <MenuFlyoutItem Text="Refresh" Click="{x:Bind Init}" />
+                        <MenuFlyoutSeparator/>
+                        <MenuFlyoutItem Text="Delete">
+                            <FlyoutBase.AttachedFlyout>
+                                <Flyout>
+                                    <StackPanel Orientation="Vertical">
+                                        <TextBlock Text="Are you sure to remove this account?" />
+                                        <Button Content="Remove" Click="{x:Bind Remove}" />
+                                    </StackPanel>
+                                </Flyout>
+                            </FlyoutBase.AttachedFlyout>
+                        </MenuFlyoutItem>
                     </MenuFlyout>
                 </Grid.ContextFlyout>
 
+                <Grid HorizontalAlignment="Stretch" Padding="0,10,0,10">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="15" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="125"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="{x:Bind Username}" FontSize="16"
+                               Grid.Row="0" Grid.ColumnSpan="2"
+                               />
+
+                    <TextBlock Text="{x:Bind QuotaString, Mode=OneWay}" Grid.Row="1" 
+                               HorizontalAlignment="Stretch" Grid.ColumnSpan="2" FontSize="12
+                               "/>
+
+                    <ProgressBar Value="{x:Bind Quota, Mode=OneWay}" Maximum="{x:Bind MaxQuota}" 
+                                 Grid.Row="2" Grid.Column="0" 
+                                 HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+                                 Margin="0,0,50,10" >
+                        <ProgressBar.Foreground>
+                            <SolidColorBrush Color="{ThemeResource SystemAltMediumColor}"/>
+                        </ProgressBar.Foreground>
+                    </ProgressBar>
+
+                    <Button Content="Connect" Click="{x:Bind Login}"
+                            Grid.Column="1" Grid.Row="1"  Grid.RowSpan="2"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+                            IsEnabled="{x:Bind CanLogin, Mode=OneWay}" 
+                            />
+
+                </Grid>
             </Grid>
         </DataTemplate>
     </UserControl.Resources>

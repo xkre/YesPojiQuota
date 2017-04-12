@@ -119,6 +119,11 @@ namespace YesPojiQuota.ViewModels
             //);
         }
 
+        protected void SendDialogMessage(string message, Action<string> action)
+        {
+            Messenger.Default.Send(new NotificationMessageAction<string>(message, action));
+        }
+
 
 
         //private RelayCommand _showWarning;
