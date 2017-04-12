@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using YesPojiQuota.Data;
 
-namespace YesPojiQuota.Utils
+namespace YesPojiQuota.Utils.Interfaces
 {
-    public class DataService : IDataService
+    public interface IDataService
     {
-        public IEnumerable<Account> Accounts => throw new NotImplementedException();
+        IEnumerable<Account> Accounts { get; }
     }
 }

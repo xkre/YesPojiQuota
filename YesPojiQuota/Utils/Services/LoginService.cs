@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 using HtmlAgilityPack;
 using System.Diagnostics;
 using Windows.UI.Popups;
+using YesPojiQuota.Utils.Interfaces;
 
-namespace YesPojiQuota.Utils
+namespace YesPojiQuota.Utils.Services
 {
     public class LoginService : ILoginService
     {

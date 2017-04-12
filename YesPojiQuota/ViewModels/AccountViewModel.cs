@@ -13,6 +13,7 @@ using YesPojiQuota.Utils;
 using Windows.UI.Core;
 using System.Collections.Concurrent;
 using GalaSoft.MvvmLight.Threading;
+using YesPojiQuota.Utils.Interfaces;
 
 namespace YesPojiQuota.ViewModels
 {
