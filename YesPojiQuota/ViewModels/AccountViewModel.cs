@@ -155,7 +155,14 @@ namespace YesPojiQuota.ViewModels
             if(!_isLoaded)
                 InitQuotaFromDb();
 
-            await Task.Run(async () => await InitQuota());
+            await InitQuota();
+
+            _isLoaded = true;
+        }
+
+        public void LightInit()
+        {
+            InitQuotaFromDb();
 
             _isLoaded = true;
         }
@@ -244,7 +251,7 @@ namespace YesPojiQuota.ViewModels
             Account = account;
 
             OnSuccessOperation(this);
-            Init();
+            InitQuota();
         }
 
         public async void Login()

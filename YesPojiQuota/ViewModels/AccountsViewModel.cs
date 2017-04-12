@@ -43,11 +43,19 @@ namespace YesPojiQuota.ViewModels
                 accounts.ForEach(x =>
                 {
                     var acvm = new AccountViewModel(x);
-                    acvm.Init();
                     acvm.Removed += AccountRemoved;
-
+                    acvm.LightInit();
                     Accounts.Add(acvm);
                 });
+
+                await Task.Run(async () =>
+                {
+                    foreach (var acvm in Accounts)
+                    {
+                        await acvm.Init();
+                    }
+                });
+
                 _isLoaded = true;
 
             }
