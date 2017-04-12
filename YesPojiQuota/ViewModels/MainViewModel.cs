@@ -106,7 +106,9 @@ namespace YesPojiQuota.ViewModels
 
         protected void SendNotificationMessage(string message)
         {
-            Messenger.Default.Send(message);
+            //Messenger.Default.Send(message);
+
+            SendDialogMessage(message, (x) => {; });
 
             //Messenger.Default.Send(
             //    new NotificationMessageAction<string>(
