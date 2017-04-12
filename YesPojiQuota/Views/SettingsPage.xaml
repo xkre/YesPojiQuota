@@ -28,7 +28,7 @@
                 </PivotItem.Header>
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="YesPojiQuota" />
-                    <TextBlock Text="Version 0.0.1.0" />
+                    <TextBlock Text="{x:Bind Vm.Version}" />
                 </StackPanel>
             </PivotItem>
         </Pivot>
