@@ -20,20 +20,20 @@
                     <MenuFlyout>
                         <MenuFlyoutItem Text="Refresh" Click="{x:Bind Init}" />
                         <MenuFlyoutSeparator/>
-                        <MenuFlyoutItem Text="Delete">
+                        <MenuFlyoutItem Text="Delete" Click="DeleteContextMenu_Click">
                             <FlyoutBase.AttachedFlyout>
                                 <Flyout>
-                                    <StackPanel Orientation="Vertical">
-                                        <TextBlock Text="Are you sure to remove this account?" />
-                                        <Button Content="Remove" Click="{x:Bind Remove}" />
-                                    </StackPanel>
+                                    <!--<StackPanel Orientation="Vertical">-->
+                                        <TextBlock Text="Are you sure to remove this account?"/>
+                                        <!--<Button Content="Remove" Click="{x:Bind Remove}" />-->
+                                    <!--</StackPanel>-->
                                 </Flyout>
                             </FlyoutBase.AttachedFlyout>
                         </MenuFlyoutItem>
                     </MenuFlyout>
                 </Grid.ContextFlyout>
 
-                <Grid HorizontalAlignment="Stretch" Padding="0,10,0,10">
+                <Grid Padding="0,10,0,10">
 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />

@@ -31,5 +31,10 @@ namespace YesPojiQuota.Views
         {
             await vm.Init();
         }
+
+        private void DeleteContextMenu_Click(object sender, RoutedEventArgs e)
+        {
+            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+        }
     }
 }
