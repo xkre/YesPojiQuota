@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using System.Threading.Tasks;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -32,9 +33,26 @@ namespace YesPojiQuota.Views
             await vm.Init();
         }
 
-        private void DeleteContextMenu_Click(object sender, RoutedEventArgs e)
-        {
-            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
-        }
+        //private async void DeleteContextMenu_Click(object sender, RoutedEventArgs e)
+        //{
+        //    ContentDialog a = new ContentDialog();
+
+        //    a.Title = "Confirmation";
+        //    a.Content = "Are you sure to delete this?";
+
+        //    a.PrimaryButtonText = "Yes";
+        //    a.SecondaryButtonText= "No";
+
+        //    var source = e.OriginalSource as AccountViewModel;
+
+        //    await Task.Delay(100);
+
+        //    //await Task.Delay(100);
+        //    //FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+
+        //    //FrameworkElement senderElement = sender as FrameworkElement;
+        //    //FlyoutBase flyoutBase = FlyoutBase.GetAttachedFlyout(senderElement);
+        //    //flyoutBase.ShowAt(senderElement.Parent as FrameworkElement);
+        //}
     }
 }
