@@ -10,66 +10,78 @@ using HtmlAgilityPack;
 using System.Diagnostics;
 using Windows.UI.Popups;
 using YesPojiQuota.Utils.Interfaces;
+using YesPojiQuota.Data;
 
 namespace YesPojiQuota.Utils.Services
 {
     public class LoginService : ILoginService
     {
-        private string key;
+        private const string PORTAL_TEST_URL = "http://detectportal.firefox.com/success.txt";
+        private const string LOGIN_URL = "https://apc.aptilo.com/cgi-bin/login";
 
-        public async Task<bool> Login(string username, string password)
+        private string key;
+        private string rawHtml;
+
+        private INetworkService netService;
+
+        public async Task<bool> LoginAsync(string username, string password)
         {
             using (var client = new HttpClient())
             {
-                HttpClient a = new HttpClient();
-
                 var content = new FormUrlEncodedContent(new[]
                 {
-                    //new KeyValuePair<string, string>("realm", "live.utm.my"),
-
-                    //new KeyValuePair<string, string>("showsession", "yes"),
+                    new KeyValuePair<string, string>("showsession", "yes"),
                     new KeyValuePair<string, string>("username", username),
                     new KeyValuePair<string, string>("key", key),
-                    //new KeyValuePair<string, string>("acceptedurl",""),
-
-                    //new KeyValuePair<string, string>("user", "makram23"),
                     new KeyValuePair<string, string>("password", password),
+
+                    //new KeyValuePair<string, string>("realm", "live.utm.my"),
+                    //new KeyValuePair<string, string>("acceptedurl",""),
+                    //new KeyValuePair<string, string>("user", "makram23"),
                 });
 
                 try
                 {
-                    var c = await a.PostAsync("https://apc.aptilo.com/cgi-bin/login", content);
-                    var d = await c.Content.ReadAsStringAsync();
+                    var response = await client.PostAsync(LOGIN_URL, content);
+                    var rawHtml = await response.Content.ReadAsStringAsync();
+
+                    bool success = ParseSuccess(rawHtml);
+
+                    return success;
                 }
                 catch (HttpRequestException ex)
                 {
                     Debug.WriteLine($"Exception {ex}");
-
-                    Messenger.Default.Send(
-                        new NotificationMessageAction<string>(
-                            "Connection Error",
-                            reply =>
-                            {
-                                //PageTitle = reply;
-                            }
-                        )
-                    );
                 }
-
-                //var dialog = new MessageDialog(c.IsSuccessStatusCode.ToString());
-
-                a.Dispose();
             }
 
             return false;
         }
 
-        public string GetKey()
+        private bool ParseSuccess(string rawHtml)
         {
-            return key;
+            if (rawHtml.Contains("showsession"))
+            {
+                return true;
+            }
+
+            return false;
         }
 
-        public async Task<bool> IsOnline()
+        public Task<bool> LoginAsync(Account a)
+        {
+            return LoginAsync(a.Username, a.Password);
+        }
+
+        public async Task InitAsync()
+        {
+            if (await TryGetLoginPortal())
+            {
+                key = ExtractKey(rawHtml);
+            }
+        }
+
+        private async Task<bool> TryGetLoginPortal()
         {
             string rawHtml = String.Empty;
 
@@ -77,49 +89,35 @@ namespace YesPojiQuota.Utils.Services
             {
                 try
                 {
-                    rawHtml = await client.GetStringAsync("http://detectportal.firefox.com/success.txt");
+                    rawHtml = await client.GetStringAsync(PORTAL_TEST_URL);
 
                     if (rawHtml.Contains("success"))
                     {
-                        return true;
+                        return false;
                     }
 
-                    ProcessKey(rawHtml);
+                    return true;
                 }
                 catch (Exception e)
                 {
                     Debug.WriteLine($"Exception {e}");
-                    return false;
                 }
                 return false;
             }
         }
 
-        public bool CanLogin()
-        {
-            if (key.Contains("utm"))
-                return true;
-
-            return false;
-        }
-
-        private void ProcessKey(string rawHhtml)
+        private string ExtractKey(string rawHhtml)
         {
             string theKey = String.Empty;
-            try
-            {
-                var html = new HtmlDocument();
-                html.LoadHtml(rawHhtml);
 
-                theKey += html.DocumentNode.ChildNodes[2].ChildNodes[7].ChildNodes[1].ChildNodes[1].GetAttributeValue("href", "failed");
-                theKey = Regex.Match(theKey, @"key=([^)]*)\&").Groups[1].Value;
+            var html = new HtmlDocument();
+            html.LoadHtml(rawHhtml);
 
-                key = theKey;
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine($"Exception {e}");
-            }
+            theKey += html.DocumentNode.ChildNodes[2].ChildNodes[7].ChildNodes[1].ChildNodes[1].GetAttributeValue("href", "failed");
+            theKey = Regex.Match(theKey, @"key=([^)]*)\&").Groups[1].Value;
+
+            return theKey;
+
         }
     }
 }

@@ -259,7 +259,7 @@ namespace YesPojiQuota.ViewModels
         {
             var loginService = ServiceLocator.Current.GetInstance<ILoginService>();
 
-            var a = await loginService.Login(Username, Password);
+            var a = await loginService.LoginAsync(Username, Password);
         }
 
         public async void Remove()
