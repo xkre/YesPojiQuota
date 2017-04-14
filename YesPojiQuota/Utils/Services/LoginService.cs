@@ -11,6 +11,7 @@ using System.Diagnostics;
 using Windows.UI.Popups;
 using YesPojiQuota.Utils.Interfaces;
 using YesPojiQuota.Data;
+using Microsoft.Practices.ServiceLocation;
 
 namespace YesPojiQuota.Utils.Services
 {
@@ -47,11 +48,17 @@ namespace YesPojiQuota.Utils.Services
 
                     bool success = ParseSuccess(rawHtml);
 
+                    if (success)
+                        Messenger.Default.Send("Login Success");
+                    else
+                        Messenger.Default.Send("Login Failed");
+
                     return success;
                 }
                 catch (HttpRequestException ex)
                 {
                     Debug.WriteLine($"Exception {ex}");
+                    Messenger.Default.Send("Login Failed");
                 }
             }
 
