@@ -18,8 +18,6 @@
                 </PivotItem.Header>
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Dummy Settings" />
-                    <ToggleSwitch Header="Track Session Usage"/>
-                    <ToggleSwitch Header="Track Daily Quota Usage"/>
                 </StackPanel>
             </PivotItem>
             <PivotItem>
