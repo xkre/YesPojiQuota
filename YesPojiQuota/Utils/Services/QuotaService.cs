@@ -6,8 +6,9 @@ using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using YesPojiQuota.Utils.Interfaces;
 
-namespace YesPojiQuota.Utils
+namespace YesPojiQuota.Utils.Services
 {
     public class QuotaService : IQuotaService
     {

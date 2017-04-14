@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using YesPojiQuota.Data;
 using YesPojiQuota.Utils;
+using YesPojiQuota.Utils.Interfaces;
+using YesPojiQuota.Utils.Services;
 using YesPojiQuota.Views;
 
 namespace YesPojiQuota.ViewModels
@@ -19,8 +21,13 @@ namespace YesPojiQuota.ViewModels
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
-            RegisterViewModels();
             RegisterServices();
+            RegisterViewModels();
+
+            Init();
+
+            
+            
         }
 
         private void RegisterViewModels()
@@ -46,6 +53,11 @@ namespace YesPojiQuota.ViewModels
             SimpleIoc.Default.Register<IQuotaService, QuotaService>();
 
             SimpleIoc.Default.Register<YesContext, YesContext>();
+        }
+
+        private async void Init()
+        {
+            await ServiceLocator.Current.GetInstance<ILoginService>().InitAsync();
         }
 
 

@@ -81,11 +81,14 @@ namespace YesPojiQuota.ViewModels
 
         public async void RefreshQuota()
         {
-            foreach (var a in Accounts)
+            await Task.Run(async () =>
             {
-                //await Task.Run(() => a.Init());
-                await a.Init();
-            }
+                foreach (var acvm in Accounts)
+                {
+                    await acvm.Init();
+                }
+            });
+
         }
 
     }

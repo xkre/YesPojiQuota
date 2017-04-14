@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YesPojiQuota.Utils
+namespace YesPojiQuota.Utils.Interfaces
 {
     public interface ICustomNavigationService : INavigationService
     {

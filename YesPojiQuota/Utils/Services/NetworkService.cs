@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using YesPojiQuota.Data;
+using YesPojiQuota.Utils.Interfaces;
 
-namespace YesPojiQuota.Utils
+namespace YesPojiQuota.Utils.Services
 {
-    public interface IDataService
+    public class NetworkService : INetworkService
     {
-        IEnumerable<Account> Accounts { get; }
     }
 }
