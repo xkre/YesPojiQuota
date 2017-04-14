@@ -20,12 +20,13 @@ namespace YesPojiQuota.ViewModels
         {
         }
 
+        /* Unused Code
         public async void SendNotificationMessage()
         {
             string key = String.Empty;
             var login = ServiceLocator.Current.GetInstance<ILoginService>();
 
-            var isLoggedIn = await login.IsOnline();
+            var isLoggedIn = await login.LoginPortalAvailable();
 
             if (!isLoggedIn)
             {
@@ -50,6 +51,7 @@ namespace YesPojiQuota.ViewModels
                 )
             );
         }
+        */
 
 
         private bool _notiVisible;
