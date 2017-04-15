@@ -109,7 +109,8 @@
     </Compile>
     <Compile Include="Migrations\YesContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils\Converters\AccountTypeConverter.cs" />
+    <Compile Include="Utils\Helpers\EncryptionHelper.cs" />
+	<Compile Include="Utils\Converters\AccountTypeConverter.cs" />
     <Compile Include="Utils\Enums\NetworkCondition.cs" />
     <Compile Include="Utils\Interfaces\INetworkService.cs" />
     <Compile Include="Utils\Services\CustomNavigationService.cs" />
@@ -178,6 +179,11 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <None Include="Package.StoreAssociation.xml" />
+    <Content Include="HTMLSource\FailResponse.html" />
+    <Content Include="HTMLSource\LoginPageFail.html" />
+    <Content Include="HTMLSource\LoginPageStart.html" />
+    <Content Include="HTMLSource\SuccessRedirectedResoponse.html" />
+    <Content Include="HTMLSource\SuccessResponse.html" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>

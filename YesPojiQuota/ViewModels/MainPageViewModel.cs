@@ -15,17 +15,20 @@ namespace YesPojiQuota.ViewModels
     public class MainPageViewModel : MainViewModel
     {
         private AccountsViewModel _accountsVM = ServiceLocator.Current.GetInstance<AccountsViewModel>();
+        private ILoginService _ls;
 
-        public MainPageViewModel(INavigationService navigationService) : base(navigationService)
+        public MainPageViewModel(INavigationService navigationService, ILoginService ls) : base(navigationService)
         {
+            _ls = ls;
         }
 
+        /* Unused Code
         public async void SendNotificationMessage()
         {
             string key = String.Empty;
             var login = ServiceLocator.Current.GetInstance<ILoginService>();
 
-            var isLoggedIn = await login.IsOnline();
+            var isLoggedIn = await login.LoginPortalAvailable();
 
             if (!isLoggedIn)
             {
@@ -49,6 +52,14 @@ namespace YesPojiQuota.ViewModels
                     }
                 )
             );
+        }
+        */
+
+        public override async Task Init()
+        {
+            await base.Init();
+
+            await _ls.InitAsync();
         }
 
 

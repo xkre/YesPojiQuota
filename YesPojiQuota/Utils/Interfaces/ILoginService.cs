@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YesPojiQuota.Data;
 
 namespace YesPojiQuota.Utils.Interfaces
 {
     public interface ILoginService
     {
-        Task<bool> Login(string u, string p);
-        string GetKey();
+        Task<bool> LoginAsync(Account a);
+        Task<bool> LoginAsync(string u, string p);
 
-        Task<bool> IsOnline();
-        bool CanLogin();
+        Task InitAsync();       
     }
 }

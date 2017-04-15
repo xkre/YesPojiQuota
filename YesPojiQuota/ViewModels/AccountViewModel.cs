@@ -14,6 +14,7 @@ using Windows.UI.Core;
 using System.Collections.Concurrent;
 using GalaSoft.MvvmLight.Threading;
 using YesPojiQuota.Utils.Interfaces;
+using YesPojiQuota.Utils.Helpers;
 
 namespace YesPojiQuota.ViewModels
 {
@@ -244,8 +245,12 @@ namespace YesPojiQuota.ViewModels
                 SendNotificationMessage("Username Already Exist");
                 return;
             }
-
-            var account = new Account(Username, Password);
+            string pw = null;
+            if (Password != null)
+            {
+                pw = EncryptionHelper.AES_Encrypt(Password,Username);
+            }
+            var account = new Account(Username, pw); 
             db.Accounts.Add(account);
             await db.SaveChangesAsync();
 
@@ -259,7 +264,7 @@ namespace YesPojiQuota.ViewModels
         {
             var loginService = ServiceLocator.Current.GetInstance<ILoginService>();
 
-            var a = await loginService.Login(Username, Password);
+            var a = await loginService.LoginAsync(Username, EncryptionHelper.AES_Decrypt(Password,Username));
         }
 
         public async void Remove()
