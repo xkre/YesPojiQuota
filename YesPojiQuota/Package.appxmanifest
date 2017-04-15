@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="182xkre.YesPojiQuotaUTMPreview" Publisher="CN=D6189038-E682-4CC5-9545-1523C4E080DA" Version="0.0.6.0" />
+  <Identity Name="182xkre.YesPojiQuotaUTMPreview" Publisher="CN=D6189038-E682-4CC5-9545-1523C4E080DA" Version="0.0.7.0" />
   <mp:PhoneIdentity PhoneProductId="90105814-acc2-40fd-a2fa-1adaadc2ace4" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>YesPojiQuota UTM Preview</DisplayName>
