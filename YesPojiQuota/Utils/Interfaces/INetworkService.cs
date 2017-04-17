@@ -12,6 +12,7 @@ namespace YesPojiQuota.Utils.Interfaces
         NetworkCondition NetworkType { get; }
 
         bool IsConnected();
+        void CheckConnection();
 
         }
     
