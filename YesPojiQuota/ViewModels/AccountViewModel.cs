@@ -8,13 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using YesPojiQuota.Data;
+using YesPojiQuota.Core.Data;
 using YesPojiQuota.Utils;
 using Windows.UI.Core;
 using System.Collections.Concurrent;
 using GalaSoft.MvvmLight.Threading;
-using YesPojiQuota.Utils.Interfaces;
-using YesPojiQuota.Utils.Helpers;
+using YesPojiQuota.Core.Utils.Interfaces;
+using YesPojiQuota.Core.Utils.Helpers;
 
 namespace YesPojiQuota.ViewModels
 {

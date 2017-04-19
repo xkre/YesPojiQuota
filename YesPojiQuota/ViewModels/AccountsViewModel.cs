@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Views;
 using System.Collections.ObjectModel;
-using YesPojiQuota.Data;
+using YesPojiQuota.Core.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Practices.ServiceLocation;
 using YesPojiQuota.Utils;

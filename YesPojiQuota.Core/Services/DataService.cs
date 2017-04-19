@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using YesPojiQuota.Data;
-using YesPojiQuota.Utils.Interfaces;
+using YesPojiQuota.Core.Data;
+using YesPojiQuota.Core.Utils.Interfaces;
 
-namespace YesPojiQuota.Utils.Services
+namespace YesPojiQuota.Core.Utils.Services
 {
     public class DataService : IDataService
     {

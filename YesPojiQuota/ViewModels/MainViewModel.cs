@@ -12,7 +12,7 @@ using YesPojiQuota.Utils;
 using Windows.UI.Core;
 using System.Data;
 using GalaSoft.MvvmLight.Ioc;
-using YesPojiQuota.Utils.Interfaces;
+using YesPojiQuota.Core.Utils.Interfaces;
 
 namespace YesPojiQuota.ViewModels
 {

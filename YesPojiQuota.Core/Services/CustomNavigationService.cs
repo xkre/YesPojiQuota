@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Core;
-using YesPojiQuota.Utils.Interfaces;
+using YesPojiQuota.Core.Utils.Interfaces;
 
-namespace YesPojiQuota.Utils.Services
+namespace YesPojiQuota.Core.Utils.Services
 {
     public class CustomNavigationService : INavigationService, ICustomNavigationService
     {

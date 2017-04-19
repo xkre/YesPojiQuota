@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 using HtmlAgilityPack;
 using System.Diagnostics;
 using Windows.UI.Popups;
-using YesPojiQuota.Utils.Interfaces;
-using YesPojiQuota.Data;
+using YesPojiQuota.Core.Utils.Interfaces;
+//using YesPojiQuota.Windows.Data;
 using Microsoft.Practices.ServiceLocation;
 
-namespace YesPojiQuota.Utils.Services
+namespace YesPojiQuota.Core.Utils.Services
 {
     public class LoginService : ILoginService
     {
@@ -24,6 +24,11 @@ namespace YesPojiQuota.Utils.Services
         private string rawHtml;
 
         private INetworkService netService;
+
+        public LoginService(INetworkService ns)
+        {
+            netService = ns;
+        }
 
         public async Task<bool> LoginAsync(string username, string password)
         {
@@ -75,10 +80,10 @@ namespace YesPojiQuota.Utils.Services
             return false;
         }
 
-        public Task<bool> LoginAsync(Account a)
-        {
-            return LoginAsync(a.Username, a.Password);
-        }
+        //public Task<bool> LoginAsync(Account a)
+        //{
+        //    return LoginAsync(a.Username, a.Password);
+        //}
 
         public async Task InitAsync()
         {

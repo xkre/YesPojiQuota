@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YesPojiQuota.Data
+namespace YesPojiQuota.Core.Data
 {
     public class YesContext : DbContext
     {

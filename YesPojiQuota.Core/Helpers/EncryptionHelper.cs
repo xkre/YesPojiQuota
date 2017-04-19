@@ -9,7 +9,7 @@ using Windows.Security.Cryptography.Core;
 using Windows.Security.Cryptography.DataProtection;
 using Windows.Storage.Streams;
 
-namespace YesPojiQuota.Utils.Helpers
+namespace YesPojiQuota.Core.Utils.Helpers
 {
     public static class EncryptionHelper
     {

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using YesPojiQuota.Utils.Enums;
-using YesPojiQuota.Utils.Interfaces;
+using YesPojiQuota.Core.Utils.Enums;
+using YesPojiQuota.Core.Utils.Interfaces;
 
-namespace YesPojiQuota.Utils.Services
+namespace YesPojiQuota.Core.Utils.Services
 {
     public class NetworkService : INetworkService
     {

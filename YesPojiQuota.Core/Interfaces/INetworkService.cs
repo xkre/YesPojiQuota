@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using YesPojiQuota.Utils.Enums;
+using YesPojiQuota.Core.Utils.Enums;
 
-namespace YesPojiQuota.Utils.Interfaces
+namespace YesPojiQuota.Core.Utils.Interfaces
 {
     public interface INetworkService
     {

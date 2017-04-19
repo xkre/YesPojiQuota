@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YesPojiQuota.Utils.Enums
+namespace YesPojiQuota.Core.Utils.Enums
 {
     public enum NetworkCondition
     {
