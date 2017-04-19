@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 using HtmlAgilityPack;
 using System.Diagnostics;
 using Windows.UI.Popups;
-using YesPojiQuota.Core.Utils.Interfaces;
+using YesPojiQuota.Core.Interfaces;
 //using YesPojiQuota.Windows.Data;
 using Microsoft.Practices.ServiceLocation;
 
-namespace YesPojiQuota.Core.Utils.Services
+namespace YesPojiQuota.Core.Services
 {
     public class LoginService : ILoginService
     {

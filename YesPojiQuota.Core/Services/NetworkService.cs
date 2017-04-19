@@ -4,8 +4,8 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using YesPojiQuota.Core.Utils.Enums;
-using YesPojiQuota.Core.Utils.Interfaces;
+using YesPojiQuota.Core.Enums;
+using YesPojiQuota.Core.Interfaces;
 
 namespace YesPojiQuota.Core.Utils.Services
 {

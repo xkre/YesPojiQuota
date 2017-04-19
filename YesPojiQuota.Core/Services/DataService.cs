@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YesPojiQuota.Core.Data;
-using YesPojiQuota.Core.Utils.Interfaces;
+using YesPojiQuota.Core.Interfaces;
 
-namespace YesPojiQuota.Core.Utils.Services
+namespace YesPojiQuota.Core.Services
 {
     public class DataService : IDataService
     {

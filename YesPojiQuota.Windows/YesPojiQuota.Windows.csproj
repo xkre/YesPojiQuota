@@ -194,7 +194,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\YesPojiQuota.Core\YesPojiQuota.Core.csproj">
       <Project>{2D15D326-FC0F-4855-993B-FD848C12B1B0}</Project>

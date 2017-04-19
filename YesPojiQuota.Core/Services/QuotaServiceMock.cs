@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using YesPojiQuota.Core.Utils.Interfaces;
+using YesPojiQuota.Core.Interfaces;
 
-namespace YesPojiQuota.Core.Utils.Services
+namespace YesPojiQuota.Core.Services
 {
     public class QuotaServiceMock : IQuotaService
     {

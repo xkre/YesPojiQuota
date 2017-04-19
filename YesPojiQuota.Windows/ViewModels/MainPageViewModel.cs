@@ -8,7 +8,7 @@ using GalaSoft.MvvmLight.Messaging;
 using Microsoft.Practices.ServiceLocation;
 using YesPojiQuota.Utils;
 using GalaSoft.MvvmLight.Command;
-using YesPojiQuota.Core.Utils.Interfaces;
+using YesPojiQuota.Core.Interfaces;
 
 namespace YesPojiQuota.ViewModels
 {

@@ -8,8 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YesPojiQuota.Core.Data;
-using YesPojiQuota.Core.Utils.Interfaces;
-using YesPojiQuota.Core.Utils.Services;
+using YesPojiQuota.Core.Interfaces;
+using YesPojiQuota.Core.Services;
 using YesPojiQuota.Views;
 
 namespace YesPojiQuota.ViewModels

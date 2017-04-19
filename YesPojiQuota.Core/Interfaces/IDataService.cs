@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using YesPojiQuota.Core.Data;
 
-namespace YesPojiQuota.Core.Utils.Interfaces
+namespace YesPojiQuota.Core.Interfaces
 {
     public interface IDataService
     {

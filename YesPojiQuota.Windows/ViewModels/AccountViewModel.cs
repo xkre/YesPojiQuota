@@ -13,8 +13,8 @@ using YesPojiQuota.Utils;
 using Windows.UI.Core;
 using System.Collections.Concurrent;
 using GalaSoft.MvvmLight.Threading;
-using YesPojiQuota.Core.Utils.Interfaces;
-using YesPojiQuota.Core.Utils.Helpers;
+using YesPojiQuota.Core.Interfaces;
+using YesPojiQuota.Core.Helpers;
 
 namespace YesPojiQuota.ViewModels
 {
