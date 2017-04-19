@@ -259,3 +259,5 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/YesPojiQuota.Windows/_scale-100.appx
+/YesPojiQuota.Windows/_scale-400.appx
