@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using YesPojiQuota.Data;
+using YesPojiQuota.Core.Data;
 using YesPojiQuota.Views;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
