@@ -10,7 +10,7 @@ using HtmlAgilityPack;
 using System.Diagnostics;
 using Windows.UI.Popups;
 using YesPojiQuota.Core.Interfaces;
-//using YesPojiQuota.Windows.Data;
+using YesPojiQuota.Core.Data;
 using Microsoft.Practices.ServiceLocation;
 
 namespace YesPojiQuota.Core.Services
@@ -80,10 +80,10 @@ namespace YesPojiQuota.Core.Services
             return false;
         }
 
-        //public Task<bool> LoginAsync(Account a)
-        //{
-        //    return LoginAsync(a.Username, a.Password);
-        //}
+        public Task<bool> LoginAsync(Account a)
+        {
+            return LoginAsync(a.Username, a.Password);
+        }
 
         public async Task InitAsync()
         {
