@@ -33,7 +33,6 @@ namespace YesPojiQuota.ViewModels
         {
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<MainPageViewModel>();
-            SimpleIoc.Default.Register<SecondPageViewModel>();
             SimpleIoc.Default.Register<AccountsViewModel>();
             SimpleIoc.Default.Register<SettingsViewModel>();
         }
@@ -77,7 +76,6 @@ namespace YesPojiQuota.ViewModels
 
         public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
         public MainPageViewModel MainPage => ServiceLocator.Current.GetInstance<MainPageViewModel>();
-        public SecondPageViewModel SecondPage => ServiceLocator.Current.GetInstance<SecondPageViewModel>();
         public AccountsViewModel Accounts => ServiceLocator.Current.GetInstance<AccountsViewModel>();
         public SettingsViewModel Settings => ServiceLocator.Current.GetInstance<SettingsViewModel>();
 

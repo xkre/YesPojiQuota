@@ -114,7 +114,6 @@
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\QuotaViewModel.cs" />
-    <Compile Include="ViewModels\SecondViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\BackDrop.cs" />
@@ -165,11 +164,11 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <None Include="Package.StoreAssociation.xml" />
-    <Content Include="HTMLSource\FailResponse.html" />
-    <Content Include="HTMLSource\LoginPageFail.html" />
-    <Content Include="HTMLSource\LoginPageStart.html" />
-    <Content Include="HTMLSource\SuccessRedirectedResoponse.html" />
-    <Content Include="HTMLSource\SuccessResponse.html" />
+    <None Include="HTMLSource\FailResponse.html" />
+    <None Include="HTMLSource\LoginPageFail.html" />
+    <None Include="HTMLSource\LoginPageStart.html" />
+    <None Include="HTMLSource\SuccessRedirectedResoponse.html" />
+    <None Include="HTMLSource\SuccessResponse.html" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>
