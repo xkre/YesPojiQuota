@@ -49,18 +49,18 @@ namespace YesPojiQuota.Views
         {
             base.OnNavigatedTo(e);
 
-            Messenger.Default.Register<string>(this, HandleNotification);
+            //Messenger.Default.Register<string>(this, HandleNotification);
         }
 
-        private async void HandleNotification(string a)
-        {
-            vm.NotiMessage = a;
-            vm.NotiVisible = true;
+        //private async void HandleNotification(string a)
+        //{
+        //    vm.NotiMessage = a;
+        //    vm.NotiVisible = true;
 
-            await Task.Delay(5000);
+        //    await Task.Delay(5000);
 
-            vm.NotiVisible = false;
-        }
+        //    vm.NotiVisible = false;
+        //}
 
         //protected override async void OnNavigatedTo(NavigationEventArgs e)
         //{

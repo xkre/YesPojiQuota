@@ -15,6 +15,8 @@ namespace YesPojiQuota.ViewModels
     public class MainPageViewModel : MainViewModel
     {
         private AccountsViewModel _accountsVM = ServiceLocator.Current.GetInstance<AccountsViewModel>();
+        private InnAppToastViewModel _notiVM = ServiceLocator.Current.GetInstance<InnAppToastViewModel>();
+
         private ILoginService _ls;
 
         public MainPageViewModel(INavigationService navigationService, ILoginService ls) : base(navigationService)
@@ -55,9 +57,10 @@ namespace YesPojiQuota.ViewModels
         }
         */
 
-        public override async Task Init()
+        public override async Task InitAsync()
         {
-            await base.Init();
+            await base.InitAsync();
+            await _notiVM.InitAsync();
 
             await _ls.InitAsync();
         }
@@ -81,10 +84,7 @@ namespace YesPojiQuota.ViewModels
 
         public void RefreshAccounts()
         {
-            Task.Run(() =>
-            {
-                _accountsVM.RefreshQuota();
-            });
+            _accountsVM.RefreshQuota();
         }
 
         //private RelayCommand _refreshAccounts;

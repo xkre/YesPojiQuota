@@ -1,0 +1,27 @@
+﻿<UserControl
+    x:Class="YesPojiQuota.Views.Partials.InnAppToastNotification"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:YesPojiQuota.Views.Partials"
+    xmlns:views="using:YesPojiQuota.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    DataContext="{Binding InnAppToast, Source={StaticResource Locator}}"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    >
+
+    <Grid>
+        <Grid >
+            <views:BackDrop BlurAmount="2"
+                            TintColor="Aqua"
+                            TintAlpha="80"
+                            SaturationIntensity="1.8"/>
+            <Grid>
+                <TextBlock Text="{x:Bind Vm.Message, Mode=OneWay}"
+                           Padding="5"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>
