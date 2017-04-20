@@ -9,11 +9,14 @@ namespace YesPojiQuota.Core.Interfaces
 {
     public interface INetworkService
     {
+        event NetworkChangeEvent NetworkChanged;
         NetworkCondition NetworkType { get; }
 
         bool IsConnected();
-        void CheckConnection();
+        Task CheckConnectionAsync();
 
-        }
+    }
+
+    public delegate void NetworkChangeEvent(NetworkCondition condition);
     
 }

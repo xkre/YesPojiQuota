@@ -9,6 +9,7 @@ namespace YesPojiQuota.Core.Enums
     public enum NetworkCondition
     {
         Online,
+        OnlineNotYes,
         YesWifiConnected,
         NotConnected
     }
