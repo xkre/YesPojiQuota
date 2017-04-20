@@ -87,13 +87,13 @@ namespace YesPojiQuota.Core.Services
 
         public async Task InitAsync()
         {
-            if (await TryGetLoginPortal())
+            if (await TryGetLoginPortalAsync())
             {
                 key = ExtractKey(rawHtml);
             }
         }
 
-        private async Task<bool> TryGetLoginPortal()
+        private async Task<bool> TryGetLoginPortalAsync()
         {
             string rawHtml = String.Empty;
 

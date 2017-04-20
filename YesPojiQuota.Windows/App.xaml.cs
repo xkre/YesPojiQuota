@@ -21,6 +21,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Popups;
 
 namespace YesPojiQuota
 {
@@ -37,6 +38,15 @@ namespace YesPojiQuota
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            this.UnhandledException += OnUnhandledException;
+        }
+
+        private async void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
+            await new MessageDialog("Application Unhandled Exception:\r\n" + e.Exception.Message, "Error :(")
+                .ShowAsync();
+
         }
 
         /// <summary>
@@ -57,7 +67,19 @@ namespace YesPojiQuota
 
                 using (var db = new YesContext())
                 {
-                    db.Database.Migrate();
+                    try
+                    {
+                        db.Database.Migrate();
+                    }
+                    catch
+                    {
+                        var dialog = ServiceLocator.Current.GetInstance<IDialogService>();
+                        dialog.ShowError("There was an error during database migration", "Database Migration Error", "OK",()=> { });
+
+                        db.Database.EnsureDeleted();
+
+                        db.Database.Migrate();
+                    }
                 }
 
                 rootFrame.NavigationFailed += OnNavigationFailed;

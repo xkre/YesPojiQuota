@@ -115,6 +115,11 @@
     <Compile Include="Interfaces\ILoginService.cs" />
     <Compile Include="Interfaces\INetworkService.cs" />
     <Compile Include="Interfaces\IQuotaService.cs" />
+    <Compile Include="Migrations\20170420073902_First.cs" />
+    <Compile Include="Migrations\20170420073902_First.designer.cs">
+      <DependentUpon>20170420073902_First.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\YesContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CustomNavigationService.cs" />
     <Compile Include="Services\DataService.cs" />
