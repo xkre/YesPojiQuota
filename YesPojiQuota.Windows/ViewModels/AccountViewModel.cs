@@ -9,8 +9,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using YesPojiQuota.Core.Data;
-using YesPojiQuota.Utils;
-using Windows.UI.Core;
 using System.Collections.Concurrent;
 using GalaSoft.MvvmLight.Threading;
 using YesPojiQuota.Core.Interfaces;
@@ -151,9 +149,9 @@ namespace YesPojiQuota.ViewModels
         #endregion Properties
 
         #region Methods
-        public override async Task Init()
+        public override async Task InitAsync()
         {
-            await base.Init();
+            await base.InitAsync();
             if(!_isLoaded)
                 InitQuotaFromDb();
 
@@ -238,6 +236,7 @@ namespace YesPojiQuota.ViewModels
 
             var db = ServiceLocator.Current.GetInstance<YesContext>();
 
+            Username = Username.ToLower();
             Username += _type == AccountType.Student ? "@live.utm.my" : "@utm.my";
 
             if (null != db.Accounts.Where(x => x.Username == Username).FirstOrDefault())

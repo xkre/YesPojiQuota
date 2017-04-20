@@ -32,9 +32,9 @@ namespace YesPojiQuota.ViewModels
             this.db = db;
         }
 
-        public override async Task Init()
+        public override async Task InitAsync()
         {
-            await base.Init();
+            await base.InitAsync();
 
             if (!_isLoaded)
             {
@@ -52,7 +52,7 @@ namespace YesPojiQuota.ViewModels
                 {
                     foreach (var acvm in Accounts)
                     {
-                        await acvm.Init();
+                        await acvm.InitAsync();
                     }
                 });
 
@@ -79,13 +79,13 @@ namespace YesPojiQuota.ViewModels
             return acc;
         }
 
-        public async void RefreshQuota()
+        public void RefreshQuota()
         {
-            await Task.Run(async () =>
+            Task.Run(async () =>
             {
                 foreach (var acvm in Accounts)
                 {
-                    await acvm.Init();
+                    await acvm.InitAsync();
                 }
             });
 

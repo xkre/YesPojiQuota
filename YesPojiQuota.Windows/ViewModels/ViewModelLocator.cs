@@ -24,9 +24,6 @@ namespace YesPojiQuota.ViewModels
             RegisterViewModels();
 
             Init();
-
-            
-            
         }
 
         private void RegisterViewModels()
@@ -35,6 +32,7 @@ namespace YesPojiQuota.ViewModels
             SimpleIoc.Default.Register<MainPageViewModel>();
             SimpleIoc.Default.Register<AccountsViewModel>();
             SimpleIoc.Default.Register<SettingsViewModel>();
+            SimpleIoc.Default.Register<InnAppToastViewModel>();
         }
 
 
@@ -49,13 +47,15 @@ namespace YesPojiQuota.ViewModels
             SimpleIoc.Default.Register<IDialogService, DialogService>();
             SimpleIoc.Default.Register<ILoginService, LoginService>();
             SimpleIoc.Default.Register<IQuotaService, QuotaService>();
+            SimpleIoc.Default.Register<INetworkService, NetworkService>();
 
             SimpleIoc.Default.Register<YesContext, YesContext>();
         }
 
         private async void Init()
         {
-            await ServiceLocator.Current.GetInstance<ILoginService>().InitAsync();
+            //await ServiceLocator.Current.GetInstance<ILoginService>().InitAsync();
+            await ServiceLocator.Current.GetInstance<MainPageViewModel>().InitAsync();
         }
 
 
@@ -78,6 +78,7 @@ namespace YesPojiQuota.ViewModels
         public MainPageViewModel MainPage => ServiceLocator.Current.GetInstance<MainPageViewModel>();
         public AccountsViewModel Accounts => ServiceLocator.Current.GetInstance<AccountsViewModel>();
         public SettingsViewModel Settings => ServiceLocator.Current.GetInstance<SettingsViewModel>();
+        public InnAppToastViewModel InnAppToast => ServiceLocator.Current.GetInstance<InnAppToastViewModel>();
 
         public static void Cleanup()
         {

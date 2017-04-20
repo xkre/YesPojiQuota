@@ -30,7 +30,7 @@ namespace YesPojiQuota.Views
 
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            await vm.Init();
+            await vm.InitAsync();
         }
 
         //private async void DeleteContextMenu_Click(object sender, RoutedEventArgs e)

@@ -32,7 +32,7 @@ namespace YesPojiQuota.ViewModels
         #endregion Constructors
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-        public async virtual Task Init()
+        public async virtual Task InitAsync()
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
 
