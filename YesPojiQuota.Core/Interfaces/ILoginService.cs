@@ -10,6 +10,7 @@ namespace YesPojiQuota.Core.Interfaces
     {
         //Task<bool> LoginAsync(Account a);
         Task<bool> LoginAsync(string u, string p);
+        Task<bool> LogoutAsync();
 
         Task InitAsync();       
     }

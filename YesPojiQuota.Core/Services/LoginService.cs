@@ -19,6 +19,7 @@ namespace YesPojiQuota.Core.Services
     public class LoginService : ILoginService
     {
         private const string PORTAL_TEST_URL = "http://detectportal.firefox.com/success.txt";
+        private const string LOGOUT_URL = "http://ap.logout";
         private const string LOGIN_URL = "https://apc.aptilo.com/cgi-bin/login";
 
         private string key;
@@ -55,7 +56,10 @@ namespace YesPojiQuota.Core.Services
                     bool success = ParseSuccess(rawHtml);
 
                     if (success)
+                    {
                         Messenger.Default.Send("Login Success");
+                        Messenger.Default.Send(true);
+                    }
                     else
                         Messenger.Default.Send("Login Failed");
 
@@ -71,19 +75,32 @@ namespace YesPojiQuota.Core.Services
             return false;
         }
 
-        private bool ParseSuccess(string rawHtml)
-        {
-            if (rawHtml.Contains("showsession"))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         public Task<bool> LoginAsync(Account a)
         {
             return LoginAsync(a.Username, a.Password);
+        }
+
+        public async Task<bool> LogoutAsync()
+        {
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    var response = await client.GetAsync(LOGOUT_URL);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                }
+                catch (HttpRequestException ex)
+                {
+                    Debug.WriteLine($"Exception {ex}");
+                    Messenger.Default.Send("Logout Failed");
+                }
+            }
+
+            return false;
         }
 
         public async Task InitAsync()
@@ -117,6 +134,16 @@ namespace YesPojiQuota.Core.Services
                 }
                 return false;
             }
+        }
+
+        private bool ParseSuccess(string rawHtml)
+        {
+            if (rawHtml.Contains("showsession"))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private string ExtractKey(string rawHhtml)
