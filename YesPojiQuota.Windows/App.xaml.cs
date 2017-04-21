@@ -41,7 +41,7 @@ namespace YesPojiQuota
             this.UnhandledException += OnUnhandledException;
         }
 
-        private async void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        private async void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             e.Handled = true;
             await new MessageDialog("Application Unhandled Exception:\r\n" + e.Exception.Message, "Error :(")
@@ -57,6 +57,7 @@ namespace YesPojiQuota
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
+            DispatcherHelper.Initialize();
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
@@ -73,12 +74,27 @@ namespace YesPojiQuota
                     }
                     catch
                     {
-                        var dialog = ServiceLocator.Current.GetInstance<IDialogService>();
-                        dialog.ShowError("There was an error during database migration", "Database Migration Error", "OK",()=> { });
+                        var quotas = db.Quotas.ToList();
+                        var accounts = db.Accounts.ToList();
 
-                        db.Database.EnsureDeleted();
+                        try
+                        {
+                            db.Database.EnsureDeleted();
 
-                        db.Database.Migrate();
+                            db.Database.Migrate();
+                            db.Accounts.AddRange(accounts);
+                            db.Quotas.AddRange(quotas);
+
+                            db.SaveChanges();
+                        }
+                        catch
+                        {
+                            db.Database.EnsureDeleted();
+                            db.Database.Migrate();
+
+                            var dialog = ServiceLocator.Current.GetInstance<IDialogService>();
+                            dialog.ShowError("There was an error during database migration", "Database Migration Error", "OK", () => { });
+                        }
                     }
                 }
 
@@ -106,7 +122,7 @@ namespace YesPojiQuota
                 Window.Current.Activate();
             }
 
-            DispatcherHelper.Initialize();
+            
             Messenger.Default.Register<NotificationMessageAction<string>>(this, HandleNotification);
         }
 
