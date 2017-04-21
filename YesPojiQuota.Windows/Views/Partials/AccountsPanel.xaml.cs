@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace YesPojiQuota.Views
+namespace YesPojiQuota.Views.Partials
 {
     public sealed partial class AccountsPanel : UserControl
     {
