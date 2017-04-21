@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using YesPojiQuota.Core.Data;
 using YesPojiQuota.Core.Interfaces;
+using YesPojiQuota.Core.Models;
 
 namespace YesPojiQuota.Core.Services
 {

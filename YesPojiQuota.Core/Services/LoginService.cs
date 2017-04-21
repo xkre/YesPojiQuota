@@ -12,6 +12,7 @@ using Windows.UI.Popups;
 using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Data;
 using Microsoft.Practices.ServiceLocation;
+using YesPojiQuota.Core.Models;
 
 namespace YesPojiQuota.Core.Services
 {
