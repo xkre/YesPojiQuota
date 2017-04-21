@@ -80,7 +80,7 @@ namespace YesPojiQuota.Core.Helpers
 
                 return encrypted;
             }
-            catch (Exception ex)
+            catch
             {
                 return null;
             }
@@ -113,7 +113,7 @@ namespace YesPojiQuota.Core.Helpers
 
                 return decrypted;
             }
-            catch (Exception ex)
+            catch
             {
                 return null;
             }
