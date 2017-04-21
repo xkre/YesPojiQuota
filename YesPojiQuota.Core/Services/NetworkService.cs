@@ -19,17 +19,16 @@ namespace YesPojiQuota.Core.Services
 
         public event NetworkChangeEvent NetworkChanged;
 
+        private IDisposable _timer;
+
         private NetworkCondition _networkType;
         public NetworkCondition NetworkType
         {
             get => _networkType;
             private set
             {
-                //if (_networkType != value)
-                {
-                    _networkType = value;
-                    NetworkChanged(value);
-                }
+                _networkType = value;
+                NetworkChanged(value);
             }
         }
 
@@ -44,16 +43,16 @@ namespace YesPojiQuota.Core.Services
 
                     if (rawHtml.Equals("success\n"))
                     {
-                        var response = await client.GetAsync(QUOTA_SERVICE_URL);
-
-                        if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                        try
                         {
-                            NetworkType = NetworkCondition.Online;
-                            return;
-                        }
+                            await client.GetAsync(QUOTA_SERVICE_URL);
 
-                        NetworkType = NetworkCondition.OnlineNotYes;
-                        return;
+                            NetworkType = NetworkCondition.Online;
+                        }
+                        catch
+                        {
+                            NetworkType = NetworkCondition.OnlineNotYes;
+                        }
                     }
                     else
                     {
@@ -69,17 +68,32 @@ namespace YesPojiQuota.Core.Services
                 catch (Exception e)
                 {
                     Debug.WriteLine($"Exception {e}");
+                    NetworkType = NetworkCondition.NotConnected;
                 }
 
                 return;
             }
         }
 
-        //private void RaiseEvent(NetworkCondition condition)
-        //{
-        //    NetworkChanged?.Invoke(condition);
-        //    _networkType = condition;
-        //}
+        public void StartMonitor()
+        {
+            StartMonitor(5, 5);
+        }
+
+        public void StartMonitor(int start = 5, int interval = 5)
+        {
+            var obs = Observable.Timer(TimeSpan.FromMinutes(start), TimeSpan.FromMinutes(interval));
+
+            _timer = obs.Subscribe(x =>
+            {
+                CheckConnectionAsync();
+            });
+        }
+
+        public void StopMonitor()
+        {
+            _timer?.Dispose();
+        }
 
         public bool IsConnected()
         {
@@ -90,10 +104,5 @@ namespace YesPojiQuota.Core.Services
         {
 
         }
-
-        //public IDisposable Subscribe(object source)
-        //{
-
-        //}
     }
 }

@@ -15,6 +15,8 @@ namespace YesPojiQuota.Core.Interfaces
         bool IsConnected();
         Task CheckConnectionAsync();
 
+        void StartMonitor();
+        void StopMonitor();
     }
 
     public delegate void NetworkChangeEvent(NetworkCondition condition);
