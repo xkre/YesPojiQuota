@@ -13,6 +13,8 @@ using System.Collections.Concurrent;
 using GalaSoft.MvvmLight.Threading;
 using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Helpers;
+using YesPojiQuota.Core.Enums;
+using YesPojiQuota.Core.Models;
 
 namespace YesPojiQuota.ViewModels
 {
@@ -188,18 +190,22 @@ namespace YesPojiQuota.ViewModels
         private async Task InitQuota()
         {
             var quotaService = ServiceLocator.Current.GetInstance<IQuotaService>();
+            var netService = ServiceLocator.Current.GetInstance<INetworkService>();
 
-            decimal quota = 0;
-            try
+            if (netService.NetworkType == NetworkCondition.Online || netService.NetworkType == NetworkCondition.YesWifiConnected)
             {
-                quota = await quotaService.GetQuota(Username);
-                await SaveQuota(quota);
+                decimal quota = 0;
+                try
+                {
+                    quota = await quotaService.GetQuota(Username);
+                    await SaveQuota(quota);
 
-                await DispatcherHelper.RunAsync(() => Quota = (double)quota);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine($"Exception {e}");
+                    await DispatcherHelper.RunAsync(() => Quota = (double)quota);
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine($"Exception {e}");
+                }
             }
         }
 
