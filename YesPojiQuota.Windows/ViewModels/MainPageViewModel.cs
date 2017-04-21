@@ -38,16 +38,23 @@ namespace YesPojiQuota.ViewModels
             get { return _notiMessage; }
             set { Set("NotiMessage",ref  _notiMessage , value); }
         }
+
+        public bool IsInitialized { get; protected set; } = false;
         #endregion Properties
 
         public override async Task InitAsync()
         {
-            await base.InitAsync();
-            await _notiVM.InitAsync();
+            if (!IsInitialized)
+            {
+                await base.InitAsync();
+                await _notiVM.InitAsync();
 
-            await _accountsVM.InitAsync();
+                await _accountsVM.InitAsync();
 
-            await _ls.InitAsync();
+                await _ls.InitAsync();
+
+                IsInitialized = true;
+            }
         }
 
         public void RefreshAccounts()
