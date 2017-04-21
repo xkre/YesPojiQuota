@@ -10,10 +10,16 @@
     DataContext="{Binding InnAppToast, Source={StaticResource Locator}}"
     d:DesignHeight="300"
     d:DesignWidth="400"
+    Visibility="{x:Bind Vm.Visibility, Mode=OneWay}"
     >
 
     <Grid>
-        <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        
+        <Grid Grid.Column="0">
             <views:BackDrop BlurAmount="2"
                             TintColor="Aqua"
                             TintAlpha="80"
@@ -22,6 +28,11 @@
                 <TextBlock Text="{x:Bind Vm.Message, Mode=OneWay}"
                            Padding="5"/>
             </Grid>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <Button Content="Logout" Click="{x:Bind Vm.Logout}" 
+                    IsEnabled="{x:Bind Vm.IsConnected, Mode=OneWay}" />
         </Grid>
     </Grid>
 </UserControl>
