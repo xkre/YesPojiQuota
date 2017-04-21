@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YesPojiQuota.Core.Models;
 
 namespace YesPojiQuota.Core.Data
 {
@@ -33,34 +34,5 @@ namespace YesPojiQuota.Core.Data
                 .IsRequired();
 
         }
-    }
-
-    public class Account
-    {
-        public int AccountId { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-
-        public virtual Quota Quota { get; set; }
-
-        public Account()
-        {
-
-        }
-
-        public Account(string u, string p="")
-        {
-            Username = u;
-            Password = p;
-        }
-    }
-
-    public class Quota
-    {
-        public int QuotaId { get; set; }
-        public decimal Available { get; set; }
-
-        public int AccountId { get; set; }
-        public virtual Account Account { get; set; }
     }
 }
