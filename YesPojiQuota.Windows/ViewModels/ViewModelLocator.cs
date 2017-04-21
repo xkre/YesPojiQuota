@@ -55,7 +55,7 @@ namespace YesPojiQuota.ViewModels
         private async void Init()
         {
             //await ServiceLocator.Current.GetInstance<ILoginService>().InitAsync();
-            await ServiceLocator.Current.GetInstance<MainPageViewModel>().InitAsync();
+            //await ServiceLocator.Current.GetInstance<MainPageViewModel>().InitAsync();
         }
 
 
