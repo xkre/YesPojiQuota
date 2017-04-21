@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight.Views;
+﻿using GalaSoft.MvvmLight.Threading;
+using GalaSoft.MvvmLight.Views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Practices.ServiceLocation;
 using System;
@@ -8,9 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using YesPojiQuota.Core.Data;
 using System.Collections.Concurrent;
-using GalaSoft.MvvmLight.Threading;
+using YesPojiQuota.Core.Data;
 using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Helpers;
 using YesPojiQuota.Core.Enums;
@@ -27,7 +27,7 @@ namespace YesPojiQuota.ViewModels
         private bool _isLoaded = false;
 
         #region Constructors
-        public AccountViewModel(INavigationService navigationService) : base(navigationService)
+        public AccountViewModel(INavigationService ns) : base(ns)
         {
             Account = new Account();
         }
