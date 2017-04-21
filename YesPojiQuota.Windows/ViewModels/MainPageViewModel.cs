@@ -24,48 +24,7 @@ namespace YesPojiQuota.ViewModels
             _ls = ls;
         }
 
-        /* Unused Code
-        public async void SendNotificationMessage()
-        {
-            string key = String.Empty;
-            var login = ServiceLocator.Current.GetInstance<ILoginService>();
-
-            var isLoggedIn = await login.LoginPortalAvailable();
-
-            if (!isLoggedIn)
-            {
-                if (login.CanLogin())
-                {
-                    key = login.GetKey();
-                    CanLogin = true;
-                }
-                else
-                    CanLogin = false;
-            }
-
-            key = isLoggedIn ? isLoggedIn.ToString() : login.GetKey();
-
-            Messenger.Default.Send(
-                new NotificationMessageAction<string>(
-                    key,
-                    reply =>
-                    {
-                        PageTitle = reply;
-                    }
-                )
-            );
-        }
-        */
-
-        public override async Task InitAsync()
-        {
-            await base.InitAsync();
-            await _notiVM.InitAsync();
-
-            await _ls.InitAsync();
-        }
-
-
+        #region Properties
         private bool _notiVisible;
         public bool NotiVisible
         {
@@ -79,27 +38,22 @@ namespace YesPojiQuota.ViewModels
             get { return _notiMessage; }
             set { Set("NotiMessage",ref  _notiMessage , value); }
         }
+        #endregion Properties
 
+        public override async Task InitAsync()
+        {
+            await base.InitAsync();
+            await _notiVM.InitAsync();
 
+            await _accountsVM.InitAsync();
+
+            await _ls.InitAsync();
+        }
 
         public void RefreshAccounts()
         {
             _accountsVM.RefreshQuota();
         }
-
-        //private RelayCommand _refreshAccounts;
-        //public RelayCommand RefreshAccounts
-        //{
-        //    get
-        //    {
-        //        return _refreshAccounts ?? (_refreshAccounts = new RelayCommand(() =>
-        //          {
-        //              _accountsVM.RefreshQuota();
-        //          }
-        //        ));
-        //    }
-        //}
-
 
         private RelayCommand _navigateToSettings;
         public RelayCommand NavigateToSettings
@@ -110,5 +64,19 @@ namespace YesPojiQuota.ViewModels
             }
         }
 
+        /* Unused Code
+        public async void SendNotificationMessage()
+        {
+            Messenger.Default.Send(
+                new NotificationMessageAction<string>(
+                    key,
+                    reply =>
+                    {
+                        PageTitle = reply;
+                    }
+                )
+            );
+        }
+        */
     }
 }
