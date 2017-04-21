@@ -3,11 +3,11 @@
 //using Microsoft.EntityFrameworkCore.Infrastructure;
 //using Microsoft.EntityFrameworkCore.Metadata;
 //using Microsoft.EntityFrameworkCore.Migrations;
-//using YesPojiQuota.Core2.Data;
+//using YesPojiQuota.Windows.Data;
 
 //namespace YesPojiQuota.Migrations
 //{
-//    [DbContext(typeof(YesContext))]
+//    [DbContext(typeof(YesContextOld))]
 //    [Migration("20170405092719_MyFirstMigration")]
 //    partial class MyFirstMigration
 //    {

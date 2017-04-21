@@ -3,11 +3,11 @@
 //using Microsoft.EntityFrameworkCore.Infrastructure;
 //using Microsoft.EntityFrameworkCore.Metadata;
 //using Microsoft.EntityFrameworkCore.Migrations;
-//using YesPojiQuota.Core.Data;
+//using YesPojiQuota.Windows.Data;
 
 //namespace YesPojiQuota.Migrations
 //{
-//    [DbContext(typeof(YesContext))]
+//    [DbContext(typeof(YesContextOld))]
 //    partial class YesContextModelSnapshot : ModelSnapshot
 //    {
 //        protected override void BuildModel(ModelBuilder modelBuilder)
