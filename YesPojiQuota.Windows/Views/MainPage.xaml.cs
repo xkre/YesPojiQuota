@@ -48,25 +48,7 @@ namespace YesPojiQuota.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
-            //Messenger.Default.Register<string>(this, HandleNotification);
+            vm.InitAsync();
         }
-
-        //private async void HandleNotification(string a)
-        //{
-        //    vm.NotiMessage = a;
-        //    vm.NotiVisible = true;
-
-        //    await Task.Delay(5000);
-
-        //    vm.NotiVisible = false;
-        //}
-
-        //protected override async void OnNavigatedTo(NavigationEventArgs e)
-        //{
-        //    base.OnNavigatedTo(e);
-
-        //    await vm.Init();
-        //}
     }
 }

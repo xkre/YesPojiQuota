@@ -28,32 +28,5 @@
 
         <local:AccountsPanel Grid.RowSpan="2" Margin="0 10"/>
         <partial:InnAppToastNotification Grid.Row="0"/>
-
-        <!--<Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>-->
-
-
-        <!--<StackPanel HorizontalAlignment="Center" Grid.Row="0">
-            <Button Click="{x:Bind vm.SendNotificationMessage}" 
-                    Content="Send Message"
-                    Width="250"/>
-            <Button Click="{x:Bind vm.DoLogin}" 
-                    Content="Send Message"
-                    Width="250"/>
-            <Button Command="{Binding ShowWarning}"
-                    Content="Show Warning" 
-                    Width="250"/>
-            <Button Command="{Binding NavigateToSecondPage}"
-                    Content="Go to Second Page" 
-                    Width="250"/>
-            <Button Command="{Binding NavigateToAddZone}"
-                    Content="Add Zone" 
-                    Width="250"/>
-
-            
-        </StackPanel>-->
     </Grid>
 </Page>
