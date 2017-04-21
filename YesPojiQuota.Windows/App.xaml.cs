@@ -22,6 +22,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Popups;
+using Windows.Foundation.Metadata;
+using Windows.UI.ViewManagement;
 
 namespace YesPojiQuota
 {
@@ -124,6 +126,7 @@ namespace YesPojiQuota
 
             
             Messenger.Default.Register<NotificationMessageAction<string>>(this, HandleNotification);
+            InitializeUi();
         }
 
         /// <summary>
@@ -155,6 +158,16 @@ namespace YesPojiQuota
             message.Execute("Success from <App.xaml>");
             var dialog = ServiceLocator.Current.GetInstance<IDialogService>();
             dialog.ShowMessage(message.Notification, "Message");
+        }
+
+        private async void InitializeUi()
+        {
+            // If we have a phone contract, hide the status bar
+            if (ApiInformation.IsApiContractPresent("Windows.Phone.PhoneContract", 1, 0))
+            {
+                var statusBar = StatusBar.GetForCurrentView();
+                await statusBar.ShowAsync();
+            }
         }
     }
 }
