@@ -77,10 +77,10 @@ namespace YesPojiQuota.Core.Services
 
         public void StartMonitor()
         {
-            StartMonitor(5, 5);
+            StartMonitor(5, 30);
         }
 
-        public void StartMonitor(int start = 5, int interval = 5)
+        public void StartMonitor(int start, int interval)
         {
             var obs = Observable.Timer(TimeSpan.FromMinutes(start), TimeSpan.FromMinutes(interval));
 
