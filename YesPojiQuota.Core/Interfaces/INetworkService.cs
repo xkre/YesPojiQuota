@@ -18,7 +18,4 @@ namespace YesPojiQuota.Core.Interfaces
         void StartMonitor();
         void StopMonitor();
     }
-
-    public delegate void NetworkChangeEvent(NetworkCondition condition);
-    
 }
