@@ -110,6 +110,7 @@
     <Compile Include="Data\YesContext.cs" />
     <Compile Include="Enums\NetworkCondition.cs" />
     <Compile Include="Helpers\EncryptionHelper.cs" />
+    <Compile Include="Interfaces\Delegates.cs" />
     <Compile Include="Interfaces\ICustomNavigatorService.cs" />
     <Compile Include="Interfaces\IDataService.cs" />
     <Compile Include="Interfaces\ILoginService.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="Migrations\YesContextModelSnapshot.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\Quota.cs" />
+    <Compile Include="Models\SessionData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CustomNavigationService.cs" />
     <Compile Include="Services\DataService.cs" />
@@ -129,6 +131,7 @@
     <Compile Include="Services\NetworkService.cs" />
     <Compile Include="Services\QuotaService.cs" />
     <Compile Include="Services\QuotaServiceMock.cs" />
+    <Compile Include="Services\YesSessionService.cs" />
     <EmbeddedResource Include="Properties\YesPojiQuota.Core.rd.xml" />
   </ItemGroup>
   <ItemGroup />
