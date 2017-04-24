@@ -13,21 +13,27 @@
     Visibility="{x:Bind Vm.Visibility, Mode=OneWay}"
     >
 
-    <Grid>
+    <Grid Background="Aqua">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         
         <Grid Grid.Column="0">
-            <views:BackDrop BlurAmount="2"
+            <!--<views:BackDrop BlurAmount="2"
                             TintColor="Aqua"
                             TintAlpha="80"
-                            SaturationIntensity="1.8"/>
-            <Grid>
-                <TextBlock Text="{x:Bind Vm.Message, Mode=OneWay}"
+                            SaturationIntensity="1.8"/>-->
+            <StackPanel Orientation="Horizontal">
+                <ProgressRing IsActive="{x:Bind Vm.IsLoading, Mode=OneWay}"
+                              Visibility="{x:Bind Vm.IsLoading, Mode=OneWay}"
+                              />
+                <Grid>
+                    <TextBlock Text="{x:Bind Vm.Message, Mode=OneWay}"
                            Padding="5"/>
-            </Grid>
+                </Grid>
+            </StackPanel>
+           
         </Grid>
 
         <Grid Grid.Column="1">

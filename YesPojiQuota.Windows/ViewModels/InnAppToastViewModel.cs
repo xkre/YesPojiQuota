@@ -24,7 +24,7 @@ namespace YesPojiQuota.ViewModels
         }
 
         #region Properties
-        private bool _visiblilty;
+        private bool _visiblilty = true;
         public bool Visibility
         {
             get { return _visiblilty; }
@@ -45,6 +45,14 @@ namespace YesPojiQuota.ViewModels
             set { Set("IsConnected", ref _isConnected, value); }
         }
 
+        private bool _isLoading = true;
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set { Set("IsLoading", ref _isLoading, value); }
+        }
+
+
         #endregion Properties
 
         public override async Task InitAsync()
@@ -52,6 +60,9 @@ namespace YesPojiQuota.ViewModels
             await base.InitAsync();
 
             _ns.NetworkChanged += ProcessNetworkNotification;
+
+            Message = "Checking network status";
+
             await Task.Run(() =>
             {
                 _ns.CheckConnectionAsync();
@@ -121,7 +132,7 @@ namespace YesPojiQuota.ViewModels
                         break;
                 }
 
-                Visibility = true;
+                IsLoading = false;
             });
         }
     }
