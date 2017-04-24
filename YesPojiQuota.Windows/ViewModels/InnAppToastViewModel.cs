@@ -92,9 +92,12 @@ namespace YesPojiQuota.ViewModels
             if (success)
             {
                 Message = "Logout Successfull";
+                IsConnected = false;
             }
-
-            IsConnected = false;
+            else
+            {
+                Message = "Logout Not Successfull";
+            }
         }
 
         //private RelayCommand _logoutCommand;
