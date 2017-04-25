@@ -41,7 +41,7 @@ namespace YesPojiQuota.Views
             var avm = ServiceLocator.Current.GetInstance<AccountsViewModel>();
 
             AccountInputDialog accountInput = new AccountInputDialog();
-            accountInput.DataContext = avm.CreateEmptyAccount();
+            accountInput.DataContext = avm.CreateAccountViewModel();
             await accountInput.ShowAsync();
         }
 
