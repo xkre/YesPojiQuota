@@ -25,11 +25,13 @@ namespace YesPojiQuota.Core.Services
         private string key;
         private string rawHtml;
 
-        private INetworkService netService;
+        private INetworkService _ns;
+        private YesSessionService _ys;
 
-        public LoginService(INetworkService ns)
+        public LoginService(INetworkService ns, YesSessionService ys)
         {
-            netService = ns;
+            _ns = ns;
+            _ys = ys;
         }
 
         public async Task<bool> LoginAsync(string username, string password)

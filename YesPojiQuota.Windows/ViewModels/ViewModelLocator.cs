@@ -49,7 +49,8 @@ namespace YesPojiQuota.ViewModels
             SimpleIoc.Default.Register<IQuotaService, QuotaService>();
             SimpleIoc.Default.Register<INetworkService, NetworkService>();
 
-            SimpleIoc.Default.Register<YesContext, YesContext>();
+            SimpleIoc.Default.Register<YesSessionService>();
+            SimpleIoc.Default.Register<YesContext>();
         }
 
         private async void Init()
