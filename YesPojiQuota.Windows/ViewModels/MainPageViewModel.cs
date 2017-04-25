@@ -5,23 +5,34 @@ using System.Text;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Views;
 using GalaSoft.MvvmLight.Messaging;
-using Microsoft.Practices.ServiceLocation;
 using YesPojiQuota.Utils;
 using GalaSoft.MvvmLight.Command;
 using YesPojiQuota.Core.Interfaces;
+using YesPojiQuota.Core.Enums;
 
 namespace YesPojiQuota.ViewModels
 {
     public class MainPageViewModel : MainViewModel
     {
-        private AccountsViewModel _accountsVM = ServiceLocator.Current.GetInstance<AccountsViewModel>();
-        private InnAppToastViewModel _notiVM = ServiceLocator.Current.GetInstance<InnAppToastViewModel>();
+        private AccountsViewModel _accountsVM;
+        private InnAppToastViewModel _inAppToastVM;
 
         private ILoginService _ls;
+        private INetworkService _ns;
 
-        public MainPageViewModel(INavigationService navigationService, ILoginService ls) : base(navigationService)
+        public MainPageViewModel(
+            INavigationService navS, 
+            ILoginService ls, 
+            INetworkService ns,
+            AccountsViewModel acsvm,
+            InnAppToastViewModel iatvm) 
+            : base(navS)
         {
             _ls = ls;
+            _ns = ns;
+
+            _accountsVM = acsvm;
+            _inAppToastVM = iatvm;
         }
 
         #region Properties
@@ -47,7 +58,7 @@ namespace YesPojiQuota.ViewModels
             if (!IsInitialized)
             {
                 await base.InitAsync();
-                await _notiVM.InitAsync();
+                await _inAppToastVM.InitAsync();
 
                 await _accountsVM.InitAsync();
 
@@ -57,9 +68,21 @@ namespace YesPojiQuota.ViewModels
             }
         }
 
-        public void RefreshAccounts()
+        public async void RefreshAccounts()
         {
-            _accountsVM.RefreshQuota();
+            if (_ns.NetworkType == NetworkCondition.NotConnected || _ns.NetworkType == NetworkCondition.OnlineNotYes)
+            {
+                _inAppToastVM.InitLoading();
+                if (await _ns.CheckConnectionAsync())
+                {
+                    _accountsVM.RefreshQuota();
+                }
+            }
+            else
+            {
+                _accountsVM.RefreshQuota();
+                Messenger.Default.Send("Quota Refreshed");
+            }
         }
 
         private RelayCommand _navigateToSettings;
