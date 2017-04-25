@@ -14,17 +14,17 @@
     >
 
     <Grid Background="Aqua">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="auto"/>
-        </Grid.ColumnDefinitions>
-        
-        <Grid Grid.Column="0">
+        <Grid Grid.Column="0"  MaxWidth="700">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            
             <!--<views:BackDrop BlurAmount="2"
                             TintColor="Aqua"
                             TintAlpha="80"
                             SaturationIntensity="1.8"/>-->
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" Grid.Column="0">
                 <ProgressRing IsActive="{x:Bind Vm.IsLoading, Mode=OneWay}"
                               Visibility="{x:Bind Vm.IsLoading, Mode=OneWay}"
                               />
@@ -33,12 +33,11 @@
                            Padding="5"/>
                 </Grid>
             </StackPanel>
-           
-        </Grid>
 
-        <Grid Grid.Column="1">
-            <Button Content="Logout" Click="{x:Bind Vm.Logout}" 
+            <Grid Grid.Column="1">
+                <Button Content="Logout" Click="{x:Bind Vm.Logout}" 
                     IsEnabled="{x:Bind Vm.IsConnected, Mode=OneWay}" />
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

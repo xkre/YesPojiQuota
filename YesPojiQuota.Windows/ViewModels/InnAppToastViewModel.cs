@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using YesPojiQuota.Core.Enums;
 using YesPojiQuota.Core.Interfaces;
+using YesPojiQuota.Core.Models;
 using YesPojiQuota.Core.Services;
 
 namespace YesPojiQuota.ViewModels
@@ -16,11 +17,13 @@ namespace YesPojiQuota.ViewModels
     {
         private INetworkService _ns;
         private ILoginService _ls;
+        private YesSessionService _ys;
 
-        public InnAppToastViewModel(INetworkService ns, ILoginService ls)
+        public InnAppToastViewModel(INetworkService ns, ILoginService ls, YesSessionService ys)
         {
             _ns = ns;
             _ls = ls;
+            _ys = ys;
         }
 
         #region Properties
@@ -60,6 +63,7 @@ namespace YesPojiQuota.ViewModels
             await base.InitAsync();
 
             _ns.NetworkChanged += ProcessNetworkNotification;
+            _ys.SessionUpdated += ProcessSessionUpdate;
 
             Message = "Checking network status";
 
@@ -73,6 +77,18 @@ namespace YesPojiQuota.ViewModels
             //TODO: Temporary   -- Seriously -------------------------------------
             Messenger.Default.Register<bool>(this, HandleNotification);
             //Temporary   -- Seriously -------------------------------------
+        }
+
+        public void InitLoading()
+        {
+            Message = "Checking network status";
+            IsLoading = true;
+        }
+
+        private void ProcessSessionUpdate(SessionData data)
+        {
+            //TODO TODO -----------------------------------------------------------
+            throw new NotImplementedException();
         }
 
         private void HandleNotification(string a)
@@ -120,18 +136,18 @@ namespace YesPojiQuota.ViewModels
                 IsConnected = false;
                 switch (condition)
                 {
-                    case NetworkCondition.NotConnected:
-                        Message = "Not online";
-                        break;
                     case NetworkCondition.Online:
                         Message = "Connected";
                         IsConnected = true;
                         break;
-                    case NetworkCondition.YesWifiConnected:
-                        Message = "Login Required";
-                        break;
                     case NetworkCondition.OnlineNotYes:
                         Message = "Online, not on Yes Network";
+                        break;
+                    case NetworkCondition.NotConnected:
+                        Message = "Not online";
+                        break;
+                    case NetworkCondition.YesWifiConnected:
+                        Message = "Login Required";
                         break;
                 }
 
