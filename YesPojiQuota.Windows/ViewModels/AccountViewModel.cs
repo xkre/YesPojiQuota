@@ -26,31 +26,20 @@ namespace YesPojiQuota.ViewModels
 
         private bool _isLoaded = false;
 
+        private YesContext _db;
+        private ILoginService _ls;
+
         #region Constructors
-        public AccountViewModel(INavigationService ns) : base(ns)
+        public AccountViewModel(YesContext db, ILoginService ls) : base()
         {
             Account = new Account();
+
+            _db = db;
+            _ls = ls;
         }
 
-        public AccountViewModel() : base()
+        public AccountViewModel(Account account, YesContext db, ILoginService ls) : this(db, ls)
         {
-            //Username = "";
-            //Password = "";
-        }
-
-        public AccountViewModel(Account account) : this()
-        {
-            Account = account;
-        }
-
-        public AccountViewModel(string u, string p = "") : this()
-        {
-            var account = new Account
-            {
-                Username = u,
-                Password = p
-            };
-
             Account = account;
         }
         #endregion Constructors
@@ -154,7 +143,7 @@ namespace YesPojiQuota.ViewModels
         public override async Task InitAsync()
         {
             await base.InitAsync();
-            if(!_isLoaded)
+            if (!_isLoaded)
                 InitQuotaFromDb();
 
             await InitQuota();
@@ -173,10 +162,8 @@ namespace YesPojiQuota.ViewModels
         {
             decimal quota = 0;
             try
-            {
-                var db = ServiceLocator.Current.GetInstance<YesContext>();
-
-                var q = db.Quotas.Where(x => x.AccountId == Id).First();
+            { 
+                var q = _db.Quotas.Where(x => x.AccountId == Id).First();
                 quota = q.Available;
             }
             catch (Exception ee)
@@ -211,24 +198,22 @@ namespace YesPojiQuota.ViewModels
 
         public async Task SaveQuota(decimal available)
         {
-            var db = ServiceLocator.Current.GetInstance<YesContext>();
-
-            var quota = await db.Quotas.Where(x => x.AccountId == Id).FirstOrDefaultAsync();
+            var quota = await _db.Quotas.Where(x => x.AccountId == Id).FirstOrDefaultAsync();
             if (quota == null)
             {
                 quota = new Quota()
                 {
                     AccountId = Id
                 };
-                db.Quotas.Add(quota);
+                _db.Quotas.Add(quota);
 
                 quota.Available = available;
-                await db.SaveChangesAsync();
+                await _db.SaveChangesAsync();
             }
             else if (Convert.ToDouble(quota.Available) != Quota)
             {
                 quota.Available = available;
-                await db.SaveChangesAsync();
+                await _db.SaveChangesAsync();
             }
         }
 
@@ -240,24 +225,23 @@ namespace YesPojiQuota.ViewModels
                 return;
             }
 
-            var db = ServiceLocator.Current.GetInstance<YesContext>();
-
             Username = Username.ToLower();
             Username += _type == AccountType.Student ? "@live.utm.my" : "@utm.my";
 
-            if (null != db.Accounts.Where(x => x.Username == Username).FirstOrDefault())
+            if (null != _db.Accounts.Where(x => x.Username == Username).FirstOrDefault())
             {
                 SendNotificationMessage("Username Already Exist");
                 return;
             }
+
             string pw = null;
             if (Password != null)
             {
-                pw = EncryptionHelper.AES_Encrypt(Password,Username);
+                pw = EncryptionHelper.AES_Encrypt(Password, Username);
             }
-            var account = new Account(Username, pw); 
-            db.Accounts.Add(account);
-            await db.SaveChangesAsync();
+            var account = new Account(Username, pw);
+            _db.Accounts.Add(account);
+            await _db.SaveChangesAsync();
 
             Account = account;
 
@@ -269,15 +253,13 @@ namespace YesPojiQuota.ViewModels
         {
             var loginService = ServiceLocator.Current.GetInstance<ILoginService>();
 
-            var a = await loginService.LoginAsync(Username, EncryptionHelper.AES_Decrypt(Password,Username));
+            var a = await loginService.LoginAsync(Username, EncryptionHelper.AES_Decrypt(Password, Username));
         }
 
         public async void Remove()
         {
-            var db = ServiceLocator.Current.GetInstance<YesContext>();
-
-            db.Remove(Account);
-            await db.SaveChangesAsync();
+            _db.Remove(Account);
+            await _db.SaveChangesAsync();
 
             Removed(this);
         }
@@ -306,10 +288,5 @@ namespace YesPojiQuota.ViewModels
             return uValid && pValid;
         }
         #endregion Methods
-    }
-
-    public enum AccountType
-    {
-        Student, Staff
     }
 }
