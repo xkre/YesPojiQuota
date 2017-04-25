@@ -13,7 +13,7 @@ namespace YesPojiQuota.Core.Interfaces
         NetworkCondition NetworkType { get; }
 
         bool IsConnected();
-        Task CheckConnectionAsync();
+        Task<bool> CheckConnectionAsync();
 
         void StartMonitor();
         void StopMonitor();

@@ -32,7 +32,7 @@ namespace YesPojiQuota.Core.Services
             }
         }
 
-        public async Task CheckConnectionAsync()
+        public async Task<bool> CheckConnectionAsync()
         {
             string rawHtml = "";
             using (var client = new HttpClient())
@@ -48,6 +48,7 @@ namespace YesPojiQuota.Core.Services
                             await client.GetAsync(QUOTA_SERVICE_URL);
 
                             NetworkType = NetworkCondition.Online;
+                            return true;
                         }
                         catch
                         {
@@ -57,6 +58,7 @@ namespace YesPojiQuota.Core.Services
                     else
                     {
                         NetworkType = NetworkCondition.YesWifiConnected;
+                        return true;
                     }
 
                 }
@@ -71,7 +73,7 @@ namespace YesPojiQuota.Core.Services
                     NetworkType = NetworkCondition.NotConnected;
                 }
 
-                return;
+                return false;
             }
         }
 
