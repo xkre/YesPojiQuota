@@ -6,17 +6,20 @@ using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Views;
 using System.Collections.ObjectModel;
 using YesPojiQuota.Core.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Practices.ServiceLocation;
 using YesPojiQuota.Utils;
 using System.Diagnostics;
 using Windows.UI.Core;
+using YesPojiQuota.Core.Models;
+using Microsoft.Practices.ServiceLocation;
+using GalaSoft.MvvmLight.Ioc;
+using YesPojiQuota.Core.Interfaces;
 
 namespace YesPojiQuota.ViewModels
 {
     public class AccountsViewModel : MainViewModel
     {
-        private YesContext db;
+        private YesContext _db;
+        private ILoginService _ls;
 
         private bool _isLoaded = false;
 
@@ -27,9 +30,10 @@ namespace YesPojiQuota.ViewModels
             set => _accounts = value;
         }
 
-        public AccountsViewModel(YesContext db, INavigationService ns) : base(ns)
+        public AccountsViewModel(YesContext db, ILoginService ls, INavigationService ns) : base(ns)
         {
-            this.db = db;
+            _db = db;
+            _ls = ls;
         }
 
         public override async Task InitAsync()
@@ -38,23 +42,24 @@ namespace YesPojiQuota.ViewModels
 
             if (!_isLoaded)
             {
-                var accounts = db.Accounts.OrderBy(x=>x.Username).ToList();
+                var accounts = _db.Accounts.OrderBy(x => x.Username).ToList();
 
                 accounts.ForEach(x =>
                 {
-                    var acvm = new AccountViewModel(x);
-                    acvm.Removed += AccountRemoved;
+                    var acvm = CreateAccountViewModel(x);
                     acvm.LightInit();
                     Accounts.Add(acvm);
                 });
 
-                await Task.Run(async () =>
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                Task.Run(async () =>
                 {
                     foreach (var acvm in Accounts)
                     {
                         await acvm.InitAsync();
                     }
                 });
+#pragma warning restore CS4014
 
                 _isLoaded = true;
 
@@ -66,9 +71,9 @@ namespace YesPojiQuota.ViewModels
             Accounts.Remove(source as AccountViewModel);
         }
 
-        public AccountViewModel CreateEmptyAccount()
+        public AccountViewModel CreateAccountViewModel()
         {
-            var acc = new AccountViewModel();
+            var acc = new AccountViewModel(_db, _ls);
             acc.OnSuccessOperation += o =>
             {
                 Accounts.Add(o as AccountViewModel);
@@ -77,6 +82,16 @@ namespace YesPojiQuota.ViewModels
             acc.Removed += AccountRemoved;
 
             return acc;
+        }
+
+        public AccountViewModel CreateAccountViewModel(Account a)
+        {
+            //SimpleIoc.Default.Register(() => new AccountViewModel(a), a.AccountId.ToString());
+            //var acvm = ServiceLocator.Current.GetInstance<AccountViewModel>(a.AccountId.ToString());
+            var acvm = new AccountViewModel(a, _db, _ls);
+            acvm.Removed += AccountRemoved;
+
+            return acvm;
         }
 
         public void RefreshQuota()
