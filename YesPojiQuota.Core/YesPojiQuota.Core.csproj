@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\YesContext.cs" />
+    <Compile Include="Enums\AccountType.cs" />
     <Compile Include="Enums\NetworkCondition.cs" />
     <Compile Include="Helpers\EncryptionHelper.cs" />
     <Compile Include="Interfaces\Delegates.cs" />
