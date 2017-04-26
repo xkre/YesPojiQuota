@@ -23,7 +23,7 @@ namespace YesPojiQuota.ViewModels
             RegisterServices();
             RegisterViewModels();
 
-            Init();
+            //Init();
         }
 
         private void RegisterViewModels()
@@ -49,31 +49,31 @@ namespace YesPojiQuota.ViewModels
             SimpleIoc.Default.Register<IQuotaService, QuotaService>();
             SimpleIoc.Default.Register<INetworkService, NetworkService>();
 
-            SimpleIoc.Default.Register<YesSessionService>();
+            //SimpleIoc.Default.Register<YesSessionService>();
             SimpleIoc.Default.Register<YesContext>();
         }
 
-        private async void Init()
-        {
-            //await ServiceLocator.Current.GetInstance<ILoginService>().InitAsync();
-            //await ServiceLocator.Current.GetInstance<MainPageViewModel>().InitAsync();
-        }
+        //private async void Init()
+        //{
+        //    await ServiceLocator.Current.GetInstance<ILoginService>().InitAsync();
+        //    await ServiceLocator.Current.GetInstance<MainPageViewModel>().InitAsync();
+        //}
 
 
-        public MainViewModel GetViewModel(Type viewModel, string key)
-        {
-            var vm = ServiceLocator.Current.GetInstance(viewModel, key);
-            if (vm is MainViewModel)
-                return vm as MainViewModel;
+        //public MainViewModel GetViewModel(Type viewModel, string key)
+        //{
+        //    var vm = ServiceLocator.Current.GetInstance(viewModel, key);
+        //    if (vm is MainViewModel)
+        //        return vm as MainViewModel;
 
-            return null;
-        }
+        //    return null;
+        //}
 
-        public T GetViewModel<T>(string key)
-        {
-            var vm = ServiceLocator.Current.GetInstance<T>(key);
-            return vm;
-        }
+        //public T GetViewModel<T>(string key)
+        //{
+        //    var vm = ServiceLocator.Current.GetInstance<T>(key);
+        //    return vm;
+        //}
 
         public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
         public MainPageViewModel MainPage => ServiceLocator.Current.GetInstance<MainPageViewModel>();
