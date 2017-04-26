@@ -17,13 +17,13 @@ namespace YesPojiQuota.ViewModels
     {
         private INetworkService _ns;
         private ILoginService _ls;
-        private YesSessionService _ys;
+        //private YesSessionService _ys;
 
-        public InnAppToastViewModel(INetworkService ns, ILoginService ls, YesSessionService ys)
+        public InnAppToastViewModel(INetworkService ns, ILoginService ls)
         {
             _ns = ns;
             _ls = ls;
-            _ys = ys;
+            //_ys = ys;
         }
 
         #region Properties
@@ -63,7 +63,7 @@ namespace YesPojiQuota.ViewModels
             await base.InitAsync();
 
             _ns.NetworkChanged += ProcessNetworkNotification;
-            _ys.SessionUpdated += ProcessSessionUpdate;
+            //_ys.SessionUpdated += ProcessSessionUpdate;
 
             Message = "Checking network status";
 
