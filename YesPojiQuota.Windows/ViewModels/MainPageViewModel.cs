@@ -9,6 +9,8 @@ using YesPojiQuota.Utils;
 using GalaSoft.MvvmLight.Command;
 using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Enums;
+using YesPojiQuota.Core.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace YesPojiQuota.ViewModels
 {
@@ -19,17 +21,23 @@ namespace YesPojiQuota.ViewModels
 
         private ILoginService _ls;
         private INetworkService _ns;
+        private IDialogService _ds;
+        private YesContext _db;
 
         public MainPageViewModel(
-            INavigationService navS, 
-            ILoginService ls, 
+            INavigationService navS,
+            ILoginService ls,
             INetworkService ns,
+            IDialogService ds,
             AccountsViewModel acsvm,
-            InnAppToastViewModel iatvm) 
+            InnAppToastViewModel iatvm,
+            YesContext db)
             : base(navS)
         {
             _ls = ls;
             _ns = ns;
+            _ds = ds;
+            _db = db;
 
             _accountsVM = acsvm;
             _inAppToastVM = iatvm;
@@ -47,7 +55,7 @@ namespace YesPojiQuota.ViewModels
         public string NotiMessage
         {
             get { return _notiMessage; }
-            set { Set("NotiMessage",ref  _notiMessage , value); }
+            set { Set("NotiMessage", ref _notiMessage, value); }
         }
 
         public bool IsInitialized { get; protected set; } = false;
@@ -58,13 +66,44 @@ namespace YesPojiQuota.ViewModels
             if (!IsInitialized)
             {
                 await base.InitAsync();
+                InitDatabase();
+
                 await _inAppToastVM.InitAsync();
-
                 await _accountsVM.InitAsync();
-
                 await _ls.InitAsync();
 
                 IsInitialized = true;
+            }
+        }
+
+        private void InitDatabase()
+        {
+            try
+            {
+                _db.Database.Migrate();
+            }
+            catch
+            {
+                var quotas = _db.Quotas.ToList();
+                var accounts = _db.Accounts.ToList();
+
+                try
+                {
+                    _db.Database.EnsureDeleted();
+
+                    _db.Database.Migrate();
+                    _db.Accounts.AddRange(accounts);
+                    _db.Quotas.AddRange(quotas);
+
+                    _db.SaveChanges();
+                }
+                catch
+                {
+                    _db.Database.EnsureDeleted();
+                    _db.Database.Migrate();
+
+                    _ds.ShowError("There was an error during database migration", "Database Migration Error", "OK", () => { });
+                }
             }
         }
 

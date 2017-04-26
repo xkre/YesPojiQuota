@@ -68,37 +68,7 @@ namespace YesPojiQuota
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
 
-                using (var db = new YesContext())
-                {
-                    try
-                    {
-                        db.Database.Migrate();
-                    }
-                    catch
-                    {
-                        var quotas = db.Quotas.ToList();
-                        var accounts = db.Accounts.ToList();
-
-                        try
-                        {
-                            db.Database.EnsureDeleted();
-
-                            db.Database.Migrate();
-                            db.Accounts.AddRange(accounts);
-                            db.Quotas.AddRange(quotas);
-
-                            db.SaveChanges();
-                        }
-                        catch
-                        {
-                            db.Database.EnsureDeleted();
-                            db.Database.Migrate();
-
-                            var dialog = ServiceLocator.Current.GetInstance<IDialogService>();
-                            dialog.ShowError("There was an error during database migration", "Database Migration Error", "OK", () => { });
-                        }
-                    }
-                }
+                
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
