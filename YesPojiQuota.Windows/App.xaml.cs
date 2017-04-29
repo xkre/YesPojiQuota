@@ -24,6 +24,7 @@ using Windows.UI.Xaml.Navigation;
 using Windows.UI.Popups;
 using Windows.Foundation.Metadata;
 using Windows.UI.ViewManagement;
+using Windows.UI;
 
 namespace YesPojiQuota
 {
@@ -94,6 +95,7 @@ namespace YesPojiQuota
                 Window.Current.Activate();
             }
 
+
             
             Messenger.Default.Register<NotificationMessageAction<string>>(this, HandleNotification);
             InitializeUi();
@@ -137,6 +139,16 @@ namespace YesPojiQuota
             {
                 var statusBar = StatusBar.GetForCurrentView();
                 await statusBar.ShowAsync();
+            }
+            else
+            {
+                Color color = ((SolidColorBrush)Current.Resources["SystemControlBackgroundAccentBrush"]).Color;
+                ApplicationView.GetForCurrentView().TitleBar.BackgroundColor = color;
+                ApplicationView.GetForCurrentView().TitleBar.InactiveBackgroundColor = color;
+                ApplicationView.GetForCurrentView().TitleBar.ButtonInactiveBackgroundColor = color;
+                ApplicationView.GetForCurrentView().TitleBar.ButtonBackgroundColor = color;
+
+                var a = ApplicationView.GetForCurrentView();
             }
         }
     }
