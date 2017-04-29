@@ -13,28 +13,39 @@
     Visibility="{x:Bind Vm.Visibility, Mode=OneWay}"
     >
 
-    <Grid Background="Aqua">
-        <Grid Grid.Column="0"  MaxWidth="700">
+    <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" Padding="4 5 0 0">
+        <Grid Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="0">
+                <Grid>
+                    <TextBlock Text="Network Status:"
+                           Padding="5 0 0 0"/>
+                </Grid>
+            </StackPanel>
+
             <!--<views:BackDrop BlurAmount="2"
                             TintColor="Aqua"
                             TintAlpha="80"
                             SaturationIntensity="1.8"/>-->
-            <StackPanel Orientation="Horizontal" Grid.Column="0">
+            <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1">
                 <ProgressRing IsActive="{x:Bind Vm.IsLoading, Mode=OneWay}"
                               Visibility="{x:Bind Vm.IsLoading, Mode=OneWay}"
+                              Foreground="White"
                               />
-                <Grid>
-                    <TextBlock Text="{x:Bind Vm.Message, Mode=OneWay}"
-                           Padding="5"/>
+                <Grid Padding="5 0 0 0">
+                    <TextBlock Text="{x:Bind Vm.Message, Mode=OneWay}"/>
                 </Grid>
             </StackPanel>
 
-            <Grid Grid.Column="1">
+            <Grid Grid.Column="1" Grid.Row="1">
                 <Button Content="Logout" Click="{x:Bind Vm.Logout}" 
                     IsEnabled="{x:Bind Vm.IsConnected, Mode=OneWay}" />
             </Grid>
