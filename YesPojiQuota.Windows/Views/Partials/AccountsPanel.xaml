@@ -57,10 +57,8 @@
                     <ProgressBar Value="{x:Bind Quota, Mode=OneWay}" Maximum="{x:Bind MaxQuota}" 
                                  Grid.Row="2" Grid.Column="0" 
                                  HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
-                                 Margin="0,0,50,10" >
-                        <ProgressBar.Foreground>
-                            <SolidColorBrush Color="{ThemeResource SystemAltMediumColor}"/>
-                        </ProgressBar.Foreground>
+                                 Margin="0,0,50,10" 
+                                 Foreground="{ThemeResource SystemControlBackgroundAccentBrush}">
                     </ProgressBar>
 
                     <Button Content="Connect" Click="{x:Bind Login}"
