@@ -261,3 +261,5 @@ __pycache__/
 *.pyc
 /YesPojiQuota.Windows/_scale-100.appx
 /YesPojiQuota.Windows/_scale-400.appx
+/YesPojiQuota.Core/Helpers/Secrets.cs
+/YesPojiQuota.Core/Helpers/Secrets.cs

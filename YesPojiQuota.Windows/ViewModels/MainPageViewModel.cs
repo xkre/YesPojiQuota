@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Views;
 using GalaSoft.MvvmLight.Messaging;
-using YesPojiQuota.Utils;
 using GalaSoft.MvvmLight.Command;
 using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Enums;
@@ -44,20 +43,6 @@ namespace YesPojiQuota.ViewModels
         }
 
         #region Properties
-        private bool _notiVisible;
-        public bool NotiVisible
-        {
-            get { return _notiVisible; }
-            set { Set("NotiVisible", ref _notiVisible, value); }
-        }
-
-        private string _notiMessage;
-        public string NotiMessage
-        {
-            get { return _notiMessage; }
-            set { Set("NotiMessage", ref _notiMessage, value); }
-        }
-
         public bool IsInitialized { get; protected set; } = false;
         #endregion Properties
 
@@ -67,6 +52,7 @@ namespace YesPojiQuota.ViewModels
             {
                 await base.InitAsync();
                 InitDatabase();
+
 
                 await _inAppToastVM.InitAsync();
                 await _accountsVM.InitAsync();

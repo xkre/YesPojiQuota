@@ -68,11 +68,6 @@ namespace YesPojiQuota.ViewModels
             }
         }
 
-        private void AccountRemoved(object source)
-        {
-            Accounts.Remove(source as AccountViewModel);
-        }
-
         public AccountViewModel CreateAccountViewModel()
         {
             var acc = new AccountViewModel(_db, _ls);
@@ -92,6 +87,11 @@ namespace YesPojiQuota.ViewModels
             acvm.Removed += AccountRemoved;
 
             return acvm;
+        }
+
+        private void AccountRemoved(object source)
+        {
+            Accounts.Remove(source as AccountViewModel);
         }
 
         public void RefreshQuota()
