@@ -17,13 +17,13 @@ namespace YesPojiQuota.ViewModels
     {
         private INetworkService _ns;
         private ILoginService _ls;
-        //private YesSessionService _ys;
+        private YesSessionService _ys;
 
-        public InnAppToastViewModel(INetworkService ns, ILoginService ls)
+        public InnAppToastViewModel(INetworkService ns, ILoginService ls, YesSessionService ys)
         {
             _ns = ns;
             _ls = ls;
-            //_ys = ys;
+            _ys = ys;
         }
 
         #region Properties
@@ -55,6 +55,28 @@ namespace YesPojiQuota.ViewModels
             set { Set("IsLoading", ref _isLoading, value); }
         }
 
+        private string _received = "";
+        public string Received
+        {
+            get { return _received; }
+            set { Set("Received", ref _received, value); }
+        }
+
+        private string _sent = "";
+        public string Sent
+        {
+            get { return _sent; }
+            set { Set("Sent", ref _sent, value); }
+        }
+
+        private string _timeConnected = "";
+        public string TimeConnected
+        {
+            get { return _timeConnected; }
+            set { Set("TimeConnected", ref _timeConnected, value); }
+        }
+
+
 
         #endregion Properties
 
@@ -62,21 +84,23 @@ namespace YesPojiQuota.ViewModels
         {
             await base.InitAsync();
 
-            _ns.NetworkChanged += ProcessNetworkNotification;
-            //_ys.SessionUpdated += ProcessSessionUpdate;
-
             Message = "Checking network status";
+
+            _ns.NetworkChanged += ProcessNetworkNotification;
+            _ys.SessionUpdated += ProcessSessionUpdate;
 
             await Task.Run(() =>
             {
                 _ns.CheckConnectionAsync();
                 _ns.StartMonitor();
+                _ys.StartMonitor();
             });
 
             Messenger.Default.Register<string>(this, HandleNotification);
             //TODO: Temporary   -- Seriously -------------------------------------
             Messenger.Default.Register<bool>(this, HandleNotification);
             //Temporary   -- Seriously -------------------------------------
+
         }
 
         public void InitLoading()
@@ -87,8 +111,13 @@ namespace YesPojiQuota.ViewModels
 
         private void ProcessSessionUpdate(SessionData data)
         {
-            //TODO TODO -----------------------------------------------------------
-            throw new NotImplementedException();
+            DispatcherHelper.RunAsync(() =>
+             {
+                 Received = String.Format($"Received: {data.Received} kB");
+                 Sent = String.Format($"Sent    : {data.Sent} kB");
+                 TimeConnected = String.Format($"Time Connected: {data.Time.Hours}:{data.Time.Minutes}");
+             });
+
         }
 
         private void HandleNotification(string a)
@@ -116,22 +145,9 @@ namespace YesPojiQuota.ViewModels
             }
         }
 
-        //private RelayCommand _logoutCommand;
-        //public RelayCommand LogoutCommand
-        //{
-        //    get
-        //    {
-        //        return _logoutCommand ?? (_logoutCommand = new RelayCommand(
-        //                () => Logout(), 
-        //                () => IsConnected)
-        //            );
-        //    }
-        //}
-
-
         public async void ProcessNetworkNotification(NetworkCondition condition)
         {
-            await DispatcherHelper.RunAsync(()=>
+            await DispatcherHelper.RunAsync(() =>
             {
                 IsConnected = false;
                 switch (condition)

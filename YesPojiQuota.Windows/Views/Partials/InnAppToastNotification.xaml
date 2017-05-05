@@ -22,6 +22,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
 
             <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="0">
@@ -48,6 +49,14 @@
             <Grid Grid.Column="1" Grid.Row="1">
                 <Button Content="Logout" Click="{x:Bind Vm.Logout}" 
                     IsEnabled="{x:Bind Vm.IsConnected, Mode=OneWay}" />
+            </Grid>
+
+            <Grid Grid.Row="2">
+                <StackPanel>
+                    <TextBlock Text="{x:Bind Vm.Received, Mode=OneWay}" />
+                    <TextBlock Text="{x:Bind Vm.Sent, Mode=OneWay}" />
+                    <TextBlock Text="{x:Bind Vm.TimeConnected, Mode=OneWay}" />
+                </StackPanel>
             </Grid>
         </Grid>
     </Grid>
