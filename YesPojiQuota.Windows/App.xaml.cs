@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using YesPojiQuota.Core.Data;
 using YesPojiQuota.Views;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -137,8 +136,11 @@ namespace YesPojiQuota
             // If we have a phone contract, hide the status bar
             if (ApiInformation.IsApiContractPresent("Windows.Phone.PhoneContract", 1, 0))
             {
+                Color color = ((SolidColorBrush)Current.Resources["SystemControlBackgroundAccentBrush"]).Color;
                 var statusBar = StatusBar.GetForCurrentView();
                 await statusBar.ShowAsync();
+                color = LightenDarkenColor(color, 0.5);
+                statusBar.BackgroundColor = color;
             }
             else
             {
@@ -147,9 +149,15 @@ namespace YesPojiQuota
                 ApplicationView.GetForCurrentView().TitleBar.InactiveBackgroundColor = color;
                 ApplicationView.GetForCurrentView().TitleBar.ButtonInactiveBackgroundColor = color;
                 ApplicationView.GetForCurrentView().TitleBar.ButtonBackgroundColor = color;
-
-                var a = ApplicationView.GetForCurrentView();
             }
+        }
+
+        private Color LightenDarkenColor(Color color, double correctionFactor)
+        {
+            double red = (255 - color.R) * correctionFactor + color.R;
+            double green = (255 - color.G) * correctionFactor + color.G;
+            double blue = (255 - color.B) * correctionFactor + color.B;
+            return Color.FromArgb(color.A, (byte)red, (byte)green, (byte)blue);
         }
     }
 }
