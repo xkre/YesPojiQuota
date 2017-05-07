@@ -8,6 +8,7 @@ using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YesPojiQuota.Core.Enums;
+using YesPojiQuota.Core.Helpers.Exceptions;
 using YesPojiQuota.Core.Interfaces;
 
 namespace YesPojiQuota.Core.Services
@@ -20,6 +21,12 @@ namespace YesPojiQuota.Core.Services
         public event NetworkChangeEvent NetworkChanged;
 
         private IDisposable _timer;
+        private YesSessionService _yss;
+
+        public NetworkService(YesSessionService ys)
+        {
+            _yss = ys;
+        }
 
         private NetworkCondition _networkType;
         public NetworkCondition NetworkType
@@ -32,49 +39,49 @@ namespace YesPojiQuota.Core.Services
             }
         }
 
+        /// <summary>
+        /// Check for the connection, returns true when connected to yes network. Raises NetworkChangeEvent
+        /// </summary>
+        /// <returns></returns>
         public async Task<bool> CheckConnectionAsync()
         {
-            string rawHtml = "";
-            using (var client = new HttpClient())
+            try
             {
-                try
+                bool yesConnected = await _yss.IsConnectedToYesAsync();
+
+                if (yesConnected)
                 {
-                    rawHtml = await client.GetStringAsync(PORTAL_TEST_URL);
-
-                    if (rawHtml.Equals("success\n"))
-                    {
-                        try
-                        {
-                            await client.GetAsync(QUOTA_SERVICE_URL);
-
-                            NetworkType = NetworkCondition.Online;
-                            return true;
-                        }
-                        catch
-                        {
-                            NetworkType = NetworkCondition.OnlineNotYes;
-                        }
-                    }
-                    else
-                    {
-                        NetworkType = NetworkCondition.YesWifiConnected;
-                        return true;
-                    }
-
+                    NetworkType = NetworkCondition.Online;
+                    return true;
                 }
-                catch (HttpRequestException e)
+                else
                 {
-                    Debug.WriteLine($"Exception: Connection Error {e.Message}");
-                    NetworkType = NetworkCondition.NotConnected;
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine($"Exception {e}");
-                    NetworkType = NetworkCondition.NotConnected;
+                    NetworkType = NetworkCondition.YesWifiConnected;
+                    return true;
                 }
 
-                return false;
+                //TODO check when online and not on yes connection
+                //using (var client = new HttpClient())
+                //{
+                //    await client.GetAsync(QUOTA_SERVICE_URL);
+                //}
             }
+            catch (YesNotConnectedException yex)
+            {
+                Debug.WriteLine($"Exception: Yes Network not connected :::: Handled");
+                NetworkType = NetworkCondition.NotConnected;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Exception {ex}");
+            }
+
+            return false;
+        }
+
+        private async Task<bool> IsConnectedToYesAsync()
+        {
+            return await _yss.IsConnectedToYesAsync();
         }
 
         public void StartMonitor()
