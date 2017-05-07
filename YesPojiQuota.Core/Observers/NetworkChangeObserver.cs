@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace YesPojiQuota.Core.Observers
 {
     public class NetworkChangeObserver : IObserver<NetworkCondition>
     {
+        NetworkCondition _currentCondition;
         public void OnCompleted()
         {
             throw new NotImplementedException();
@@ -16,12 +18,15 @@ namespace YesPojiQuota.Core.Observers
 
         public void OnError(Exception error)
         {
-            throw new NotImplementedException();
+            Debug.WriteLine($"Exception {error.Message} in NetworkChangeObserver");
         }
 
         public void OnNext(NetworkCondition value)
         {
-            throw new NotImplementedException();
+            if (value != _currentCondition)
+            {
+
+            }
         }
     }
 }
