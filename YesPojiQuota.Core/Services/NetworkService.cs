@@ -49,16 +49,8 @@ namespace YesPojiQuota.Core.Services
             {
                 bool yesConnected = await _yss.IsConnectedToYesAsync();
 
-                if (yesConnected)
-                {
-                    NetworkType = NetworkCondition.Online;
-                    return true;
-                }
-                else
-                {
-                    NetworkType = NetworkCondition.YesWifiConnected;
-                    return true;
-                }
+                NetworkType = yesConnected ? NetworkCondition.Online : NetworkCondition.YesWifiConnected;
+                return true;
             }
             catch (YesNotConnectedException yex)
             {
