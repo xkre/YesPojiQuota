@@ -59,21 +59,28 @@ namespace YesPojiQuota.Core.Services
                     NetworkType = NetworkCondition.YesWifiConnected;
                     return true;
                 }
-
-                //TODO check when online and not on yes connection
-                //using (var client = new HttpClient())
-                //{
-                //    await client.GetAsync(QUOTA_SERVICE_URL);
-                //}
             }
             catch (YesNotConnectedException yex)
             {
                 Debug.WriteLine($"Exception: Yes Network not connected :::: Handled");
-                NetworkType = NetworkCondition.NotConnected;
+                try
+                {
+                    using (var client = new HttpClient())
+                    {
+                        await client.GetAsync(QUOTA_SERVICE_URL);
+                        NetworkType = NetworkCondition.OnlineNotYes;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //When not connected to a network
+                    Debug.WriteLine($"Exception {ex}");
+                    NetworkType = NetworkCondition.NotConnected;
+                }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Exception {ex}");
+                Debug.WriteLine($"Exception: {ex}");
             }
 
             return false;
