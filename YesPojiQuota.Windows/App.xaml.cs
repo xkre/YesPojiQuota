@@ -24,6 +24,7 @@ using Windows.UI.Popups;
 using Windows.Foundation.Metadata;
 using Windows.UI.ViewManagement;
 using Windows.UI;
+using YesPojiQuota.Utils;
 
 namespace YesPojiQuota
 {
@@ -136,11 +137,12 @@ namespace YesPojiQuota
             // If we have a phone contract, hide the status bar
             if (ApiInformation.IsApiContractPresent("Windows.Phone.PhoneContract", 1, 0))
             {
-                Color color = ((SolidColorBrush)Current.Resources["SystemControlBackgroundAccentBrush"]).Color;
+                Color color = (Color)App.Current.Resources["SystemAccentColorDark1"];
                 var statusBar = StatusBar.GetForCurrentView();
                 await statusBar.ShowAsync();
-                color = LightenDarkenColor(color, 0.5);
+                //color = ColourHelper.LightenDarkenColor(color, 1.05);
                 statusBar.BackgroundColor = color;
+                statusBar.BackgroundOpacity = 1;
             }
             else
             {
@@ -152,12 +154,6 @@ namespace YesPojiQuota
             }
         }
 
-        private Color LightenDarkenColor(Color color, double correctionFactor)
-        {
-            double red = (255 - color.R) * correctionFactor + color.R;
-            double green = (255 - color.G) * correctionFactor + color.G;
-            double blue = (255 - color.B) * correctionFactor + color.B;
-            return Color.FromArgb(color.A, (byte)red, (byte)green, (byte)blue);
-        }
+
     }
 }
