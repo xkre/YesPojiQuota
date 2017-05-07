@@ -29,15 +29,16 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="1" Grid.RowSpan="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+        <Grid Grid.Row="1" Grid.RowSpan="1" 
+              Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
               Opacity="0.6">
             <interactivity:Interaction.Behaviors>
                 <acrylic:Blur Value="30"
                         AutomaticallyStart="True" />
             </interactivity:Interaction.Behaviors>
         </Grid>
-
-        <partial:AccountsPanel Margin="0" Grid.Row="1" Grid.RowSpan="1" />
+        
         <partial:InnAppToastNotification Grid.Row="0"/>
+        <partial:AccountsPanel Margin="0" Grid.Row="1" Grid.RowSpan="1" />
     </Grid>
 </Page>

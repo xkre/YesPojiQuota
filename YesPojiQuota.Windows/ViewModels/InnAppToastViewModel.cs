@@ -119,12 +119,12 @@ namespace YesPojiQuota.ViewModels
             #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             DispatcherHelper.RunAsync(() =>
              {
-                 Received = String.Format($"{data.Received} kB");
-                 Sent = String.Format($"{data.Sent} kB");
+                 Received = String.Format($"{(data.Received/1024):N3} MB");
+                 Sent = String.Format($"{(data.Sent/1024):N3} MB");
                  if (data.Time.Hours > 0)
-                     TimeConnected = String.Format($"{data.Time.Hours}:{data.Time.Minutes:D2}");
+                     TimeConnected = String.Format($"{data.Time.Hours}Hours {data.Time.Minutes:D2} Minutes");
                  else
-                     TimeConnected = String.Format($"{data.Time.Minutes:N2}");
+                     TimeConnected = String.Format($"{data.Time.Minutes:D2} Minutes");
              });
             #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
