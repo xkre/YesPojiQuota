@@ -8,35 +8,31 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     DataContext="{Binding InnAppToast, Source={StaticResource Locator}}"
-    d:DesignHeight="300"
+    d:DesignHeight="130"
     d:DesignWidth="400"
     Visibility="{x:Bind Vm.Visibility, Mode=OneWay}"
     >
 
-    <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" Padding="4 5 0 0">
+    <Grid Background="{ThemeResource SystemControlBackgroundAccentBrush}" >
         <Grid Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
-            <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="0">
+            <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="0" Padding="5 5 0 0">
                 <Grid>
                     <TextBlock Text="Network Status:"
                            Padding="5 0 0 0"/>
                 </Grid>
             </StackPanel>
 
-            <!--<views:BackDrop BlurAmount="2"
-                            TintColor="Aqua"
-                            TintAlpha="80"
-                            SaturationIntensity="1.8"/>-->
-            <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1">
+            <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1" Padding="5 0 0 7">
                 <ProgressRing IsActive="{x:Bind Vm.IsLoading, Mode=OneWay}"
                               Visibility="{x:Bind Vm.IsLoading, Mode=OneWay}"
                               Foreground="White"
@@ -46,17 +42,30 @@
                 </Grid>
             </StackPanel>
 
-            <Grid Grid.Column="1" Grid.Row="1">
-                <Button Content="Logout" Click="{x:Bind Vm.Logout}" 
-                    IsEnabled="{x:Bind Vm.IsConnected, Mode=OneWay}" />
-            </Grid>
+            <Grid Grid.Row="2" Grid.ColumnSpan="2" Padding="10 7 10 7"
+                  Background="{ThemeResource SystemAccentColorDark1}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
 
-            <Grid Grid.Row="2">
-                <StackPanel>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Received" />
+                    <TextBlock Text="Sent" />
+                    <TextBlock Text="Time Connected" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Padding="10 0">
                     <TextBlock Text="{x:Bind Vm.Received, Mode=OneWay}" />
                     <TextBlock Text="{x:Bind Vm.Sent, Mode=OneWay}" />
                     <TextBlock Text="{x:Bind Vm.TimeConnected, Mode=OneWay}" />
                 </StackPanel>
+
+                <Grid Grid.Column="2">
+                    <Button Content="Logout" Click="{x:Bind Vm.Logout}" 
+                    IsEnabled="{x:Bind Vm.IsConnected, Mode=OneWay}" />
+                </Grid>
             </Grid>
         </Grid>
     </Grid>

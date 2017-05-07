@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YesPojiQuota.Core.Enums;
+using YesPojiQuota.Core.Helpers;
 using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Models;
 using YesPojiQuota.Core.Services;
@@ -99,6 +100,10 @@ namespace YesPojiQuota.ViewModels
             Messenger.Default.Register<string>(this, HandleNotification);
             //TODO: Temporary   -- Seriously -------------------------------------
             Messenger.Default.Register<bool>(this, HandleNotification);
+            Messenger.Default.Register<LoadingMessage>(this, (message) =>
+            {
+                IsLoading = message.IsLoading;
+            });
             //Temporary   -- Seriously -------------------------------------
 
         }
@@ -111,12 +116,17 @@ namespace YesPojiQuota.ViewModels
 
         private void ProcessSessionUpdate(SessionData data)
         {
+            #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             DispatcherHelper.RunAsync(() =>
              {
-                 Received = String.Format($"Received: {data.Received} kB");
-                 Sent = String.Format($"Sent    : {data.Sent} kB");
-                 TimeConnected = String.Format($"Time Connected: {data.Time.Hours}:{data.Time.Minutes}");
+                 Received = String.Format($"{data.Received} kB");
+                 Sent = String.Format($"{data.Sent} kB");
+                 if (data.Time.Hours > 0)
+                     TimeConnected = String.Format($"{data.Time.Hours}:{data.Time.Minutes:D2}");
+                 else
+                     TimeConnected = String.Format($"{data.Time.Minutes:N2}");
              });
+            #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
         }
 
