@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
 using System.Globalization;
+using YesPojiQuota.Core.Helpers.Exceptions;
 
 namespace YesPojiQuota.Core.Services
 {
@@ -35,6 +36,41 @@ namespace YesPojiQuota.Core.Services
                         
             SessionUpdated(_session);
         }
+
+        public void StartMonitor()
+        {
+            var timer = Observable.Timer(TimeSpan.FromSeconds(2), TimeSpan.FromMinutes(1));
+
+            _timer = timer.Subscribe(
+                (x) => Update()
+                );
+        }
+
+        public void StopMonitor()
+        {
+            _timer?.Dispose();
+        }
+
+        public async Task<bool> IsConnectedToYesAsync()
+        {
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    var result = await client.GetAsync(SESSION_URL);
+                    var rawHtml = await result.Content.ReadAsStringAsync();
+
+                    var session = ParseSession(rawHtml);
+                    return session.Received > 0 || session.Sent > 0;
+                }
+                catch
+                {
+                    throw new YesNotConnectedException("Not Connected to yes network");
+                }
+                
+            }
+        }
+
 
         private SessionData ParseSession(string rawHtml)
         {
@@ -63,20 +99,6 @@ namespace YesPojiQuota.Core.Services
                 Debug.WriteLine($"Exception: {ex.StackTrace}");
                 return null;
             }
-        }
-
-        public void StartMonitor()
-        {
-            var timer = Observable.Timer(TimeSpan.FromSeconds(2), TimeSpan.FromMinutes(1));
-
-            _timer = timer.Subscribe(
-                (x) => Update()
-                );
-        }
-
-        public void StopMonitor()
-        {
-            _timer?.Dispose();
         }
 
     }
