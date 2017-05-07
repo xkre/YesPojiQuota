@@ -50,5 +50,22 @@ namespace YesPojiQuota.Views
             base.OnNavigatedTo(e);
             vm.InitAsync();
         }
+
+        protected override void OnKeyUp(KeyRoutedEventArgs e)
+        {
+            base.OnKeyUp(e);
+
+            if (e.Key == Windows.System.VirtualKey.R)
+            {
+                var ctrlState = CoreWindow.GetForCurrentThread().GetKeyState(Windows.System.VirtualKey.Control);
+
+                if (ctrlState != CoreVirtualKeyStates.None)
+                {
+                    vm.RefreshAccounts();
+
+                    e.Handled = true;
+                }
+            }
+        }
     }
 }
