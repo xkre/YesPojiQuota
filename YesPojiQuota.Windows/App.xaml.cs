@@ -46,7 +46,7 @@ namespace YesPojiQuota
 
         private async void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            e.Handled = true;
+            //e.Handled = true;
             await new MessageDialog("Application Unhandled Exception:\r\n" + e.Exception.Message, "Error :(")
                 .ShowAsync();
 

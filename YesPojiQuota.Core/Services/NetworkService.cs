@@ -57,7 +57,7 @@ namespace YesPojiQuota.Core.Services
                 {
                     using (var client = new HttpClient())
                     {
-                        await client.GetAsync(QUOTA_SERVICE_URL);
+                        await client.GetAsync(PORTAL_TEST_URL);
                         NetworkType = NetworkCondition.OnlineNotYes;
                     }
                 }
