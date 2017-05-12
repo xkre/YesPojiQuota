@@ -1,26 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using GalaSoft.MvvmLight.Threading;
+using GalaSoft.MvvmLight.Views;
+using GalaSoft.MvvmLight.Ioc;
+using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GalaSoft.MvvmLight.Threading;
-using GalaSoft.MvvmLight.Views;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Practices.ServiceLocation;
+using YesPojiQuota.Core.Interfaces;
+using YesPojiQuota.Core.Models;
 using YesPojiQuota.Core.Data;
 using YesPojiQuota.Utils;
-using System.Diagnostics;
-using Windows.UI.Core;
-using YesPojiQuota.Core.Models;
-using Microsoft.Practices.ServiceLocation;
-using GalaSoft.MvvmLight.Ioc;
-using YesPojiQuota.Core.Interfaces;
 
 namespace YesPojiQuota.ViewModels
 {
     public class AccountsViewModel : MainViewModel
     {
         private YesContext _db;
-        private ILoginService _ls;
 
         private bool _isLoaded = false;
 
@@ -31,10 +30,9 @@ namespace YesPojiQuota.ViewModels
             set => _accounts = value;
         }
 
-        public AccountsViewModel(YesContext db, ILoginService ls)
+        public AccountsViewModel(YesContext db)
         {
             _db = db;
-            _ls = ls;
         }
 
         public override async Task InitAsync()
@@ -43,48 +41,62 @@ namespace YesPojiQuota.ViewModels
 
             if (!_isLoaded)
             {
-                var accounts = _db.Accounts.OrderBy(x => x.Username).ToList();
+                var accounts = _db.Accounts
+                                  .Include(a => a.Quota)
+                                  .OrderBy(a => a.Username);
 
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                Task.Run(async () =>
+                foreach (var a in accounts)
                 {
-                    accounts.ForEach(x =>
-                    {
-                        var acvm = CreateAccountViewModel(x);
-                        acvm.LightInit();
-                        DispatcherHelper.RunAsync(() => Accounts.Add(acvm));
-                    });
+                    var acvm = CreateAccountViewModel(a);
+                    Accounts.Add(acvm);
+                }
 
-
+                await Task.Run(async () =>
+                {
                     foreach (var acvm in Accounts)
                     {
                         await acvm.InitAsync();
+                        await acvm.SaveDataIfNecessary();
                     }
                 });
-#pragma warning restore CS4014
 
                 _isLoaded = true;
-
             }
         }
 
         public AccountViewModel CreateAccountViewModel()
         {
-            var acc = new AccountViewModel(_db, _ls);
-            acc.OnSuccessOperation += o =>
+            var acvm = ServiceLocator.Current.GetInstance<AccountViewModel>(Guid.NewGuid().ToString());
+
+            acvm.OnSuccessOperation += async o =>
             {
-                Accounts.Add(o as AccountViewModel);
+                var acvm2 = (AccountViewModel)o;
+
+                Accounts.Add(acvm2);
+
+                SimpleIoc.Default.Unregister(acvm);
+                SimpleIoc.Default.Register(() => acvm2, acvm2.Id.ToString());
+
+                acvm.Removed += AccountRemoved;
+
+                await acvm2.InitAsync();
+                await acvm2.SaveData();
             };
-
-            acc.Removed += AccountRemoved;
-
-            return acc;
+            return acvm;
         }
 
         public AccountViewModel CreateAccountViewModel(Account a)
         {
-            var acvm = new AccountViewModel(a, _db, _ls);
+            var acvm = ServiceLocator.Current.GetInstance<AccountViewModel>(a.AccountId.ToString());
+            acvm.Account = a;
             acvm.Removed += AccountRemoved;
+
+            if (a.Quota == null)
+            {
+                //Should not happen - done as precaution
+                Debug.WriteLine("Debug:::: Entered a.Quota == null in CreateAccountViewModel");
+                a.Quota = new Quota() { AccountId = a.AccountId };
+            }
 
             return acvm;
         }
@@ -100,10 +112,10 @@ namespace YesPojiQuota.ViewModels
             {
                 foreach (var acvm in Accounts)
                 {
-                    await acvm.InitAsync();
+                    await acvm.RefreshDataAsync();
+                    await acvm.SaveDataIfNecessary();
                 }
             });
-
         }
 
     }
