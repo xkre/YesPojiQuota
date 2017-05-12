@@ -33,6 +33,10 @@ namespace YesPojiQuota.ViewModels
             SimpleIoc.Default.Register<AccountsViewModel>();
             SimpleIoc.Default.Register<SettingsViewModel>();
             SimpleIoc.Default.Register<InnAppToastViewModel>();
+
+            //Multiple Instance ViewModel
+            SimpleIoc.Default.Register<QuotaViewModel>();
+            SimpleIoc.Default.Register<AccountViewModel>();
         }
 
 
