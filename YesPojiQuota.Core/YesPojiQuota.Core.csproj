@@ -114,7 +114,6 @@
     <Compile Include="Helpers\EncryptionHelper.cs" />
     <Compile Include="Helpers\Exceptions\QuotaException.cs" />
     <Compile Include="Helpers\Exceptions\YesNotConnectedException.cs" />
-    <Compile Include="Helpers\LoadingMessage.cs" />
     <Compile Include="Helpers\Secrets.cs" />
     <Compile Include="Interfaces\Delegates.cs" />
     <Compile Include="Interfaces\ICustomNavigatorService.cs" />

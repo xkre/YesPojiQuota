@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YesPojiQuota.Core.Helpers
+namespace YesPojiQuota.Utils
 {
-    public class LoadingMessage
+    internal class LoadingMessage
     {
         public bool IsLoading { get; set; }
+        public string Message { get; set; }
     }
 }
