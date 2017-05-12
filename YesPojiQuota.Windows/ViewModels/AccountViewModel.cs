@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight.Threading;
-using GalaSoft.MvvmLight.Views;
+﻿using GalaSoft.MvvmLight.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Practices.ServiceLocation;
 using System;
@@ -15,6 +14,7 @@ using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Helpers;
 using YesPojiQuota.Core.Enums;
 using YesPojiQuota.Core.Models;
+using YesPojiQuota.Utils;
 
 namespace YesPojiQuota.ViewModels
 {
@@ -24,24 +24,18 @@ namespace YesPojiQuota.ViewModels
         public event MyEventHandler OnSuccessOperation;
         public event MyEventHandler Removed;
 
-        private bool _isLoaded = false;
+        //private bool _isLoaded = false;
 
         private YesContext _db;
         private ILoginService _ls;
 
         #region Constructors
-        public AccountViewModel(YesContext db, ILoginService ls) : base()
+        public AccountViewModel(YesContext db, ILoginService ls)
         {
-            Account = new Account();
-
             _db = db;
             _ls = ls;
         }
 
-        public AccountViewModel(Account account, YesContext db, ILoginService ls) : this(db, ls)
-        {
-            Account = account;
-        }
         #endregion Constructors
 
         #region Properties
@@ -51,10 +45,15 @@ namespace YesPojiQuota.ViewModels
             get => _account;
             set
             {
-                Set("Account", ref _account, value);
                 Username = value.Username;
                 Password = value.Password;
                 Id = value.AccountId;
+
+                var qvm = ServiceLocator.Current.GetInstance<QuotaViewModel>(Id.ToString());
+                qvm.Quota = value.Quota;
+                Quota = qvm;
+
+                Set("Account", ref _account, value);
             }
         }
 
@@ -101,8 +100,8 @@ namespace YesPojiQuota.ViewModels
             set { Set("Type", ref _type, (AccountType)value); }
         }
 
-        private double _quota;
-        public double Quota
+        private QuotaViewModel _quota;
+        public QuotaViewModel Quota
         {
             get => _quota;
             set
@@ -110,20 +109,6 @@ namespace YesPojiQuota.ViewModels
                 Set("Quota", ref _quota, value);
                 RaisePropertyChanged("QuotaString");
             }
-        }
-
-        public double MaxQuota
-        {
-            get
-            {
-                var a = ServiceLocator.Current.GetInstance<IQuotaService>();
-                return a.GetMaxQuota(Username);
-            }
-        }
-
-        public string QuotaString
-        {
-            get => String.Format($"{Quota:0.###} MB Available");
         }
 
         public new bool CanLogin
@@ -143,79 +128,13 @@ namespace YesPojiQuota.ViewModels
         public override async Task InitAsync()
         {
             await base.InitAsync();
-            if (!_isLoaded)
-                InitQuotaFromDb();
-
-            await InitQuota();
-
-            _isLoaded = true;
+            await Quota.InitAsync();
         }
 
-        public void LightInit()
-        {
-            InitQuotaFromDb();
 
-            _isLoaded = true;
-        }
-
-        private void InitQuotaFromDb()
-        {
-            decimal quota = 0;
-            try
-            { 
-                var q = _db.Quotas.Where(x => x.AccountId == Id).First();
-                quota = q.Available;
-            }
-            catch (Exception ee)
-            {
-                Debug.WriteLine($"Exception {ee}");
-            }
-
-            DispatcherHelper.RunAsync(() => Quota = (double)quota);
-        }
-
-        private async Task InitQuota()
-        {
-            var quotaService = ServiceLocator.Current.GetInstance<IQuotaService>();
-            var netService = ServiceLocator.Current.GetInstance<INetworkService>();
-
-            if (netService.NetworkType == NetworkCondition.Online || netService.NetworkType == NetworkCondition.YesWifiConnected)
-            {
-                decimal quota = 0;
-                try
-                {
-                    quota = await quotaService.GetQuota(Username);
-                    await SaveQuota(quota);
-
-                    await DispatcherHelper.RunAsync(() => Quota = (double)quota);
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine($"Exception {e}");
-                }
-            }
-        }
-
-        public async Task SaveQuota(decimal available)
-        {
-            var quota = await _db.Quotas.Where(x => x.AccountId == Id).FirstOrDefaultAsync();
-            if (quota == null)
-            {
-                quota = new Quota()
-                {
-                    AccountId = Id
-                };
-                _db.Quotas.Add(quota);
-
-                quota.Available = available;
-                await _db.SaveChangesAsync();
-            }
-            else if (Convert.ToDouble(quota.Available) != Quota)
-            {
-                quota.Available = available;
-                await _db.SaveChangesAsync();
-            }
-        }
+        public async Task RefreshDataAsync() => await Quota.RefreshQuotaAsync();
+        public async Task SaveDataIfNecessary() => await Quota.SaveDataIfNecessary();
+        public async Task SaveData() => await Quota.SaveData();
 
         public async void Save()
         {
@@ -240,20 +159,27 @@ namespace YesPojiQuota.ViewModels
                 pw = EncryptionHelper.AES_Encrypt(Password, Username);
             }
             var account = new Account(Username, pw);
+            var quota = new Quota();
+
+            account.Quota = quota;
+
             _db.Accounts.Add(account);
             await _db.SaveChangesAsync();
 
             Account = account;
 
             OnSuccessOperation(this);
-            InitQuota();
         }
 
         public async void Login()
         {
-            var loginService = ServiceLocator.Current.GetInstance<ILoginService>();
+            Messenger.Default.Send(new LoadingMessage() { IsLoading = true, Message = "Logging in" });
+            var a = await _ls.LoginAsync(Username, EncryptionHelper.AES_Decrypt(Password, Username));
+            if (a)
+                Messenger.Default.Send(new LoadingMessage() { IsLoading = false, Message = "Successful log in" });
+            else
+                Messenger.Default.Send(new LoadingMessage() { IsLoading = false, Message = "fail log in" });
 
-            var a = await loginService.LoginAsync(Username, EncryptionHelper.AES_Decrypt(Password, Username));
         }
 
         public async void Remove()
@@ -268,6 +194,7 @@ namespace YesPojiQuota.ViewModels
         {
             error = "Username | Password cannot be blank";
 
+            //Validate Username and password Entered
             if (null == Username)
                 return false;
             if (EnableLogin && null == Password)
@@ -287,6 +214,7 @@ namespace YesPojiQuota.ViewModels
 
             return uValid && pValid;
         }
+
         #endregion Methods
     }
 }
