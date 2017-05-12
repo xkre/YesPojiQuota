@@ -17,7 +17,7 @@ using YesPojiQuota.Utils;
 
 namespace YesPojiQuota.ViewModels
 {
-    public class AccountsViewModel : MainViewModel
+    public class AccountsPanelViewModel : MainViewModel
     {
         private YesContext _db;
 
@@ -30,7 +30,7 @@ namespace YesPojiQuota.ViewModels
             set => _accounts = value;
         }
 
-        public AccountsViewModel(YesContext db)
+        public AccountsPanelViewModel(YesContext db)
         {
             _db = db;
         }

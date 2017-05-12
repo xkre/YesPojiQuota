@@ -15,7 +15,7 @@ namespace YesPojiQuota.ViewModels
 {
     public class MainPageViewModel : MainViewModel
     {
-        private AccountsViewModel _accountsVM;
+        private AccountsPanelViewModel _accountsVM;
         private InnAppToastViewModel _inAppToastVM;
 
         private ILoginService _ls;
@@ -28,7 +28,7 @@ namespace YesPojiQuota.ViewModels
             ILoginService ls,
             INetworkService ns,
             IDialogService ds,
-            AccountsViewModel acsvm,
+            AccountsPanelViewModel acsvm,
             InnAppToastViewModel iatvm,
             YesContext db)
             : base(navS)
