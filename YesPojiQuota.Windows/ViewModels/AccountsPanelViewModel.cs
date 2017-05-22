@@ -45,6 +45,8 @@ namespace YesPojiQuota.ViewModels
                                   .Include(a => a.Quota)
                                   .OrderBy(a => a.Username);
 
+                _isLoaded = true;
+
                 foreach (var a in accounts)
                 {
                     var acvm = CreateAccountViewModel(a);
@@ -60,7 +62,7 @@ namespace YesPojiQuota.ViewModels
                     }
                 });
 
-                _isLoaded = true;
+                
             }
         }
 
@@ -74,8 +76,8 @@ namespace YesPojiQuota.ViewModels
 
                 Accounts.Add(acvm2);
 
-                SimpleIoc.Default.Unregister(acvm);
-                SimpleIoc.Default.Register(() => acvm2, acvm2.Id.ToString());
+                //SimpleIoc.Default.Unregister(acvm);
+                //SimpleIoc.Default.Register(() => acvm2, acvm2.Id.ToString());
 
                 acvm.Removed += AccountRemoved;
 
@@ -94,7 +96,8 @@ namespace YesPojiQuota.ViewModels
             if (a.Quota == null)
             {
                 //Should not happen - done as precaution
-                Debug.WriteLine("Debug:::: Entered a.Quota == null in CreateAccountViewModel");
+                Debug.WriteLine(@"Debug:::: Entered a.Quota == null in 
+                            CreateAccountViewModel ::: This should not happen");
                 a.Quota = new Quota() { AccountId = a.AccountId };
             }
 
@@ -103,7 +106,7 @@ namespace YesPojiQuota.ViewModels
 
         private void AccountRemoved(object source)
         {
-            Accounts.Remove(source as AccountViewModel);
+            Accounts.Remove((AccountViewModel)source);
         }
 
         public void RefreshQuota()
