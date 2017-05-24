@@ -62,7 +62,7 @@ namespace YesPojiQuota.ViewModels
                     }
                 });
 
-                
+
             }
         }
 
@@ -113,11 +113,18 @@ namespace YesPojiQuota.ViewModels
         {
             Task.Run(async () =>
             {
+                MessengerInstance.Send(new LoadingMessage()
+                    { IsLoading = true, Message = "Refreshing Quota" }
+                );
                 foreach (var acvm in Accounts)
                 {
                     await acvm.RefreshDataAsync();
                     await acvm.SaveDataIfNecessary();
                 }
+
+                MessengerInstance.Send(new LoadingMessage()
+                { IsLoading = false, Message = "Quota Refreshed" }
+                );
             });
         }
 
