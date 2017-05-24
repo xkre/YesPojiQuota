@@ -4,13 +4,15 @@ using GalaSoft.MvvmLight.Threading;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YesPojiQuota.Core.Enums;
-using YesPojiQuota.Core.Helpers;
 using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Models;
+using YesPojiQuota.Core.Observers;
 using YesPojiQuota.Core.Services;
+using YesPojiQuota.Utils;
 
 namespace YesPojiQuota.ViewModels
 {
@@ -19,12 +21,19 @@ namespace YesPojiQuota.ViewModels
         private INetworkService _ns;
         private ILoginService _ls;
         private YesSessionService _ys;
+        private NetworkChangeHandler _nch;
 
-        public InnAppToastViewModel(INetworkService ns, ILoginService ls, YesSessionService ys)
+        private IDisposable _messageTimer;
+
+        public SimpleEvent ShowSessionData;
+
+        public InnAppToastViewModel(INetworkService ns, ILoginService ls, 
+            YesSessionService ys, NetworkChangeHandler nch)
         {
             _ns = ns;
             _ls = ls;
             _ys = ys;
+            _nch = nch;
         }
 
         #region Properties
@@ -33,6 +42,13 @@ namespace YesPojiQuota.ViewModels
         {
             get { return _visiblilty; }
             set { Set("Visibility", ref _visiblilty, value); }
+        }
+
+        private string _status;
+        public string Status
+        {
+            get => _status; 
+            set => Set("Status", ref _status, value); 
         }
 
         private string _message;
@@ -85,24 +101,39 @@ namespace YesPojiQuota.ViewModels
         {
             await base.InitAsync();
 
-            Message = "Checking network status";
+            InitLoading();
 
-            _ns.NetworkChanged += ProcessNetworkNotification;
+            _nch.NetworkChanged += UpdateNetworkStatusDisplay;
             _ys.SessionUpdated += ProcessSessionUpdate;
 
-            await Task.Run(() =>
+            Task.Run(() =>
             {
-                _ns.CheckConnectionAsync();
-                _ns.StartMonitor();
+                _nch.Init();
                 _ys.StartMonitor();
             });
 
             Messenger.Default.Register<string>(this, HandleNotification);
             //TODO: Temporary   -- Seriously -------------------------------------
             Messenger.Default.Register<bool>(this, HandleNotification);
-            Messenger.Default.Register<LoadingMessage>(this, (message) =>
+            Messenger.Default.Register<LoadingMessage>(this, async (message) =>
             {
-                IsLoading = message.IsLoading;
+                _messageTimer?.Dispose();
+
+                await DispatcherHelper.RunAsync(() =>
+                {
+                    Message = message.Message;
+                    IsLoading = message.IsLoading;
+                });
+
+                _messageTimer = Observable.Timer(TimeSpan.FromSeconds(5)).Subscribe(async (x) =>
+                {
+                    await DispatcherHelper.RunAsync(() =>
+                    {
+                        Message = "";
+                        IsLoading = false;
+                    });
+
+                });
             });
             //Temporary   -- Seriously -------------------------------------
 
@@ -110,34 +141,37 @@ namespace YesPojiQuota.ViewModels
 
         public void InitLoading()
         {
-            Message = "Checking network status";
-            IsLoading = true;
+            DispatcherHelper.RunAsync(() =>
+            {
+                Message = "Checking network status";
+                IsLoading = true;
+            });
         }
 
         private void ProcessSessionUpdate(SessionData data)
         {
             #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             DispatcherHelper.RunAsync(() =>
-             {
+            {
                  Received = $"{(data.Received/1024):N3} MB";
-                 Sent = $"{(data.Sent/1024):N3} MB";
+                 Sent =     $"{(data.Sent/1024):N3} MB";
                  if (data.Time.Hours > 0)
                      TimeConnected = $"{data.Time.Hours} Hours {data.Time.Minutes:D2} Minutes";
                  else
                      TimeConnected = $"{data.Time.Minutes:D2} Minutes";
-             });
+            });
             #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
         }
 
         private void HandleNotification(string a)
         {
-            Message = a;
+            DispatcherHelper.RunAsync(() => Message = a);
         }
 
         private void HandleNotification(bool a)
         {
-            IsConnected = a;
+            DispatcherHelper.RunAsync(() => IsConnected = a);
         }
 
         public async void Logout()
@@ -155,30 +189,32 @@ namespace YesPojiQuota.ViewModels
             }
         }
 
-        public async void ProcessNetworkNotification(NetworkCondition condition)
+        private async void UpdateNetworkStatusDisplay(NetworkCondition condition)
         {
             await DispatcherHelper.RunAsync(() =>
             {
+                Message = "";
                 IsConnected = false;
                 switch (condition)
                 {
                     case NetworkCondition.Online:
-                        Message = "Connected";
+                        Status = "Connected";
                         IsConnected = true;
                         break;
                     case NetworkCondition.OnlineNotYes:
-                        Message = "Online, not on Yes Network";
+                        Status = "Online, not on Yes Network";
                         break;
                     case NetworkCondition.NotConnected:
-                        Message = "Not online";
+                        Status = "Not online";
                         break;
                     case NetworkCondition.YesWifiConnected:
-                        Message = "Login Required";
+                        Status = "Login Required";
                         break;
                 }
 
                 IsLoading = false;
             });
         }
+
     }
 }
