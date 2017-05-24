@@ -15,6 +15,8 @@ using YesPojiQuota.Core.Helpers;
 using YesPojiQuota.Core.Enums;
 using YesPojiQuota.Core.Models;
 using YesPojiQuota.Utils;
+using YesPojiQuota.Core.Observers;
+using GalaSoft.MvvmLight.Threading;
 
 namespace YesPojiQuota.ViewModels
 {
@@ -28,12 +30,14 @@ namespace YesPojiQuota.ViewModels
 
         private YesContext _db;
         private ILoginService _ls;
+        private NetworkChangeHandler _nch;
 
         #region Constructors
-        public AccountViewModel(YesContext db, ILoginService ls)
+        public AccountViewModel(YesContext db, ILoginService ls, NetworkChangeHandler nch)
         {
             _db = db;
             _ls = ls;
+            _nch = nch;
         }
 
         #endregion Constructors
@@ -111,9 +115,16 @@ namespace YesPojiQuota.ViewModels
             }
         }
 
-        public new bool CanLogin
+        public bool LoginEnabled
         {
             get => Password?.Length > 0;
+        }
+
+        private bool _canLogin;
+        public new bool CanLogin
+        {
+            get => _canLogin && LoginEnabled;
+            set => Set("CanLogin", ref _canLogin, value);
         }
 
         private bool _enableLogin;
@@ -128,7 +139,19 @@ namespace YesPojiQuota.ViewModels
         public override async Task InitAsync()
         {
             await base.InitAsync();
-            await Quota.InitAsync();
+
+            _nch.YesConnected += YesConnected;
+            _nch.YesDisconnected += YesDisconnected;
+        }
+
+        private void YesConnected()
+        {
+            DispatcherHelper.RunAsync(() => CanLogin = true);
+        }
+
+        private void YesDisconnected()
+        {
+            DispatcherHelper.RunAsync(() => CanLogin = false);
         }
 
 
