@@ -10,6 +10,9 @@ using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Enums;
 using YesPojiQuota.Core.Data;
 using Microsoft.EntityFrameworkCore;
+using YesPojiQuota.Core.Observers;
+using YesPojiQuota.Core.Helpers;
+using System.Diagnostics;
 
 namespace YesPojiQuota.ViewModels
 {
@@ -22,6 +25,9 @@ namespace YesPojiQuota.ViewModels
         private INetworkService _ns;
         private IDialogService _ds;
         private YesContext _db;
+        private NetworkChangeHandler _nch;
+
+        private bool _yesConnected = false;
 
         public MainPageViewModel(
             INavigationService navS,
@@ -30,6 +36,7 @@ namespace YesPojiQuota.ViewModels
             IDialogService ds,
             AccountsPanelViewModel acsvm,
             InnAppToastViewModel iatvm,
+            NetworkChangeHandler nch,
             YesContext db)
             : base(navS)
         {
@@ -37,6 +44,7 @@ namespace YesPojiQuota.ViewModels
             _ns = ns;
             _ds = ds;
             _db = db;
+            _nch = nch;
 
             _accountsVM = acsvm;
             _inAppToastVM = iatvm;
@@ -53,14 +61,21 @@ namespace YesPojiQuota.ViewModels
                 await base.InitAsync();
                 InitDatabase();
 
+                _nch.YesConnected += () =>
+                {
+                    _yesConnected = true;
+                    RefreshAccounts();
+                };
+                _nch.YesDisconnected += () => _yesConnected = false;
 
-                await _inAppToastVM.InitAsync();
                 await _accountsVM.InitAsync();
+                await _inAppToastVM.InitAsync();
                 await _ls.InitAsync();
 
                 IsInitialized = true;
             }
         }
+
 
         private void InitDatabase()
         {
@@ -93,21 +108,10 @@ namespace YesPojiQuota.ViewModels
             }
         }
 
-        public async void RefreshAccounts()
+        public void RefreshAccounts()
         {
-            if (_ns.NetworkType == NetworkCondition.NotConnected || _ns.NetworkType == NetworkCondition.OnlineNotYes)
-            {
-                _inAppToastVM.InitLoading();
-                if (await _ns.CheckConnectionAsync())
-                {
-                    _accountsVM.RefreshQuota();
-                }
-            }
-            else
-            {
+            if (_yesConnected)
                 _accountsVM.RefreshQuota();
-                Messenger.Default.Send("Quota Refreshed");
-            }
         }
 
         private RelayCommand _navigateToSettings;
