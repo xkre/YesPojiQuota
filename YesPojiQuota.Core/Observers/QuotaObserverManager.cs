@@ -65,13 +65,13 @@ namespace YesPojiQuota.Core.Observers
         {
             disposable?.Dispose();
 
-            var observable = Observable.Interval(TimeSpan.FromSeconds(10));
+            var observable = Observable.Interval(TimeSpan.FromMinutes(5));
 
             disposable = observable.Subscribe(x =>
             {
                 foreach (var a in _subscribed)
                 {
-                    a.Value.ToAsync();
+                    a.Value();
                 }
             });
         }

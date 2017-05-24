@@ -58,7 +58,6 @@ namespace YesPojiQuota.ViewModels
                     foreach (var acvm in Accounts)
                     {
                         await acvm.InitAsync();
-                        await acvm.SaveDataIfNecessary();
                     }
                 });
 
@@ -82,6 +81,7 @@ namespace YesPojiQuota.ViewModels
                 acvm.Removed += AccountRemoved;
 
                 await acvm2.InitAsync();
+                await acvm2.RefreshDataAsync();
                 await acvm2.SaveData();
             };
             return acvm;

@@ -142,6 +142,8 @@ namespace YesPojiQuota.ViewModels
 
             _nch.YesConnected += YesConnected;
             _nch.YesDisconnected += YesDisconnected;
+
+            await Quota.InitAsync();
         }
 
         private void YesConnected()

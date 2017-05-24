@@ -75,7 +75,6 @@ namespace YesPojiQuota.ViewModels
         public override async Task InitAsync()
         {
             SubscribeToQuotaChange();
-            await RefreshQuotaAsync();
         }
 
         public async Task SaveDataIfNecessary()
@@ -88,6 +87,8 @@ namespace YesPojiQuota.ViewModels
 
         public async Task SaveData()
         {
+            Debug.WriteLine($"Saving quota data for: {Quota.Account.Username}");
+
             var quota = _db.Quotas.Where(x => x.AccountId == _quota.AccountId).FirstOrDefault();
             if (quota != null)
             {
@@ -119,8 +120,9 @@ namespace YesPojiQuota.ViewModels
         {
             QuotaObserverManager.Instance.Subscribe(Quota.Account, async ()=> 
             {
-                Debug.WriteLine($"Attempting to refresh Quota for Account: {Quota.Account.Username}");
+                //Debug.WriteLine($"Attempting to refresh Quota for Account: {Quota.Account.Username}");
                 await RefreshQuotaAsync();
+                await SaveDataIfNecessary();
             });
         }
     }
