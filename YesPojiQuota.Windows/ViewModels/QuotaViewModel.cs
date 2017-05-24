@@ -4,12 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YesPojiQuota.Core.Data;
 using YesPojiQuota.Core.Enums;
 using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Models;
+using YesPojiQuota.Core.Observers;
 using YesPojiQuota.Core.Services;
 
 namespace YesPojiQuota.ViewModels
@@ -20,6 +22,7 @@ namespace YesPojiQuota.ViewModels
         private IQuotaService _qs;
 
         private bool _isChanged = false;
+        private IDisposable quotaObserver;
 
         public QuotaViewModel(YesContext db, IQuotaService qs)
         {
@@ -45,7 +48,7 @@ namespace YesPojiQuota.ViewModels
             get { return _available; }
             set
             {
-                Set("Avaliable", ref _available, value);
+                Set("Available", ref _available, value);
                 RaisePropertyChanged("QuotaString");
             }
         }
@@ -71,6 +74,7 @@ namespace YesPojiQuota.ViewModels
 
         public override async Task InitAsync()
         {
+            SubscribeToQuotaChange();
             await RefreshQuotaAsync();
         }
 
@@ -95,6 +99,7 @@ namespace YesPojiQuota.ViewModels
 
         public async Task RefreshQuotaAsync()
         {
+            Debug.WriteLine($"Refreshing quota for: {Quota.Account.Username}");
             try
             {
                 var available = await _qs.GetQuota(Quota.Account.Username);
@@ -104,11 +109,19 @@ namespace YesPojiQuota.ViewModels
                 Quota.Available = Available;
                 await DispatcherHelper.RunAsync(()=> Available = available);
             }
-            catch (Exception e)
+            catch
             {
-                Debug.WriteLine($"Exception in InitQuota()::: {e.StackTrace}");
-                throw e;
+                Debug.WriteLine($"Unable to refresh quota");
             }
+        }
+
+        private void SubscribeToQuotaChange()
+        {
+            QuotaObserverManager.Instance.Subscribe(Quota.Account, async ()=> 
+            {
+                Debug.WriteLine($"Attempting to refresh Quota for Account: {Quota.Account.Username}");
+                await RefreshQuotaAsync();
+            });
         }
     }
 }
