@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using YesPojiQuota.Core.Data;
 using YesPojiQuota.Core.Interfaces;
+using YesPojiQuota.Core.Observers;
 using YesPojiQuota.Core.Services;
 using YesPojiQuota.Views;
 
@@ -55,6 +56,7 @@ namespace YesPojiQuota.ViewModels
 
             SimpleIoc.Default.Register<YesSessionService>();
             SimpleIoc.Default.Register<YesContext>();
+            SimpleIoc.Default.Register<NetworkChangeHandler>();
         }
 
         //private async void Init()

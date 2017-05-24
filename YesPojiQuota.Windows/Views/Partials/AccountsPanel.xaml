@@ -64,7 +64,8 @@
                     <Button Content="Connect" Click="{x:Bind Login}"
                             Grid.Column="1" Grid.Row="1"  Grid.RowSpan="2"
                             HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
-                            IsEnabled="{x:Bind CanLogin, Mode=OneWay}" 
+                            IsEnabled="{x:Bind CanLogin, Mode=OneWay}"
+                            Visibility="{x:Bind LoginEnabled, Mode=OneWay}"
                             />
 
                 </Grid>
