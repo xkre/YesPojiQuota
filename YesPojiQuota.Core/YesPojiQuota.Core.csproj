@@ -127,10 +127,12 @@
     </Compile>
     <Compile Include="Migrations\YesContextModelSnapshot.cs" />
     <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\AppData.cs" />
     <Compile Include="Models\Quota.cs" />
     <Compile Include="Models\SessionData.cs" />
     <Compile Include="Observers\NetworkChangeHandler.cs" />
     <Compile Include="Observers\NetworkChangeObserver.cs" />
+    <Compile Include="Observers\QuotaObserverManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CustomNavigationService.cs" />
     <Compile Include="Services\DataService.cs" />
