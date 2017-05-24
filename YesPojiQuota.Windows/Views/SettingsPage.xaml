@@ -27,7 +27,33 @@
                     Settings
                 </PivotItem.Header>
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Dummy Settings" />
+                    <TextBlock Text="Note: These settings does nothing." />
+                    <TextBlock Text="Auto Refresh Settings" />
+
+                    <ToggleSwitch Header="Enable automatic quota refresh" x:Name="QuotaRefreshToggle" Margin="0 10 0 0"
+                                  IsOn="{x:Bind Vm.QuotaRefreshEnabled, Mode=TwoWay}"/>
+                    <TextBlock Text="Time interval for quota refresh" Margin="0 0 0 5"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox InputScope="Number" Text="{x:Bind Vm.QuotaRefreshInterval, Mode=TwoWay}"
+                                 IsEnabled="{Binding ElementName=QuotaRefreshToggle, Path=IsOn}"
+                                 Width="50" HorizontalAlignment="Left"
+                                 TextChanged="NumberTextBox_TextChanged"
+                        />
+                        <TextBlock Text="Minutes" VerticalAlignment="Center" Margin="10 0 0 0"/>
+                    </StackPanel>
+                    
+                    <ToggleSwitch Header="Enable quota session display" x:Name="SessionRefreshToggle" Margin="0 10 0 0"
+                                  IsOn="{x:Bind Vm.SessionEnabled, Mode=TwoWay}"/>
+                    <TextBlock Text="Time interval for session data refresh" Margin="0 0 0 5"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox InputScope="Number" Text="{x:Bind Vm.SessionRefreshInterval, Mode=TwoWay}"
+                                 IsEnabled="{Binding ElementName=SessionRefreshToggle, Path=IsOn}"
+                                 Width="50" HorizontalAlignment="Left"
+                                 TextChanged="NumberTextBox_TextChanged"
+                        />
+                        <TextBlock Text="Minutes" VerticalAlignment="Center" Margin="10 0 0 0"/>
+                    </StackPanel>
+
                 </StackPanel>
             </PivotItem>
             <PivotItem>
