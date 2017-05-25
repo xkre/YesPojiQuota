@@ -15,8 +15,8 @@ namespace YesPojiQuota.Core.Observers
         //TODO: Change the subscription strategy...
 
         private static QuotaObserverManager _instance;
-        private Dictionary<Account, Action> _subscribed;
-        private List<Action> _refreshTasks;
+        private Dictionary<Account, Func<Task>> _subscribed;
+        private List<Func<Task>> _refreshTasks;
 
         private NetworkChangeHandler _nch;
 
@@ -25,15 +25,13 @@ namespace YesPojiQuota.Core.Observers
 
         private QuotaObserverManager(NetworkChangeHandler nch)
         {
-            _subscribed = new Dictionary<Account, Action>();
-            _refreshTasks = new List<Action>();
+            _subscribed = new Dictionary<Account, Func<Task>>();
+            _refreshTasks = new List<Func<Task>>();
 
             _nch = nch;
 
             _nch.YesConnected += StartMonitor;
             _nch.YesDisconnected += StopMonitor;
-
-            StartMonitor();
         }
 
         public static QuotaObserverManager Instance
@@ -42,7 +40,7 @@ namespace YesPojiQuota.Core.Observers
                 ServiceLocator.Current.GetInstance<NetworkChangeHandler>()));
         }
 
-        public void Subscribe(Account a, Action b)
+        public void Subscribe(Account a, Func<Task> b)
         {
             if (_subscribed.ContainsKey(a))
             {
@@ -67,11 +65,11 @@ namespace YesPojiQuota.Core.Observers
 
             var observable = Observable.Interval(TimeSpan.FromMinutes(5));
 
-            disposable = observable.Subscribe(x =>
+            disposable = observable.Subscribe(async x =>
             {
                 foreach (var a in _subscribed)
                 {
-                    a.Value();
+                    await a.Value.Invoke();
                 }
             });
         }
