@@ -76,7 +76,7 @@ namespace YesPojiQuota.Core.Observers
 
         private void StopMonitor()
         {
-            disposable.Dispose();
+            disposable?.Dispose();
         }
 
     }
