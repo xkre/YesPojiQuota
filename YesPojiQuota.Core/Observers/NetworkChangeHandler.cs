@@ -39,8 +39,6 @@ namespace YesPojiQuota.Core.Observers
 
         public void Init()
         {
-            //_ys.SessionUpdated += ProcessSessionUpdate;
-
             StartNetworkMonitor();
             InitNetworkChange();
 
