@@ -57,6 +57,7 @@ namespace YesPojiQuota.ViewModels
             SimpleIoc.Default.Register<YesSessionService>();
             SimpleIoc.Default.Register<YesContext>();
             SimpleIoc.Default.Register<NetworkChangeHandler>();
+            SimpleIoc.Default.Register<YesSessionUpdater>();
         }
 
         //private async void Init()

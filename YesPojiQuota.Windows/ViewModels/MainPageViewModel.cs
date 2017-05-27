@@ -26,6 +26,7 @@ namespace YesPojiQuota.ViewModels
         private IDialogService _ds;
         private YesContext _db;
         private NetworkChangeHandler _nch;
+        private YesSessionUpdater _ysu;
 
         private bool _yesConnected = false;
 
@@ -37,6 +38,7 @@ namespace YesPojiQuota.ViewModels
             AccountsPanelViewModel acsvm,
             InnAppToastViewModel iatvm,
             NetworkChangeHandler nch,
+            YesSessionUpdater ysu,
             YesContext db)
             : base(navS)
         {
@@ -45,6 +47,7 @@ namespace YesPojiQuota.ViewModels
             _ds = ds;
             _db = db;
             _nch = nch;
+            _ysu = ysu;
 
             _accountsVM = acsvm;
             _inAppToastVM = iatvm;
@@ -65,12 +68,16 @@ namespace YesPojiQuota.ViewModels
                 {
                     _yesConnected = true;
                     RefreshAccounts();
+
+                    _ls.InitAsync();
                 };
                 _nch.YesDisconnected += () => _yesConnected = false;
 
                 await _accountsVM.InitAsync();
                 await _inAppToastVM.InitAsync();
-                await _ls.InitAsync();
+
+                _ysu.Init();
+                _nch.Init();
 
                 IsInitialized = true;
             }

@@ -20,15 +20,15 @@ namespace YesPojiQuota.ViewModels
     {
         private INetworkService _ns;
         private ILoginService _ls;
-        private YesSessionService _ys;
+        private YesSessionUpdater _ys;
         private NetworkChangeHandler _nch;
 
         private IDisposable _messageTimer;
 
         public SimpleEvent ShowSessionData;
 
-        public InnAppToastViewModel(INetworkService ns, ILoginService ls, 
-            YesSessionService ys, NetworkChangeHandler nch)
+        public InnAppToastViewModel(INetworkService ns, ILoginService ls,
+            YesSessionUpdater ys, NetworkChangeHandler nch)
         {
             _ns = ns;
             _ls = ls;
@@ -105,12 +105,6 @@ namespace YesPojiQuota.ViewModels
 
             _nch.NetworkChanged += UpdateNetworkStatusDisplay;
             _ys.SessionUpdated += ProcessSessionUpdate;
-
-            Task.Run(() =>
-            {
-                _nch.Init();
-                _ys.StartMonitor();
-            });
 
             Messenger.Default.Register<string>(this, HandleNotification);
             //TODO: Temporary   -- Seriously -------------------------------------
