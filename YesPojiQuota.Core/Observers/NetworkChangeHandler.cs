@@ -42,7 +42,7 @@ namespace YesPojiQuota.Core.Observers
         public void Init()
         {
             StartNetworkMonitor();
-            InitNetworkChange();
+            InitNetworkChangeMonitor();
 
             Debug.WriteLine("Initialized NetworkChangeHandler");
         }
@@ -104,7 +104,7 @@ namespace YesPojiQuota.Core.Observers
             ProcessNetworkChange(network);
         }
 
-        private void InitNetworkChange()
+        private void InitNetworkChangeMonitor()
         {
             NetworkInformation.NetworkStatusChanged += CheckNetworkCondition;
                 //{

@@ -4,15 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Views;
-using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Command;
 using YesPojiQuota.Core.Interfaces;
-using YesPojiQuota.Core.Enums;
 using YesPojiQuota.Core.Data;
 using Microsoft.EntityFrameworkCore;
 using YesPojiQuota.Core.Observers;
-using YesPojiQuota.Core.Helpers;
 using System.Diagnostics;
+
 
 namespace YesPojiQuota.ViewModels
 {
@@ -61,25 +59,35 @@ namespace YesPojiQuota.ViewModels
         {
             if (!IsInitialized)
             {
-                await base.InitAsync();
-                InitDatabase();
-
-                _nch.YesConnected += () =>
+                await Task.Run(async() =>
                 {
-                    _yesConnected = true;
-                    RefreshAccounts();
+                    Stopwatch s1 = new Stopwatch();
+                    s1.Start();
 
-                    _ls.InitAsync();
-                };
-                _nch.YesDisconnected += () => _yesConnected = false;
+                    await base.InitAsync();
+                    InitDatabase();
 
-                await _accountsVM.InitAsync();
-                await _inAppToastVM.InitAsync();
+                    _nch.YesConnected += () =>
+                    {
+                        _yesConnected = true;
+                        RefreshAccounts();
 
-                _ysu.Init();
-                _nch.Init();
+                        _ls.InitAsync();
+                    };
+                    _nch.YesDisconnected += () => _yesConnected = false;
 
-                IsInitialized = true;
+                    await _accountsVM.InitAsync();
+                    await _inAppToastVM.InitAsync();
+
+                    _ysu.Init();
+                    _nch.Init();
+
+                    IsInitialized = true;
+                    s1.Stop();
+
+                    Debug.WriteLine($"Main Init completed in: {s1.Elapsed}");
+                });
+                
             }
         }
 

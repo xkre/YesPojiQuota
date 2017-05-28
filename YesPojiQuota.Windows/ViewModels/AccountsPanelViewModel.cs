@@ -50,18 +50,9 @@ namespace YesPojiQuota.ViewModels
                 foreach (var a in accounts)
                 {
                     var acvm = CreateAccountViewModel(a);
-                    Accounts.Add(acvm);
+                    DispatcherHelper.RunAsync(()=> Accounts.Add(acvm));
+                    await acvm.InitAsync();
                 }
-
-                await Task.Run(async () =>
-                {
-                    foreach (var acvm in Accounts)
-                    {
-                        await acvm.InitAsync();
-                    }
-                });
-
-
             }
         }
 
