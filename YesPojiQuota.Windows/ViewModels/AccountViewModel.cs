@@ -215,6 +215,17 @@ namespace YesPojiQuota.ViewModels
             Removed(this);
         }
 
+        public void RefreshCanConnectProperty()
+        {
+            var currentConnectivity = _nch.CurrentNetwork;
+
+            if (currentConnectivity == NetworkCondition.YesWifiConnected ||
+                currentConnectivity == NetworkCondition.Online)
+            {
+                DispatcherHelper.RunAsync(()=> CanLogin = true);
+            }
+        }
+
         private bool Validate(out string error)
         {
             error = "Username | Password cannot be blank";

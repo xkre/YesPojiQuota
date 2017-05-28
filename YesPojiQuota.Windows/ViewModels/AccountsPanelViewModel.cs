@@ -83,6 +83,8 @@ namespace YesPojiQuota.ViewModels
                 await acvm2.InitAsync();
                 await acvm2.RefreshDataAsync();
                 await acvm2.SaveData();
+
+                acvm2.RefreshCanConnectProperty();
             };
             return acvm;
         }

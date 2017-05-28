@@ -37,6 +37,8 @@ namespace YesPojiQuota.Core.Observers
             _currentNetwork = NetworkCondition.Undetermined;
         }
 
+        public NetworkCondition CurrentNetwork => _currentNetwork;
+
         public void Init()
         {
             StartNetworkMonitor();
