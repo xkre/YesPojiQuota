@@ -131,7 +131,6 @@
     <Compile Include="Models\Quota.cs" />
     <Compile Include="Models\SessionData.cs" />
     <Compile Include="Observers\NetworkChangeHandler.cs" />
-    <Compile Include="Observers\NetworkChangeObserver.cs" />
     <Compile Include="Observers\QuotaObserverManager.cs" />
     <Compile Include="Observers\YesSessionUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
