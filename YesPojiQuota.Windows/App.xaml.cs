@@ -24,7 +24,6 @@ using Windows.UI.Popups;
 using Windows.Foundation.Metadata;
 using Windows.UI.ViewManagement;
 using Windows.UI;
-using YesPojiQuota.Utils;
 
 namespace YesPojiQuota
 {
@@ -47,10 +46,13 @@ namespace YesPojiQuota
         private async void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             e.Handled = true;
-            await new MessageDialog("Application Unhandled Exception:\r\n" + e.Exception.Message, "Error :(")
-                .ShowAsync();
-            e.Handled = false;
+            await DispatcherHelper.RunAsync(async () =>
+            {
+                await new MessageDialog("Application Unhandled Exception:\r\n" + e.Exception.Message, "Error :(")
+                    .ShowAsync();
 
+                e.Handled = false;
+            });
         }
 
         /// <summary>
@@ -69,8 +71,6 @@ namespace YesPojiQuota
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
-
-                
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
@@ -96,8 +96,6 @@ namespace YesPojiQuota
                 Window.Current.Activate();
             }
 
-
-            
             Messenger.Default.Register<NotificationMessageAction<string>>(this, HandleNotification);
             InitializeUi();
         }
@@ -154,7 +152,5 @@ namespace YesPojiQuota
                 ApplicationView.GetForCurrentView().TitleBar.ButtonBackgroundColor = color;
             }
         }
-
-
     }
 }
