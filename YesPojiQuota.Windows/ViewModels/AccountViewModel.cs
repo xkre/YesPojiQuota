@@ -88,7 +88,7 @@ namespace YesPojiQuota.ViewModels
         {
             get
             {
-                return new string [] {
+                return new string[] {
                     "Student (@live.utm.my)",
                     "Staff (@utm.my)"
                 }.ToList();

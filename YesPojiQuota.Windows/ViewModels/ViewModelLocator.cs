@@ -92,9 +92,4 @@ namespace YesPojiQuota.ViewModels
             throw new NotImplementedException();
         }
     }
-
-    public static class ViewModelKeys
-    {
-        public const string SETTINGS_PAGE = "SettingsPage";
-    }
 }

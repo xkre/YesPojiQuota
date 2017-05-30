@@ -121,7 +121,6 @@ namespace YesPojiQuota.ViewModels
                         Message = "";
                         IsLoading = false;
                     });
-
                 });
             });
             ////Temporary   -- Seriously -------------------------------------

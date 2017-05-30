@@ -128,7 +128,7 @@ namespace YesPojiQuota
         {
             //message.Execute("Success from <App.xaml>");
             var dialog = ServiceLocator.Current.GetInstance<IDialogService>();
-            DispatcherHelper.RunAsync(()=> dialog.ShowMessage(message.Notification, "Message"));
+            DispatcherHelper.RunAsync(() => dialog.ShowMessage(message.Notification, "Message"));
         }
 
         private async void InitializeUi()
