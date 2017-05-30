@@ -126,14 +126,15 @@ namespace YesPojiQuota
 
         private void HandleNotification(NotificationMessageAction<string> message)
         {
-            message.Execute("Success from <App.xaml>");
+            //message.Execute("Success from <App.xaml>");
             var dialog = ServiceLocator.Current.GetInstance<IDialogService>();
-            dialog.ShowMessage(message.Notification, "Message");
+            DispatcherHelper.RunAsync(()=> dialog.ShowMessage(message.Notification, "Message"));
+            
         }
 
         private async void InitializeUi()
         {
-            // If we have a phone contract, hide the status bar
+            // Phone status bar settings
             if (ApiInformation.IsApiContractPresent("Windows.Phone.PhoneContract", 1, 0))
             {
                 Color color = (Color)App.Current.Resources["SystemAccentColorDark1"];
