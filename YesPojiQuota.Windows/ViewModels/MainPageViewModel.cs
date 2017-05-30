@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 using YesPojiQuota.Core.Observers;
 using System.Diagnostics;
 
-
 namespace YesPojiQuota.ViewModels
 {
     public class MainPageViewModel : MainViewModel
@@ -59,7 +58,7 @@ namespace YesPojiQuota.ViewModels
         {
             if (!IsInitialized)
             {
-                await Task.Run(async() =>
+                await Task.Run(async () =>
                 {
                     Stopwatch s1 = new Stopwatch();
                     s1.Start();
@@ -87,10 +86,8 @@ namespace YesPojiQuota.ViewModels
 
                     Debug.WriteLine($"Main Init completed in: {s1.Elapsed}");
                 });
-                
             }
         }
-
 
         private void InitDatabase()
         {

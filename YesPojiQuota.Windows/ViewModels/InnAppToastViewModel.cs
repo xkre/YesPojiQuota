@@ -25,8 +25,6 @@ namespace YesPojiQuota.ViewModels
 
         private IDisposable _messageTimer;
 
-        public SimpleEvent ShowSessionData;
-
         public InnAppToastViewModel(INetworkService ns, ILoginService ls,
             YesSessionUpdater ys, NetworkChangeHandler nch)
         {
@@ -92,9 +90,6 @@ namespace YesPojiQuota.ViewModels
             get { return _timeConnected; }
             set { Set("TimeConnected", ref _timeConnected, value); }
         }
-
-
-
         #endregion Properties
 
         public override async Task InitAsync()
@@ -129,8 +124,7 @@ namespace YesPojiQuota.ViewModels
 
                 });
             });
-            //Temporary   -- Seriously -------------------------------------
-
+            ////Temporary   -- Seriously -------------------------------------
         }
 
         public void InitLoading()
@@ -155,7 +149,6 @@ namespace YesPojiQuota.ViewModels
                      TimeConnected = $"{data.Time.Minutes:D2} Minutes";
             });
             #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-
         }
 
         private void HandleNotification(string a)
@@ -209,6 +202,5 @@ namespace YesPojiQuota.ViewModels
                 IsLoading = false;
             });
         }
-
     }
 }
