@@ -12,7 +12,7 @@ namespace YesPojiQuota.Core.Observers
 {
     public class QuotaObserverManager
     {
-        //TODO: Change the subscription strategy...
+        ////TODO: Change the subscription strategy...
 
         private static QuotaObserverManager _instance;
         private Dictionary<Account, Func<Task>> _subscribed;
@@ -49,7 +49,6 @@ namespace YesPojiQuota.Core.Observers
             }
 
             //var observable = Observable.Interval(TimeSpan.FromMinutes(1));
-
             //var disp = observable.Subscribe(x => {
             //    if (_yesConnected)
             //        b();
@@ -73,11 +72,9 @@ namespace YesPojiQuota.Core.Observers
                 }
             });
         }
-
         private void StopMonitor()
         {
             disposable?.Dispose();
         }
-
     }
 }

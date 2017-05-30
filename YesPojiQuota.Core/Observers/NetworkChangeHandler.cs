@@ -84,7 +84,6 @@ namespace YesPojiQuota.Core.Observers
             }
         }
 
-
         /// <summary>
         /// Network monitor by timer
         /// </summary>
@@ -112,10 +111,7 @@ namespace YesPojiQuota.Core.Observers
                 //    //var isConnected = (profile != null
                 //    //    && profile.GetNetworkConnectivityLevel() ==
                 //    //    NetworkConnectivityLevel.InternetAccess);
-
-
             //};
         }
     }
 }
-

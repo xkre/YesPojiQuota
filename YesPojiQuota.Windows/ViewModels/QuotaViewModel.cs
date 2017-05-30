@@ -41,11 +41,10 @@ namespace YesPojiQuota.ViewModels
             }
         }
 
-
         private double _available;
         public double Available
         {
-            get { return _available; }
+            get => _available;
             set
             {
                 Set("Available", ref _available, value);
@@ -61,8 +60,6 @@ namespace YesPojiQuota.ViewModels
         }
 
         private bool IsChanged { get; set; }
-
-
 
         public void QueueSaveQuota(double available)
         {
@@ -97,7 +94,6 @@ namespace YesPojiQuota.ViewModels
             }
         }
 
-
         public async Task RefreshQuotaAsync()
         {
             Debug.WriteLine($"Refreshing quota for: {Quota.Account.Username}");
@@ -108,7 +104,7 @@ namespace YesPojiQuota.ViewModels
                 _isChanged = available != Available;
 
                 Quota.Available = Available;
-                await DispatcherHelper.RunAsync(()=> Available = available);
+                await DispatcherHelper.RunAsync(() => Available = available);
             }
             catch
             {
@@ -118,7 +114,7 @@ namespace YesPojiQuota.ViewModels
 
         private void SubscribeToQuotaChange()
         {
-            QuotaObserverManager.Instance.Subscribe(Quota.Account, async ()=> 
+            QuotaObserverManager.Instance.Subscribe(Quota.Account, async () => 
             {
                 //Debug.WriteLine($"Attempting to refresh Quota for Account: {Quota.Account.Username}");
                 await RefreshQuotaAsync();

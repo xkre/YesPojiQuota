@@ -16,7 +16,6 @@ namespace YesPojiQuota.Core.Services
 {
     public class NetworkService : INetworkService
     {
-        private IDisposable _timer;
         private YesSessionService _yss;
 
         public NetworkService(YesSessionService ys)
@@ -112,25 +111,27 @@ namespace YesPojiQuota.Core.Services
             return await _yss.IsConnectedToYesAsync();
         }
 
-        //public void StartMonitor()
-        //{
-        //    StartMonitor(5, 30);
-        //}
+        /*
+        public void StartMonitor()
+        {
+            StartMonitor(5, 30);
+        }
 
-        //public void StartMonitor(int start, int interval)
-        //{
-        //    var obs = Observable.Timer(TimeSpan.FromMinutes(start), TimeSpan.FromMinutes(interval));
+        public void StartMonitor(int start, int interval)
+        {
+            var obs = Observable.Timer(TimeSpan.FromMinutes(start), TimeSpan.FromMinutes(interval));
 
-        //    _timer = obs.Subscribe(x =>
-        //    {
-        //        CheckConnectionAsync();
-        //    });
-        //}
+            _timer = obs.Subscribe(x =>
+            {
+                CheckConnectionAsync();
+            });
+        }
 
-        //public void StopMonitor()
-        //{
-        //    _timer?.Dispose();
-        //}
+        public void StopMonitor()
+        {
+            _timer?.Dispose();
+        }
+        */
 
         public bool IsConnected()
         {

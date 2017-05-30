@@ -30,7 +30,6 @@ namespace YesPojiQuota.Views.Partials
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            
         }
 
         //private async void DeleteContextMenu_Click(object sender, RoutedEventArgs e)

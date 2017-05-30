@@ -20,9 +20,6 @@ namespace YesPojiQuota.Core.Services
 
         //private SessionData _lastSession;
 
-
-
-
         public async Task<SessionData> GetSessionData()
         {
             SessionData session;
@@ -39,8 +36,6 @@ namespace YesPojiQuota.Core.Services
 
             return session;
         }
-
-
 
         public async Task<bool> IsConnectedToYesAsync()
         {
@@ -59,10 +54,8 @@ namespace YesPojiQuota.Core.Services
                 {
                     throw new YesNotConnectedException("Not Connected to yes network");
                 }
-                
             }
         }
-
 
         private SessionData ParseSession(string rawHtml)
         {
@@ -92,6 +85,5 @@ namespace YesPojiQuota.Core.Services
                 return null;
             }
         }
-
     }
 }
