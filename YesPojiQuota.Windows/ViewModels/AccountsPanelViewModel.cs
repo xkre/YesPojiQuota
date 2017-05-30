@@ -66,9 +66,6 @@ namespace YesPojiQuota.ViewModels
 
                 Accounts.Add(acvm2);
 
-                //SimpleIoc.Default.Unregister(acvm);
-                //SimpleIoc.Default.Register(() => acvm2, acvm2.Id.ToString());
-
                 acvm.Removed += AccountRemoved;
 
                 await acvm2.InitAsync();
@@ -116,12 +113,9 @@ namespace YesPojiQuota.ViewModels
                 }
 
                 MessengerInstance.Send(new LoadingMessage()
-                { IsLoading = false, Message = "Quota Refreshed" }
+                    { IsLoading = false, Message = "Quota Refreshed" }
                 );
             });
         }
-
     }
-
-
 }
