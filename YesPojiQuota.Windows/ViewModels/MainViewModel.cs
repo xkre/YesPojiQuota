@@ -103,6 +103,11 @@ namespace YesPojiQuota.ViewModels
             Messenger.Default.Send(new NotificationMessageAction<string>(message, action));
         }
 
+        protected void SetLoadingMessage(string message)
+        {
+            Messenger.Default.Send(new LoadingMessage() { IsLoading = true, Message = message });
+        }
+
         internal void BackRequested(object sender, BackRequestedEventArgs e)
         {
             var nav = (ICustomNavigationService)_navigationService;

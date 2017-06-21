@@ -163,6 +163,7 @@ namespace YesPojiQuota.ViewModels
 
         public async void Logout()
         {
+            SetLoadingMessage("Logging out");
             var success = await _ls.LogoutAsync();
 
             if (success)
@@ -174,6 +175,8 @@ namespace YesPojiQuota.ViewModels
             {
                 Message = "Logout Not Successfull";
             }
+
+            IsLoading = false;
         }
 
         private async void UpdateNetworkStatusDisplay(NetworkCondition condition)
@@ -210,6 +213,7 @@ namespace YesPojiQuota.ViewModels
             {
                 Message = "Login Success";
                 IsConnected = true;
+                IsLoading = false;
             });
         }
 
@@ -219,7 +223,7 @@ namespace YesPojiQuota.ViewModels
             await DispatcherHelper.RunAsync(() =>
             {
                 Message = $"Login Not Successful - {reason.ToString()}";
-
+                IsLoading = false;
             });
         }
     }
