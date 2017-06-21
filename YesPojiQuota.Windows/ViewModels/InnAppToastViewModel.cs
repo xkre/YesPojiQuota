@@ -96,10 +96,13 @@ namespace YesPojiQuota.ViewModels
         {
             await base.InitAsync();
 
-            InitLoading();
+            await InitLoading();
 
             _nch.NetworkChanged += UpdateNetworkStatusDisplay;
             _ys.SessionUpdated += ProcessSessionUpdate;
+
+            _ls.OnLoginFailed += ProcessLoginFail;
+            _ls.OnLoginSuccess += ProcessLoginSuccess;
 
             Messenger.Default.Register<string>(this, HandleNotification);
             //TODO: Temporary   -- Seriously -------------------------------------
@@ -126,9 +129,9 @@ namespace YesPojiQuota.ViewModels
             ////Temporary   -- Seriously -------------------------------------
         }
 
-        public void InitLoading()
+        public async Task InitLoading()
         {
-            DispatcherHelper.RunAsync(() =>
+            await DispatcherHelper.RunAsync(() =>
             {
                 Message = "Checking network status";
                 IsLoading = true;
@@ -197,6 +200,26 @@ namespace YesPojiQuota.ViewModels
                 }
 
                 IsLoading = false;
+            });
+        }
+
+        private async void ProcessLoginSuccess()
+        {
+            //TODO: Show session data
+            await DispatcherHelper.RunAsync(() => 
+            {
+                Message = "Login Success";
+                IsConnected = true;
+            });
+        }
+
+        private async void ProcessLoginFail(LoginFailureReason reason)
+        {
+            //TODO: Show Login fail message
+            await DispatcherHelper.RunAsync(() =>
+            {
+                Message = $"Login Not Successful - {reason.ToString()}";
+
             });
         }
     }
