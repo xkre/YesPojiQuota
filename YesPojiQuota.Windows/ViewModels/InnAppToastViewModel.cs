@@ -140,12 +140,10 @@ namespace YesPojiQuota.ViewModels
             #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             DispatcherHelper.RunAsync(() =>
             {
-                 Received = $"{(data.Received/1024):N3} MB";
-                 Sent =     $"{(data.Sent/1024):N3} MB";
-                 if (data.Time.Hours > 0)
-                     TimeConnected = $"{data.Time.Hours} Hours {data.Time.Minutes:D2} Minutes";
-                 else
-                     TimeConnected = $"{data.Time.Minutes:D2} Minutes";
+                 Received      = $"{(data.Received / 1024):N3} MB";
+                 Sent          = $"{(data.Sent     / 1024):N3} MB";
+                 TimeConnected = data.Time.Hours > 0 ? $"{data.Time.Hours} Hours {data.Time.Minutes:D2} Minutes" 
+                                                     : $"{data.Time.Minutes:D2} Minutes";
             });
             #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
