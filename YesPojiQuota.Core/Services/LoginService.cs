@@ -13,6 +13,7 @@ using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Data;
 using Microsoft.Practices.ServiceLocation;
 using YesPojiQuota.Core.Models;
+using YesPojiQuota.Core.Enums;
 
 namespace YesPojiQuota.Core.Services
 {
@@ -21,6 +22,9 @@ namespace YesPojiQuota.Core.Services
         private const string PORTAL_TEST_URL = "http://detectportal.firefox.com/success.txt";
         private const string LOGOUT_URL = "http://ap.logout";
         private const string LOGIN_URL = "https://apc.aptilo.com/cgi-bin/login";
+
+        public event LoginFailedEvent OnLoginFailed;
+        public event SimpleEvent OnLoginSuccess;
 
         private string key;
         private string rawHtml;
@@ -57,18 +61,22 @@ namespace YesPojiQuota.Core.Services
 
                     if (success)
                     {
-                        Messenger.Default.Send("Login Success");
-                        Messenger.Default.Send(true);
+                        OnLoginSuccess();
                     }
                     else
-                        Messenger.Default.Send("Login Failed");
+                    {
+                        var failReason = ParseFailReason(rawHtml);
+                        OnLoginFailed(failReason);
+                    }
 
                     return success;
                 }
                 catch (HttpRequestException ex)
                 {
+                    var failReason = (LoginFailureReason)100;
+                    OnLoginFailed(failReason);
+
                     Debug.WriteLine($"Exception {ex}");
-                    Messenger.Default.Send("Login Failed");
                 }
             }
 
@@ -95,8 +103,7 @@ namespace YesPojiQuota.Core.Services
                 }
                 catch (HttpRequestException ex)
                 {
-                    Debug.WriteLine($"Exception {ex}");
-                    Messenger.Default.Send("Logout Failed");
+                    Debug.WriteLine($"Exception {ex} on LogoutAsync()");
                 }
             }
 
@@ -113,8 +120,6 @@ namespace YesPojiQuota.Core.Services
 
         private async Task<bool> TryGetLoginPortalAsync()
         {
-            string rawHtml = String.Empty;
-
             using (var client = new HttpClient())
             {
                 try
@@ -157,6 +162,21 @@ namespace YesPojiQuota.Core.Services
             theKey = Regex.Match(theKey, @"key=([^)]*)\&").Groups[1].Value;
 
             return theKey;
+        }
+
+        private LoginFailureReason ParseFailReason(string rawHTML)
+        {
+            //Searches for parseCause( and get the value after it
+            //Might be better for performance to separate the html by line first.
+            var reason = Regex.Match(rawHTML, @"parseCause\(([^)]*)").Groups[1].Value;
+
+            //Remove "
+            reason = reason.Replace('\"', ' ');
+            reason = reason.Trim();
+
+            LoginFailureReason parsedReason = (LoginFailureReason)int.Parse(reason);
+
+            return parsedReason;
         }
     }
 }
