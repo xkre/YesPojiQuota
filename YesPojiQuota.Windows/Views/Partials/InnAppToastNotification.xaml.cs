@@ -20,6 +20,8 @@ namespace YesPojiQuota.Views.Partials
 {
     public sealed partial class InnAppToastNotification : UserControl
     {
+        private bool _isAnimating;
+
         public InnAppToastViewModel Vm => (InnAppToastViewModel)DataContext;
 
         public InnAppToastNotification()
@@ -29,10 +31,24 @@ namespace YesPojiQuota.Views.Partials
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            if (_isAnimating)
+                return;
+
+            _isAnimating = true;
+
             if (SessionGrid.Visibility == Visibility.Collapsed)
-                SessionGrid.Visibility = Visibility.Visible;
+            {
+                SessionGridEnter.Begin();
+            }
             else
-                SessionGrid.Visibility = Visibility.Collapsed;
+            {
+                SessionGridExit.Begin();
+            }
+        }
+
+        private void AnimationCompleted(object sender, object e)
+        {
+            _isAnimating = false;
         }
     }
 }
