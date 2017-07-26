@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="Data\YesContext.cs" />
     <Compile Include="Enums\AccountType.cs" />
+    <Compile Include="Enums\LoginFailureReason.cs" />
     <Compile Include="Enums\NetworkCondition.cs" />
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\EncryptionHelper.cs" />

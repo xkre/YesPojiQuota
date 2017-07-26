@@ -20,14 +20,16 @@ namespace YesPojiQuota.ViewModels
     {
         private YesContext _db;
         private IQuotaService _qs;
+        private QuotaObserverManager _qom;
 
         private bool _isChanged = false;
         private IDisposable quotaObserver;
 
-        public QuotaViewModel(YesContext db, IQuotaService qs)
+        public QuotaViewModel(YesContext db, IQuotaService qs, QuotaObserverManager qom)
         {
             _db = db;
             _qs = qs;
+            _qom = qom;
         }
 
         private Quota _quota;
@@ -114,7 +116,7 @@ namespace YesPojiQuota.ViewModels
 
         private void SubscribeToQuotaChange()
         {
-            QuotaObserverManager.Instance.Subscribe(Quota.Account, async () => 
+            _qom.Subscribe(Quota.Account, async () => 
             {
                 //Debug.WriteLine($"Attempting to refresh Quota for Account: {Quota.Account.Username}");
                 await RefreshQuotaAsync();

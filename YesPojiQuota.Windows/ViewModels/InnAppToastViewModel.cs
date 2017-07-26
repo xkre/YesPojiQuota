@@ -96,10 +96,13 @@ namespace YesPojiQuota.ViewModels
         {
             await base.InitAsync();
 
-            InitLoading();
+            await InitLoading();
 
             _nch.NetworkChanged += UpdateNetworkStatusDisplay;
             _ys.SessionUpdated += ProcessSessionUpdate;
+
+            _ls.OnLoginFailed += ProcessLoginFail;
+            _ls.OnLoginSuccess += ProcessLoginSuccess;
 
             Messenger.Default.Register<string>(this, HandleNotification);
             //TODO: Temporary   -- Seriously -------------------------------------
@@ -126,9 +129,9 @@ namespace YesPojiQuota.ViewModels
             ////Temporary   -- Seriously -------------------------------------
         }
 
-        public void InitLoading()
+        public async Task InitLoading()
         {
-            DispatcherHelper.RunAsync(() =>
+            await DispatcherHelper.RunAsync(() =>
             {
                 Message = "Checking network status";
                 IsLoading = true;
@@ -140,12 +143,10 @@ namespace YesPojiQuota.ViewModels
             #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             DispatcherHelper.RunAsync(() =>
             {
-                 Received = $"{(data.Received/1024):N3} MB";
-                 Sent =     $"{(data.Sent/1024):N3} MB";
-                 if (data.Time.Hours > 0)
-                     TimeConnected = $"{data.Time.Hours} Hours {data.Time.Minutes:D2} Minutes";
-                 else
-                     TimeConnected = $"{data.Time.Minutes:D2} Minutes";
+                 Received      = $"{(data.Received / 1024):N3} MB";
+                 Sent          = $"{(data.Sent     / 1024):N3} MB";
+                 TimeConnected = data.Time.Hours > 0 ? $"{data.Time.Hours} Hours {data.Time.Minutes:D2} Minutes" 
+                                                     : $"{data.Time.Minutes:D2} Minutes";
             });
             #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
@@ -162,6 +163,7 @@ namespace YesPojiQuota.ViewModels
 
         public async void Logout()
         {
+            SetLoadingMessage("Logging out");
             var success = await _ls.LogoutAsync();
 
             if (success)
@@ -173,6 +175,8 @@ namespace YesPojiQuota.ViewModels
             {
                 Message = "Logout Not Successfull";
             }
+
+            IsLoading = false;
         }
 
         private async void UpdateNetworkStatusDisplay(NetworkCondition condition)
@@ -198,6 +202,27 @@ namespace YesPojiQuota.ViewModels
                         break;
                 }
 
+                IsLoading = false;
+            });
+        }
+
+        private async void ProcessLoginSuccess()
+        {
+            //TODO: Show session data
+            await DispatcherHelper.RunAsync(() => 
+            {
+                Message = "Login Success";
+                IsConnected = true;
+                IsLoading = false;
+            });
+        }
+
+        private async void ProcessLoginFail(LoginFailureReason reason)
+        {
+            //TODO: Show Login fail message
+            await DispatcherHelper.RunAsync(() =>
+            {
+                Message = $"Login Not Successful - {reason.ToString()}";
                 IsLoading = false;
             });
         }

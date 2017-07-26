@@ -195,12 +195,8 @@ namespace YesPojiQuota.ViewModels
 
         public async void Login()
         {
-            Messenger.Default.Send(new LoadingMessage() { IsLoading = true, Message = "Logging in" });
+            SetLoadingMessage("Logging In");
             var a = await _ls.LoginAsync(Username, EncryptionHelper.AES_Decrypt(Password, Username));
-            if (a)
-                Messenger.Default.Send(new LoadingMessage() { IsLoading = false, Message = "Successful log in" });
-            else
-                Messenger.Default.Send(new LoadingMessage() { IsLoading = false, Message = "fail log in" });
         }
 
         public async void Remove()
