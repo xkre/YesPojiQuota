@@ -64,16 +64,9 @@ namespace YesPojiQuota.ViewModels
                     s1.Start();
 
                     await base.InitAsync();
+
                     InitDatabase();
-
-                    _nch.YesConnected += () =>
-                    {
-                        _yesConnected = true;
-                        RefreshAccounts();
-
-                        _ls.InitAsync();
-                    };
-                    _nch.YesDisconnected += () => _yesConnected = false;
+                    InitYesConnectionEventsHandler();
 
                     await _accountsVM.InitAsync();
                     await _inAppToastVM.InitAsync();
@@ -87,6 +80,18 @@ namespace YesPojiQuota.ViewModels
                     Debug.WriteLine($"Main Init completed in: {s1.Elapsed}");
                 });
             }
+        }
+
+        private void InitYesConnectionEventsHandler()
+        {
+            _nch.YesConnected += () =>
+            {
+                _yesConnected = true;
+                RefreshAccounts();
+
+                _ls.InitAsync();
+            };
+            _nch.YesDisconnected += () => _yesConnected = false;
         }
 
         private void InitDatabase()
