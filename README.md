@@ -1,6 +1,6 @@
 # YesPojiQuota
 
-[![CodeFactor](https://www.codefactor.io/repository/github/xkre/yespojiquota/badge)](https://www.codefactor.io/repository/github/xkre/yespojiquota)
+[![CodeFactor](https://www.codefactor.io/repository/github/xkre/yespojiquota/badge/develop)](https://www.codefactor.io/repository/github/xkre/yespojiquota/overview/develop)
 
 YesPojiQuota
 
