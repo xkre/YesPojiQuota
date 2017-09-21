@@ -196,7 +196,11 @@ namespace YesPojiQuota.ViewModels
         public async void Login()
         {
             SetLoadingMessage("Logging In");
-            var a = await _ls.LoginAsync(Username, EncryptionHelper.AES_Decrypt(Password, Username));
+
+            Account unencryptedAccount = Account;
+            unencryptedAccount.Password = EncryptionHelper.AES_Decrypt(Password, Username);
+
+            await _ls.LoginAsync(unencryptedAccount);
         }
 
         public async void Remove()

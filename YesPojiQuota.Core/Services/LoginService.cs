@@ -36,22 +36,52 @@ namespace YesPojiQuota.Core.Services
             _ns = ns;
         }
 
-        public async Task<bool> LoginAsync(string username, string password)
+        public async Task LoginAsync(string username, string password)
+        {
+
+            var content = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string, string>("showsession", "yes"),
+                new KeyValuePair<string, string>("username", username),
+                new KeyValuePair<string, string>("key", key),
+                new KeyValuePair<string, string>("password", password),
+
+                //new KeyValuePair<string, string>("realm", "live.utm.my"),
+                //new KeyValuePair<string, string>("acceptedurl",""),
+                //new KeyValuePair<string, string>("user", "makram23"),
+            });
+
+            await DoLogin(content);
+        }
+
+        public async Task LoginAsync(Account a)
+        {
+            var username = a.Username;
+            var password = a.Password;
+            var realm = string.Empty;
+
+            //return LoginAsync(a.Username, a.Password);
+            
+            var content = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string, string>("username", username),
+                new KeyValuePair<string, string>("password", password),
+                new KeyValuePair<string, string>("key", key),
+
+                new KeyValuePair<string, string>("realm", "live.utm.my"),
+                new KeyValuePair<string, string>("deniedpage", $"/pas/parsed/utm1/index_desktop.html?key={key}&dummy=true"),
+                new KeyValuePair<string, string>("showsession", "yes"),
+                //new KeyValuePair<string, string>("acceptedurl",""),
+                //new KeyValuePair<string, string>("user", "makram23"),
+            });
+
+            await DoLogin(content);
+        }
+
+        private async Task DoLogin(FormUrlEncodedContent content)
         {
             using (var client = new HttpClient())
             {
-                var content = new FormUrlEncodedContent(new[]
-                {
-                    new KeyValuePair<string, string>("showsession", "yes"),
-                    new KeyValuePair<string, string>("username", username),
-                    new KeyValuePair<string, string>("key", key),
-                    new KeyValuePair<string, string>("password", password),
-
-                    //new KeyValuePair<string, string>("realm", "live.utm.my"),
-                    //new KeyValuePair<string, string>("acceptedurl",""),
-                    //new KeyValuePair<string, string>("user", "makram23"),
-                });
-
                 try
                 {
                     var response = await client.PostAsync(LOGIN_URL, content);
@@ -69,7 +99,7 @@ namespace YesPojiQuota.Core.Services
                         OnLoginFailed(failReason);
                     }
 
-                    return success;
+                    return;
                 }
                 catch (HttpRequestException ex)
                 {
@@ -79,13 +109,6 @@ namespace YesPojiQuota.Core.Services
                     Debug.WriteLine($"Exception {ex}");
                 }
             }
-
-            return false;
-        }
-
-        public Task<bool> LoginAsync(Account a)
-        {
-            return LoginAsync(a.Username, a.Password);
         }
 
         public async Task<bool> LogoutAsync()
@@ -115,6 +138,7 @@ namespace YesPojiQuota.Core.Services
             if (await TryGetLoginPortalAsync())
             {
                 key = ExtractKey(rawHtml);
+                Debug.WriteLine($"Got Login key: {key}");
             }
         }
 

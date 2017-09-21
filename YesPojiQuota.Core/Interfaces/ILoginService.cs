@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YesPojiQuota.Core.Models;
 
 namespace YesPojiQuota.Core.Interfaces
 {
@@ -12,7 +13,8 @@ namespace YesPojiQuota.Core.Interfaces
         event SimpleEvent OnLoginSuccess;
 
         //Task<bool> LoginAsync(Account a);
-        Task<bool> LoginAsync(string u, string p);
+        Task LoginAsync(Account A);
+        Task LoginAsync(string u, string p);
         Task<bool> LogoutAsync();
 
         Task InitAsync();       
