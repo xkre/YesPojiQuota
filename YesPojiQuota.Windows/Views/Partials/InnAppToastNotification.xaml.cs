@@ -26,5 +26,13 @@ namespace YesPojiQuota.Views.Partials
         {
             this.InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (SessionGrid.Visibility == Visibility.Collapsed)
+                SessionGrid.Visibility = Visibility.Visible;
+            else
+                SessionGrid.Visibility = Visibility.Collapsed;
+        }
     }
 }

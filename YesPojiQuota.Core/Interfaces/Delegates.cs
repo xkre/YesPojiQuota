@@ -15,4 +15,7 @@ namespace YesPojiQuota.Core.Interfaces
     public delegate void NetworkChangeEvent(NetworkCondition condition);
     public delegate void SessionDataUpdateEvent(SessionData data);
 
+    public delegate void SimpleEvent();
+    //public delegate void SimpleBoolEvent(bool b);
+
 }

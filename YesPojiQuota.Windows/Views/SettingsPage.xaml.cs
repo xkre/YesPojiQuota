@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text.RegularExpressions;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -27,6 +28,16 @@ namespace YesPojiQuota.Views
         public SettingsPage()
         {
             this.InitializeComponent();
+        }
+
+        private void NumberTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var source = sender as TextBox;
+
+            if (Regex.IsMatch(source.Text, @"\D"))
+            {
+                source.Text = Regex.Replace(source.Text, @"\D", "");
+            }
         }
     }
 }

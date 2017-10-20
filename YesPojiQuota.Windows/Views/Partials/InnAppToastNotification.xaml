@@ -26,10 +26,8 @@
             </Grid.RowDefinitions>
 
             <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="0" Padding="5 5 0 0">
-                <Grid>
-                    <TextBlock Text="Network Status:"
-                           Padding="5 0 0 0"/>
-                </Grid>
+                <TextBlock Text="Network Status:" Padding="5 0 0 0"/>
+                <TextBlock Text="{x:Bind Vm.Status, Mode=OneWay}" Padding="10 0 0 0" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1" Padding="5 0 0 7">
@@ -42,7 +40,9 @@
                 </Grid>
             </StackPanel>
 
-            <Grid Grid.Row="2" Grid.ColumnSpan="2" Padding="10 7 10 7"
+            <Button Grid.Column="1" Content="Show/Hide Session" Grid.RowSpan="2" Click="Button_Click"/>
+
+            <Grid x:Name="SessionGrid" Grid.Row="2" Grid.ColumnSpan="2" Padding="10 7 10 7"
                   Background="{ThemeResource SystemAccentColorDark1}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>

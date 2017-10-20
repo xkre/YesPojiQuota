@@ -8,5 +8,7 @@ namespace YesPojiQuota.Core.Helpers
 {
     public static partial class Constants
     {
+        public const string PORTAL_TEST_URL = "http://detectportal.firefox.com/success.txt";
+        public const string QUOTA_SERVICE_URL = "http://quota.utm.my/";
     }
 }

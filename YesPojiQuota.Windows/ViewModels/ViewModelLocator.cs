@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using YesPojiQuota.Core.Data;
 using YesPojiQuota.Core.Interfaces;
+using YesPojiQuota.Core.Observers;
 using YesPojiQuota.Core.Services;
 using YesPojiQuota.Views;
 
@@ -30,9 +31,13 @@ namespace YesPojiQuota.ViewModels
         {
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<MainPageViewModel>();
-            SimpleIoc.Default.Register<AccountsViewModel>();
+            SimpleIoc.Default.Register<AccountsPanelViewModel>();
             SimpleIoc.Default.Register<SettingsViewModel>();
             SimpleIoc.Default.Register<InnAppToastViewModel>();
+
+            //Multiple Instance ViewModel
+            SimpleIoc.Default.Register<QuotaViewModel>();
+            SimpleIoc.Default.Register<AccountViewModel>();
         }
 
 
@@ -51,6 +56,8 @@ namespace YesPojiQuota.ViewModels
 
             SimpleIoc.Default.Register<YesSessionService>();
             SimpleIoc.Default.Register<YesContext>();
+            SimpleIoc.Default.Register<NetworkChangeHandler>();
+            SimpleIoc.Default.Register<YesSessionUpdater>();
         }
 
         //private async void Init()
@@ -77,7 +84,7 @@ namespace YesPojiQuota.ViewModels
 
         public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
         public MainPageViewModel MainPage => ServiceLocator.Current.GetInstance<MainPageViewModel>();
-        public AccountsViewModel Accounts => ServiceLocator.Current.GetInstance<AccountsViewModel>();
+        public AccountsPanelViewModel Accounts => ServiceLocator.Current.GetInstance<AccountsPanelViewModel>();
         public SettingsViewModel Settings => ServiceLocator.Current.GetInstance<SettingsViewModel>();
         public InnAppToastViewModel InnAppToast => ServiceLocator.Current.GetInstance<InnAppToastViewModel>();
 

@@ -38,7 +38,7 @@ namespace YesPojiQuota.Views
 
         private async void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            var avm = ServiceLocator.Current.GetInstance<AccountsViewModel>();
+            var avm = ServiceLocator.Current.GetInstance<AccountsPanelViewModel>();
 
             AccountInputDialog accountInput = new AccountInputDialog();
             accountInput.DataContext = avm.CreateAccountViewModel();

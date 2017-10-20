@@ -11,6 +11,7 @@ namespace YesPojiQuota.Core.Enums
         Online,
         OnlineNotYes,
         YesWifiConnected,
-        NotConnected
+        NotConnected,
+        Undetermined = -1
     }
 }

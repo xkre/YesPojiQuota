@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using YesPojiQuota.Core.Interfaces;
+using YesPojiQuota.Core.Models;
 
 namespace YesPojiQuota.Core.Services
 {
@@ -14,9 +15,9 @@ namespace YesPojiQuota.Core.Services
     {
         private const string URL = "http://quota.utm.my/balance.php";
 
-        public async Task<decimal> GetQuota(string username)
+        public async Task<double> GetQuota(string username)
         {
-            decimal quota = 0;
+            double quota = 0;
             using (var client = new HttpClient())
             {
                 var content = new FormUrlEncodedContent(new[]
@@ -38,21 +39,25 @@ namespace YesPojiQuota.Core.Services
             return 20 * 1024;
         }
 
-        private decimal ProcessQuota(string rawHtml)
+        private double ProcessQuota(string rawHtml)
         {
             var result = Regex.Match(rawHtml, @"Data:([^)]*) Mega").Groups[1].Value;
 
             try
             {
-                var quota = decimal.Parse(result);
-                return quota;
+                return double.Parse(result);
             }
             catch (Exception e)
             {
-                Debug.WriteLine($"Exception {e}");
+                Debug.WriteLine($"Exception in ProcessQuota {e}");
             }
 
             throw new Exception("Cannot Process Quota");
+        }
+
+        public Task<double> GetQuota(Account a)
+        {
+            throw new NotImplementedException();
         }
     }
 }

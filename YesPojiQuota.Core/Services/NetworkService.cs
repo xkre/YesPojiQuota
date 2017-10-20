@@ -10,16 +10,12 @@ using System.Threading.Tasks;
 using YesPojiQuota.Core.Enums;
 using YesPojiQuota.Core.Helpers.Exceptions;
 using YesPojiQuota.Core.Interfaces;
+using static YesPojiQuota.Core.Helpers.Constants;
 
 namespace YesPojiQuota.Core.Services
 {
     public class NetworkService : INetworkService
     {
-        private const string PORTAL_TEST_URL = "http://detectportal.firefox.com/success.txt";
-        private const string QUOTA_SERVICE_URL = "http://quota.utm.my/";
-
-        public event NetworkChangeEvent NetworkChanged;
-
         private IDisposable _timer;
         private YesSessionService _yss;
 
@@ -35,7 +31,6 @@ namespace YesPojiQuota.Core.Services
             private set
             {
                 _networkType = value;
-                NetworkChanged(value);
             }
         }
 
@@ -43,14 +38,48 @@ namespace YesPojiQuota.Core.Services
         /// Check for the connection, returns true when connected to yes network. Raises NetworkChangeEvent
         /// </summary>
         /// <returns></returns>
-        public async Task<bool> CheckConnectionAsync()
+        //public async Task<bool> CheckConnectionAsync()
+        //{
+        //    try
+        //    {
+        //        NetworkType = await _yss.IsConnectedToYesAsync() ? NetworkCondition.Online : NetworkCondition.YesWifiConnected;
+        //        return true;
+        //    }
+        //    catch (YesNotConnectedException yex)
+        //    {
+        //        Debug.WriteLine($"Exception: Yes Network not connected :::: Handled");
+        //        try
+        //        {
+        //            using (var client = new HttpClient())
+        //            {
+        //                await client.GetAsync(PORTAL_TEST_URL);
+        //                NetworkType = NetworkCondition.OnlineNotYes;
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            //When not connected to a network
+        //            Debug.WriteLine($"Exception {ex}");
+        //            NetworkType = NetworkCondition.NotConnected;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Debug.WriteLine($"Exception: {ex}");
+        //    }
+
+        //    return false;
+        //}
+
+        public async Task<NetworkCondition> GetNetworkConditionAsync()
         {
+            NetworkCondition condition;
+
             try
             {
-                NetworkType = await _yss.IsConnectedToYesAsync() ? NetworkCondition.Online : NetworkCondition.YesWifiConnected;
-                return true;
+                condition = await _yss.IsConnectedToYesAsync() ? NetworkCondition.Online : NetworkCondition.YesWifiConnected;
             }
-            catch (YesNotConnectedException yex)
+            catch (YesNotConnectedException)
             {
                 Debug.WriteLine($"Exception: Yes Network not connected :::: Handled");
                 try
@@ -58,22 +87,24 @@ namespace YesPojiQuota.Core.Services
                     using (var client = new HttpClient())
                     {
                         await client.GetAsync(PORTAL_TEST_URL);
-                        NetworkType = NetworkCondition.OnlineNotYes;
+                        condition = NetworkCondition.OnlineNotYes;
                     }
                 }
                 catch (Exception ex)
                 {
                     //When not connected to a network
-                    Debug.WriteLine($"Exception {ex}");
-                    NetworkType = NetworkCondition.NotConnected;
+                    Debug.WriteLine($"Exception {ex.Message}");
+                    condition = NetworkCondition.NotConnected;
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Exception: {ex}");
+                //In case of the unexpected
+                Debug.WriteLine($"Exception: {ex.Message}");
+                condition = NetworkCondition.NotConnected;
             }
 
-            return false;
+            return condition;
         }
 
         private async Task<bool> IsConnectedToYesAsync()
@@ -81,34 +112,29 @@ namespace YesPojiQuota.Core.Services
             return await _yss.IsConnectedToYesAsync();
         }
 
-        public void StartMonitor()
-        {
-            StartMonitor(5, 30);
-        }
+        //public void StartMonitor()
+        //{
+        //    StartMonitor(5, 30);
+        //}
 
-        public void StartMonitor(int start, int interval)
-        {
-            var obs = Observable.Timer(TimeSpan.FromMinutes(start), TimeSpan.FromMinutes(interval));
+        //public void StartMonitor(int start, int interval)
+        //{
+        //    var obs = Observable.Timer(TimeSpan.FromMinutes(start), TimeSpan.FromMinutes(interval));
 
-            _timer = obs.Subscribe(x =>
-            {
-                CheckConnectionAsync();
-            });
-        }
+        //    _timer = obs.Subscribe(x =>
+        //    {
+        //        CheckConnectionAsync();
+        //    });
+        //}
 
-        public void StopMonitor()
-        {
-            _timer?.Dispose();
-        }
+        //public void StopMonitor()
+        //{
+        //    _timer?.Dispose();
+        //}
 
         public bool IsConnected()
         {
             throw new NotImplementedException();
-        }
-
-        public void Subscribe(object source)
-        {
-
         }
     }
 }

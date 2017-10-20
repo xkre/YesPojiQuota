@@ -10,26 +10,35 @@ using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Enums;
 using YesPojiQuota.Core.Data;
 using Microsoft.EntityFrameworkCore;
+using YesPojiQuota.Core.Observers;
+using YesPojiQuota.Core.Helpers;
+using System.Diagnostics;
 
 namespace YesPojiQuota.ViewModels
 {
     public class MainPageViewModel : MainViewModel
     {
-        private AccountsViewModel _accountsVM;
+        private AccountsPanelViewModel _accountsVM;
         private InnAppToastViewModel _inAppToastVM;
 
         private ILoginService _ls;
         private INetworkService _ns;
         private IDialogService _ds;
         private YesContext _db;
+        private NetworkChangeHandler _nch;
+        private YesSessionUpdater _ysu;
+
+        private bool _yesConnected = false;
 
         public MainPageViewModel(
             INavigationService navS,
             ILoginService ls,
             INetworkService ns,
             IDialogService ds,
-            AccountsViewModel acsvm,
+            AccountsPanelViewModel acsvm,
             InnAppToastViewModel iatvm,
+            NetworkChangeHandler nch,
+            YesSessionUpdater ysu,
             YesContext db)
             : base(navS)
         {
@@ -37,6 +46,8 @@ namespace YesPojiQuota.ViewModels
             _ns = ns;
             _ds = ds;
             _db = db;
+            _nch = nch;
+            _ysu = ysu;
 
             _accountsVM = acsvm;
             _inAppToastVM = iatvm;
@@ -53,14 +64,25 @@ namespace YesPojiQuota.ViewModels
                 await base.InitAsync();
                 InitDatabase();
 
+                _nch.YesConnected += () =>
+                {
+                    _yesConnected = true;
+                    RefreshAccounts();
 
-                await _inAppToastVM.InitAsync();
+                    _ls.InitAsync();
+                };
+                _nch.YesDisconnected += () => _yesConnected = false;
+
                 await _accountsVM.InitAsync();
-                await _ls.InitAsync();
+                await _inAppToastVM.InitAsync();
+
+                _ysu.Init();
+                _nch.Init();
 
                 IsInitialized = true;
             }
         }
+
 
         private void InitDatabase()
         {
@@ -93,21 +115,10 @@ namespace YesPojiQuota.ViewModels
             }
         }
 
-        public async void RefreshAccounts()
+        public void RefreshAccounts()
         {
-            if (_ns.NetworkType == NetworkCondition.NotConnected || _ns.NetworkType == NetworkCondition.OnlineNotYes)
-            {
-                _inAppToastVM.InitLoading();
-                if (await _ns.CheckConnectionAsync())
-                {
-                    _accountsVM.RefreshQuota();
-                }
-            }
-            else
-            {
+            if (_yesConnected)
                 _accountsVM.RefreshQuota();
-                Messenger.Default.Send("Quota Refreshed");
-            }
         }
 
         private RelayCommand _navigateToSettings;

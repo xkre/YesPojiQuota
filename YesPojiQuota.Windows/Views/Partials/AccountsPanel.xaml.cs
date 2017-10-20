@@ -21,7 +21,7 @@ namespace YesPojiQuota.Views.Partials
 {
     public sealed partial class AccountsPanel : UserControl
     {
-        public AccountsViewModel vm { get => DataContext as AccountsViewModel; }
+        public AccountsPanelViewModel vm { get => DataContext as AccountsPanelViewModel; }
 
         public AccountsPanel()
         {

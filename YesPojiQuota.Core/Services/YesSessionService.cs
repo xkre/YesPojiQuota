@@ -18,41 +18,33 @@ namespace YesPojiQuota.Core.Services
     {
         private string SESSION_URL = "https://apc.aptilo.com/apc/session.phtml";
 
-        public event SessionDataUpdateEvent SessionUpdated;
-
-        private SessionData _session;
-        private IDisposable _timer;
+        //private SessionData _lastSession;
 
 
-        private async Task Update()
+
+
+        public async Task<SessionData> GetSessionData()
         {
+            SessionData session;
+
+            Debug.WriteLine("Updating Session Data");
             using (var client = new HttpClient())
             {
                 var result = await client.GetAsync(SESSION_URL);
                 var rawHtml = await result.Content.ReadAsStringAsync();
 
-                _session = ParseSession(rawHtml);
+                session = ParseSession(rawHtml);
+                //_lastSession = session;
             }
-                        
-            SessionUpdated(_session);
+
+            return session;
         }
 
-        public void StartMonitor()
-        {
-            var timer = Observable.Timer(TimeSpan.FromSeconds(2), TimeSpan.FromMinutes(1));
 
-            _timer = timer.Subscribe(
-                (x) => Update()
-                );
-        }
-
-        public void StopMonitor()
-        {
-            _timer?.Dispose();
-        }
 
         public async Task<bool> IsConnectedToYesAsync()
         {
+            Debug.WriteLine("In IsConnectedToYesAsync :: ");
             using (var client = new HttpClient())
             {
                 try
