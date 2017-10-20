@@ -9,7 +9,7 @@
     mc:Ignorable="d"
     DataContext="{Binding Accounts, Source={StaticResource Locator}}"
     Loaded="UserControl_Loaded"
-    d:DesignHeight="300"
+    d:DesignHeight="500"
     d:DesignWidth="400">
 
     <UserControl.Resources>
@@ -51,8 +51,8 @@
                                />
 
                     <TextBlock Text="{x:Bind Quota.QuotaString, Mode=OneWay}" Grid.Row="1" 
-                               HorizontalAlignment="Stretch" Grid.ColumnSpan="2" FontSize="12
-                               "/>
+                               HorizontalAlignment="Stretch" Grid.ColumnSpan="2" FontSize="12"
+                               />
 
                     <ProgressBar Value="{x:Bind Quota.Available, Mode=OneWay}" Maximum="{x:Bind Quota.MaxQuota}" 
                                  Grid.Row="2" Grid.Column="0" 
@@ -74,13 +74,38 @@
     </UserControl.Resources>
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="{ThemeResource SystemAccentColorDark2}"
+              Opacity="0.7">
+
+        </Grid>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Right"
+                    Background="{ThemeResource SystemAccentColorDark2}" Opacity="0.7">
+            <Button Content="Sort" FontSize="12" Margin="0 0 5 0"/>
+            <Button Content="Filter" FontSize="12" />
+        </StackPanel>
+
         <ListView ItemTemplate="{StaticResource AccountsPanelTemplate}"
-                  ItemsSource="{x:Bind vm.Accounts}" MaxWidth="700">
+                  ItemsSource="{x:Bind vm.Accounts}" MaxWidth="700"
+                  Grid.Row="1">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
+
+        <Grid Grid.Row="2" Background="Black" Opacity="0.3"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="10 2 0 2">
+            <TextBlock Text="Status Bar Text" FontSize="10"/>
+        </StackPanel>
     </Grid>
+    
 </UserControl>
