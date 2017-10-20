@@ -1,7 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
 using GalaSoft.MvvmLight.Views;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Practices.ServiceLocation;
 using System;
 using System.Collections.Generic;
@@ -48,7 +47,9 @@ namespace YesPojiQuota
             e.Handled = true;
             await DispatcherHelper.RunAsync(async () =>
             {
-                await new MessageDialog("Application Unhandled Exception:\r\n" + e.Exception.Message, "Error :(")
+                await new MessageDialog($"Application Unhandled Exception:\r\n" +
+                    $"{e.Exception.Message}\r\n" +
+                    $"{e.Exception.StackTrace}", "Error :(")
                     .ShowAsync();
 
                 e.Handled = false;
@@ -97,6 +98,7 @@ namespace YesPojiQuota
             }
 
             Messenger.Default.Register<NotificationMessageAction<string>>(this, HandleNotification);
+            //BackgroundTaskManager.RegisterTestTask();
             InitializeUi();
         }
 
