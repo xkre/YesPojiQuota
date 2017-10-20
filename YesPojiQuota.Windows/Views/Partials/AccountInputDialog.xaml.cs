@@ -21,7 +21,7 @@ namespace YesPojiQuota.Views.Partials
 {
     public sealed partial class AccountInputDialog : ContentDialog
     {
-        public AccountViewModel vm { get => this.DataContext as AccountViewModel; }
+        public AccountViewModel Vm => (AccountViewModel)DataContext; 
 
         public AccountInputDialog()
         {
@@ -36,7 +36,7 @@ namespace YesPojiQuota.Views.Partials
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
-                vm.Save();
+                Vm.Save();
                 e.Handled = true;
 
                 this.Hide();
@@ -45,7 +45,7 @@ namespace YesPojiQuota.Views.Partials
 
         private void LoginCheckbox_Unchecked(object sender, RoutedEventArgs e)
         {
-            vm.Password = "";
+            Vm.Password = "";
         }
     }
 }
