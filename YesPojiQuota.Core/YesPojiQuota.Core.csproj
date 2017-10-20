@@ -122,15 +122,20 @@
     <Compile Include="Interfaces\ILoginService.cs" />
     <Compile Include="Interfaces\INetworkService.cs" />
     <Compile Include="Interfaces\IQuotaService.cs" />
+    <Compile Include="Managers\AccountManager.cs" />
+    <Compile Include="Managers\BackgroundTaskManager.cs" />
     <Compile Include="Migrations\20170420073902_First.cs" />
     <Compile Include="Migrations\20170420073902_First.designer.cs">
       <DependentUpon>20170420073902_First.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\YesContextModelSnapshot.cs" />
     <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\App.cs" />
     <Compile Include="Models\AppData.cs" />
+    <Compile Include="Models\Metadata.cs" />
     <Compile Include="Models\Quota.cs" />
     <Compile Include="Models\SessionData.cs" />
+    <Compile Include="Notifications\Toast.cs" />
     <Compile Include="Observers\NetworkChangeHandler.cs" />
     <Compile Include="Observers\QuotaObserverManager.cs" />
     <Compile Include="Observers\YesSessionUpdater.cs" />
@@ -144,7 +149,12 @@
     <Compile Include="Services\YesSessionService.cs" />
     <EmbeddedResource Include="Properties\YesPojiQuota.Core.rd.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\YesPojiQuota.Tasks\YesPojiQuota.Tasks.csproj">
+      <Project>{661BC159-0560-4A9E-8FFE-9B62D7896416}</Project>
+      <Name>YesPojiQuota.Tasks</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

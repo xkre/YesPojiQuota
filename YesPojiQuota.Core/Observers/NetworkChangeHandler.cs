@@ -27,7 +27,8 @@ namespace YesPojiQuota.Core.Observers
 
         private NetworkCondition _currentNetwork;
         private IDisposable _networkChangeSubscription;
-        private bool? _yesConnected;
+        private bool _yesConnected;
+        private bool _isInitialized;
 
         public NetworkChangeHandler(INetworkService ns, YesSessionService ys)
         {
@@ -62,25 +63,27 @@ namespace YesPojiQuota.Core.Observers
                 if (condition == NetworkCondition.Online ||
                     condition == NetworkCondition.YesWifiConnected)
                 {
-                    //if (!_yesConnected.HasValue || _yesConnected.Value)
-                    //{
+                    if (!_isInitialized || !_yesConnected)
+                    {
                         _yesConnected = true;
 
                         YesConnected();
                         Debug.WriteLine("NetworkChangeHandler Raised YesConnected Event");
-                    //}
+                    }
                 }
                 else if (condition == NetworkCondition.NotConnected ||
                          condition == NetworkCondition.OnlineNotYes)
                 {
-                    //if (!_yesConnected.HasValue || !_yesConnected.Value)
-                    //{
+                    if (!_isInitialized || _yesConnected)
+                    {
                         _yesConnected = false;
 
                         YesDisconnected();
                         Debug.WriteLine("NetworkChangeHandler Raised YesDisconnected Event");
-                    //}
+                    }
                 }
+
+                _isInitialized = true;
             }
         }
 
