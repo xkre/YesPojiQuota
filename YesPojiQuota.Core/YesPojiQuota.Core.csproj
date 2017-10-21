@@ -122,7 +122,6 @@
     <Compile Include="Interfaces\ILoginService.cs" />
     <Compile Include="Interfaces\INetworkService.cs" />
     <Compile Include="Interfaces\IQuotaService.cs" />
-    <Compile Include="Managers\AccountManager.cs" />
     <Compile Include="Managers\BackgroundTaskManager.cs" />
     <Compile Include="Migrations\20170420073902_First.cs" />
     <Compile Include="Migrations\20170420073902_First.designer.cs">
@@ -151,7 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\YesPojiQuota.Tasks\YesPojiQuota.Tasks.csproj">
-      <Project>{661BC159-0560-4A9E-8FFE-9B62D7896416}</Project>
+      <Project>{661bc159-0560-4a9e-8ffe-9b62d7896416}</Project>
       <Name>YesPojiQuota.Tasks</Name>
     </ProjectReference>
   </ItemGroup>
