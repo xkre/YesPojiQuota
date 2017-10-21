@@ -12,9 +12,9 @@ namespace YesPojiQuota.Core.Observers
 {
     public class QuotaObserverManager
     {
-        //TODO: Change the subscription strategy...
+        ////TODO: Change the subscription strategy...
 
-        private static QuotaObserverManager _instance;
+        //private static QuotaObserverManager _instance;
         private Dictionary<Account, Func<Task>> _subscribed;
         private List<Func<Task>> _refreshTasks;
 
@@ -23,7 +23,7 @@ namespace YesPojiQuota.Core.Observers
         //private bool _yesConnected;
         private IDisposable disposable;
 
-        private QuotaObserverManager(NetworkChangeHandler nch)
+        public QuotaObserverManager(NetworkChangeHandler nch)
         {
             _subscribed = new Dictionary<Account, Func<Task>>();
             _refreshTasks = new List<Func<Task>>();
@@ -34,11 +34,11 @@ namespace YesPojiQuota.Core.Observers
             _nch.YesDisconnected += StopMonitor;
         }
 
-        public static QuotaObserverManager Instance
-        {
-            get => _instance ?? (_instance = new QuotaObserverManager(
-                ServiceLocator.Current.GetInstance<NetworkChangeHandler>()));
-        }
+        //public static QuotaObserverManager Instance
+        //{
+        //    get => _instance ?? (_instance = new QuotaObserverManager(
+        //        ServiceLocator.Current.GetInstance<NetworkChangeHandler>()));
+        //}
 
         public void Subscribe(Account a, Func<Task> b)
         {
@@ -49,7 +49,6 @@ namespace YesPojiQuota.Core.Observers
             }
 
             //var observable = Observable.Interval(TimeSpan.FromMinutes(1));
-
             //var disp = observable.Subscribe(x => {
             //    if (_yesConnected)
             //        b();
@@ -73,11 +72,9 @@ namespace YesPojiQuota.Core.Observers
                 }
             });
         }
-
         private void StopMonitor()
         {
-            disposable.Dispose();
+            disposable?.Dispose();
         }
-
     }
 }

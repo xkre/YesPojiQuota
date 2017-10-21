@@ -21,7 +21,7 @@ namespace YesPojiQuota.Views.Partials
 {
     public sealed partial class AccountsPanel : UserControl
     {
-        public AccountsPanelViewModel vm { get => DataContext as AccountsPanelViewModel; }
+        public AccountsPanelViewModel Vm  => (AccountsPanelViewModel)DataContext; 
 
         public AccountsPanel()
         {
@@ -30,29 +30,29 @@ namespace YesPojiQuota.Views.Partials
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            
         }
 
-        //private async void DeleteContextMenu_Click(object sender, RoutedEventArgs e)
-        //{
-        //    ContentDialog a = new ContentDialog();
+        /*
+        private async void DeleteContextMenu_Click(object sender, RoutedEventArgs e)
+        {
+            ContentDialog a = new ContentDialog();
 
-        //    a.Title = "Confirmation";
-        //    a.Content = "Are you sure to delete this?";
+            a.Title = "Confirmation";
+            a.Content = "Are you sure to delete this?";
 
-        //    a.PrimaryButtonText = "Yes";
-        //    a.SecondaryButtonText= "No";
+            a.PrimaryButtonText = "Yes";
+            a.SecondaryButtonText = "No";
 
-        //    var source = e.OriginalSource as AccountViewModel;
+            var source = e.OriginalSource as AccountViewModel;
 
-        //    await Task.Delay(100);
+            await Task.Delay(100);
 
-        //    //await Task.Delay(100);
-        //    //FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+            //await Task.Delay(100);
+            //FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
 
-        //    //FrameworkElement senderElement = sender as FrameworkElement;
-        //    //FlyoutBase flyoutBase = FlyoutBase.GetAttachedFlyout(senderElement);
-        //    //flyoutBase.ShowAt(senderElement.Parent as FrameworkElement);
-        //}
+            //FrameworkElement senderElement = sender as FrameworkElement;
+            //FlyoutBase flyoutBase = FlyoutBase.GetAttachedFlyout(senderElement);
+            //flyoutBase.ShowAt(senderElement.Parent as FrameworkElement);
+        }*/
     }
 }

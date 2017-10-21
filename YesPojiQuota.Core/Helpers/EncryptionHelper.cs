@@ -20,14 +20,13 @@ namespace YesPojiQuota.Core.Helpers
             BinaryStringEncoding encoding = BinaryStringEncoding.Utf8)
         {
             // Create a DataProtectionProvider object for the specified descriptor.
-            DataProtectionProvider Provider = new DataProtectionProvider(strDescriptor);
+            DataProtectionProvider provider = new DataProtectionProvider(strDescriptor);
 
             // Encode the plaintext input message to a buffer.
-
             IBuffer buffMsg = CryptographicBuffer.ConvertStringToBinary(strMsg, encoding);
 
             // Encrypt the message.
-            IBuffer buffProtected = await Provider.ProtectAsync(buffMsg);
+            IBuffer buffProtected = await provider.ProtectAsync(buffMsg);
 
             // Execution of the SampleProtectAsync function resumes here
             // after the awaited task (Provider.ProtectAsync) completes.
@@ -39,12 +38,12 @@ namespace YesPojiQuota.Core.Helpers
             BinaryStringEncoding encoding = BinaryStringEncoding.Utf8)
         {
             // Create a DataProtectionProvider object.
-            DataProtectionProvider Provider = new DataProtectionProvider();
+            DataProtectionProvider provider = new DataProtectionProvider();
 
             IBuffer buffProtected = CryptographicBuffer.ConvertStringToBinary(stringProtected, BinaryStringEncoding.Utf16BE);
 
             // Decrypt the protected message specified on input.
-            IBuffer buffUnprotected = await Provider.UnprotectAsync(buffProtected);
+            IBuffer buffUnprotected = await provider.UnprotectAsync(buffProtected);
 
             // Execution of the SampleUnprotectData method resumes here
             // after the awaited task (Provider.UnprotectAsync) completes
@@ -57,26 +56,26 @@ namespace YesPojiQuota.Core.Helpers
 
         public static string AES_Encrypt(string input, string pass)
         {
-            SymmetricKeyAlgorithmProvider SAP = SymmetricKeyAlgorithmProvider.OpenAlgorithm(SymmetricAlgorithmNames.AesEcbPkcs7);
-            CryptographicKey AES;
-            HashAlgorithmProvider HAP = HashAlgorithmProvider.OpenAlgorithm(HashAlgorithmNames.Md5);
-            CryptographicHash Hash_AES = HAP.CreateHash();
+            SymmetricKeyAlgorithmProvider sap = SymmetricKeyAlgorithmProvider.OpenAlgorithm(SymmetricAlgorithmNames.AesEcbPkcs7);
+            CryptographicKey aes;
+            HashAlgorithmProvider hap = HashAlgorithmProvider.OpenAlgorithm(HashAlgorithmNames.Md5);
+            CryptographicHash hash_AES = hap.CreateHash();
 
             string encrypted = "";
             try
             {
                 byte[] hash = new byte[32];
-                Hash_AES.Append(CryptographicBuffer.CreateFromByteArray(System.Text.Encoding.UTF8.GetBytes(pass)));
+                hash_AES.Append(CryptographicBuffer.CreateFromByteArray(System.Text.Encoding.UTF8.GetBytes(pass)));
                 byte[] temp;
-                CryptographicBuffer.CopyToByteArray(Hash_AES.GetValueAndReset(), out temp);
+                CryptographicBuffer.CopyToByteArray(hash_AES.GetValueAndReset(), out temp);
 
                 Array.Copy(temp, 0, hash, 0, 16);
                 Array.Copy(temp, 0, hash, 15, 16);
 
-                AES = SAP.CreateSymmetricKey(CryptographicBuffer.CreateFromByteArray(hash));
+                aes = sap.CreateSymmetricKey(CryptographicBuffer.CreateFromByteArray(hash));
 
-                IBuffer Buffer = CryptographicBuffer.CreateFromByteArray(System.Text.Encoding.UTF8.GetBytes(input));
-                encrypted = CryptographicBuffer.EncodeToBase64String(CryptographicEngine.Encrypt(AES, Buffer, null));
+                IBuffer buffer = CryptographicBuffer.CreateFromByteArray(System.Text.Encoding.UTF8.GetBytes(input));
+                encrypted = CryptographicBuffer.EncodeToBase64String(CryptographicEngine.Encrypt(aes, buffer, null));
 
                 return encrypted;
             }
@@ -88,28 +87,28 @@ namespace YesPojiQuota.Core.Helpers
 
         public static string AES_Decrypt(string input, string pass)
         {
-            SymmetricKeyAlgorithmProvider SAP = SymmetricKeyAlgorithmProvider.OpenAlgorithm(SymmetricAlgorithmNames.AesEcbPkcs7);
-            CryptographicKey AES;
-            HashAlgorithmProvider HAP = HashAlgorithmProvider.OpenAlgorithm(HashAlgorithmNames.Md5);
-            CryptographicHash Hash_AES = HAP.CreateHash();
+            SymmetricKeyAlgorithmProvider sap = SymmetricKeyAlgorithmProvider.OpenAlgorithm(SymmetricAlgorithmNames.AesEcbPkcs7);
+            CryptographicKey aes;
+            HashAlgorithmProvider hap = HashAlgorithmProvider.OpenAlgorithm(HashAlgorithmNames.Md5);
+            CryptographicHash hash_AES = hap.CreateHash();
 
             string decrypted = "";
             try
             {
                 byte[] hash = new byte[32];
-                Hash_AES.Append(CryptographicBuffer.CreateFromByteArray(System.Text.Encoding.UTF8.GetBytes(pass)));
+                hash_AES.Append(CryptographicBuffer.CreateFromByteArray(System.Text.Encoding.UTF8.GetBytes(pass)));
                 byte[] temp;
-                CryptographicBuffer.CopyToByteArray(Hash_AES.GetValueAndReset(), out temp);
+                CryptographicBuffer.CopyToByteArray(hash_AES.GetValueAndReset(), out temp);
 
                 Array.Copy(temp, 0, hash, 0, 16);
                 Array.Copy(temp, 0, hash, 15, 16);
 
-                AES = SAP.CreateSymmetricKey(CryptographicBuffer.CreateFromByteArray(hash));
+                aes = sap.CreateSymmetricKey(CryptographicBuffer.CreateFromByteArray(hash));
 
                 IBuffer Buffer = CryptographicBuffer.DecodeFromBase64String(input);
                 byte[] Decrypted;
-                CryptographicBuffer.CopyToByteArray(CryptographicEngine.Decrypt(AES, Buffer, null), out Decrypted);
-                decrypted = System.Text.Encoding.UTF8.GetString(Decrypted, 0, Decrypted.Length);
+                CryptographicBuffer.CopyToByteArray(CryptographicEngine.Decrypt(aes, Buffer, null), out Decrypted);
+                decrypted = Encoding.UTF8.GetString(Decrypted, 0, Decrypted.Length);
 
                 return decrypted;
             }
@@ -118,6 +117,5 @@ namespace YesPojiQuota.Core.Helpers
                 return null;
             }
         }
-
     }
 }

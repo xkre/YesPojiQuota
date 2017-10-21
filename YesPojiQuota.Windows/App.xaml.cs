@@ -1,7 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
 using GalaSoft.MvvmLight.Views;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Practices.ServiceLocation;
 using System;
 using System.Collections.Generic;
@@ -24,7 +23,6 @@ using Windows.UI.Popups;
 using Windows.Foundation.Metadata;
 using Windows.UI.ViewManagement;
 using Windows.UI;
-using YesPojiQuota.Utils;
 
 namespace YesPojiQuota
 {
@@ -47,10 +45,15 @@ namespace YesPojiQuota
         private async void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             e.Handled = true;
-            await new MessageDialog("Application Unhandled Exception:\r\n" + e.Exception.Message, "Error :(")
-                .ShowAsync();
-            e.Handled = false;
+            await DispatcherHelper.RunAsync(async () =>
+            {
+                await new MessageDialog($"Application Unhandled Exception:\r\n" +
+                    $"{e.Exception.Message}\r\n" +
+                    $"{e.Exception.StackTrace}", "Error :(")
+                    .ShowAsync();
 
+                e.Handled = false;
+            });
         }
 
         /// <summary>
@@ -69,8 +72,6 @@ namespace YesPojiQuota
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
-
-                
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
@@ -96,9 +97,8 @@ namespace YesPojiQuota
                 Window.Current.Activate();
             }
 
-
-            
             Messenger.Default.Register<NotificationMessageAction<string>>(this, HandleNotification);
+            //BackgroundTaskManager.RegisterTestTask();
             InitializeUi();
         }
 
@@ -128,14 +128,14 @@ namespace YesPojiQuota
 
         private void HandleNotification(NotificationMessageAction<string> message)
         {
-            message.Execute("Success from <App.xaml>");
+            //message.Execute("Success from <App.xaml>");
             var dialog = ServiceLocator.Current.GetInstance<IDialogService>();
-            dialog.ShowMessage(message.Notification, "Message");
+            DispatcherHelper.RunAsync(() => dialog.ShowMessage(message.Notification, "Message"));
         }
 
         private async void InitializeUi()
         {
-            // If we have a phone contract, hide the status bar
+            // Phone status bar settings
             if (ApiInformation.IsApiContractPresent("Windows.Phone.PhoneContract", 1, 0))
             {
                 Color color = (Color)App.Current.Resources["SystemAccentColorDark1"];
@@ -154,7 +154,5 @@ namespace YesPojiQuota
                 ApplicationView.GetForCurrentView().TitleBar.ButtonBackgroundColor = color;
             }
         }
-
-
     }
 }

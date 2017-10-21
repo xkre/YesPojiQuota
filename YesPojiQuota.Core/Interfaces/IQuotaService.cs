@@ -9,9 +9,9 @@ namespace YesPojiQuota.Core.Interfaces
 {
     public interface IQuotaService
     {
-        Task<double> GetQuota(string Username);
+        Task<double> GetQuota(string username);
         Task<double> GetQuota(Account a);
 
-        double GetMaxQuota(string Username);
+        double GetMaxQuota(string username);
     }
 }

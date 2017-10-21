@@ -15,10 +15,10 @@ namespace YesPojiQuota.Core.Services
         {
             Random b = new Random();
 
-            return Task.Run(() => b.NextDouble()*maxQuota);
+            return Task.Run(() => b.NextDouble() * maxQuota);
         }
 
-        public double GetMaxQuota(string Username)
+        public double GetMaxQuota(string username)
         {
             return maxQuota;
         }

@@ -20,12 +20,10 @@ namespace YesPojiQuota.Core.Observers
         private YesSessionService _ys;
         private NetworkChangeHandler _nch;
 
-
         public YesSessionUpdater(YesSessionService ys, NetworkChangeHandler nch)
         {
             _ys = ys;
             _nch = nch;
-
         }
 
         public void Init()

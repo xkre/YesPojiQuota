@@ -50,18 +50,9 @@ namespace YesPojiQuota.ViewModels
                 foreach (var a in accounts)
                 {
                     var acvm = CreateAccountViewModel(a);
-                    Accounts.Add(acvm);
+                    DispatcherHelper.RunAsync(() => Accounts.Add(acvm));
+                    await acvm.InitAsync();
                 }
-
-                await Task.Run(async () =>
-                {
-                    foreach (var acvm in Accounts)
-                    {
-                        await acvm.InitAsync();
-                    }
-                });
-
-
             }
         }
 
@@ -75,14 +66,13 @@ namespace YesPojiQuota.ViewModels
 
                 Accounts.Add(acvm2);
 
-                //SimpleIoc.Default.Unregister(acvm);
-                //SimpleIoc.Default.Register(() => acvm2, acvm2.Id.ToString());
-
                 acvm.Removed += AccountRemoved;
 
                 await acvm2.InitAsync();
                 await acvm2.RefreshDataAsync();
                 await acvm2.SaveData();
+
+                acvm2.RefreshCanConnectProperty();
             };
             return acvm;
         }
@@ -123,12 +113,9 @@ namespace YesPojiQuota.ViewModels
                 }
 
                 MessengerInstance.Send(new LoadingMessage()
-                { IsLoading = false, Message = "Quota Refreshed" }
+                    { IsLoading = false, Message = "Quota Refreshed" }
                 );
             });
         }
-
     }
-
-
 }
