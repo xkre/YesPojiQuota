@@ -26,8 +26,6 @@ namespace YesPojiQuota.ViewModels
         public event MyEventHandler OnSuccessOperation;
         public event MyEventHandler Removed;
 
-        //private bool _isLoaded = false;
-
         private YesContext _db;
         private ILoginService _ls;
         private NetworkChangeHandler _nch;
@@ -90,7 +88,7 @@ namespace YesPojiQuota.ViewModels
         {
             get
             {
-                return new string[]{
+                return new string[] {
                     "Student (@live.utm.my)",
                     "Staff (@utm.my)"
                 }.ToList();
@@ -156,7 +154,6 @@ namespace YesPojiQuota.ViewModels
             DispatcherHelper.RunAsync(() => CanLogin = false);
         }
 
-
         public async Task RefreshDataAsync() => await Quota.RefreshQuotaAsync();
         public async Task SaveDataIfNecessary() => await Quota.SaveDataIfNecessary();
         public async Task SaveData() => await Quota.SaveData();
@@ -198,13 +195,12 @@ namespace YesPojiQuota.ViewModels
 
         public async void Login()
         {
-            Messenger.Default.Send(new LoadingMessage() { IsLoading = true, Message = "Logging in" });
-            var a = await _ls.LoginAsync(Username, EncryptionHelper.AES_Decrypt(Password, Username));
-            if (a)
-                Messenger.Default.Send(new LoadingMessage() { IsLoading = false, Message = "Successful log in" });
-            else
-                Messenger.Default.Send(new LoadingMessage() { IsLoading = false, Message = "fail log in" });
+            SetLoadingMessage("Logging In");
 
+            Account unencryptedAccount = Account;
+            unencryptedAccount.Password = EncryptionHelper.AES_Decrypt(Password, Username);
+
+            await _ls.LoginAsync(unencryptedAccount);
         }
 
         public async void Remove()
@@ -213,6 +209,17 @@ namespace YesPojiQuota.ViewModels
             await _db.SaveChangesAsync();
 
             Removed(this);
+        }
+
+        public void RefreshCanConnectProperty()
+        {
+            var currentConnectivity = _nch.CurrentNetwork;
+
+            if (currentConnectivity == NetworkCondition.YesWifiConnected ||
+                currentConnectivity == NetworkCondition.Online)
+            {
+                DispatcherHelper.RunAsync(() => CanLogin = true);
+            }
         }
 
         private bool Validate(out string error)
@@ -231,15 +238,14 @@ namespace YesPojiQuota.ViewModels
                 return false;
 
             error = "Invalid Username | Password";
-            var uValid = !Regex.Match(Username, " ").Success;
-            var pValid = true;
+            var usernameValid = !Regex.Match(Username, " ").Success;
+            var passwordValid = true;
 
             if (EnableLogin)
-                pValid = !Regex.Match(Password, " ").Success;
+                passwordValid = !Regex.Match(Password, " ").Success;
 
-            return uValid && pValid;
+            return usernameValid && passwordValid;
         }
-
         #endregion Methods
     }
 }

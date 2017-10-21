@@ -28,7 +28,6 @@ namespace YesPojiQuota.Core.Services
             }
         }
 
-
         public bool CanGoBack()
         {
             if (nav.CurrentPageKey != NavigationService.RootPageKey)

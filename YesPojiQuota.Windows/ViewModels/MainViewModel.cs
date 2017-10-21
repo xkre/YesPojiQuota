@@ -35,16 +35,14 @@ namespace YesPojiQuota.ViewModels
         public async virtual Task InitAsync()
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
-
         }
-
 
         protected readonly INavigationService _navigationService;
 
         private string _pageTitle;
         public string PageTitle
         {
-            get { return _pageTitle ?? "Default Title"; }
+            get => _pageTitle ?? "Default Title";
             set
             {
                 Set("PageTitle", ref _pageTitle, value);
@@ -58,16 +56,6 @@ namespace YesPojiQuota.ViewModels
             set { Set("PageContent", ref _pageContent, value); }
         }
 
-
-        //private RelayCommand _navigateToSecondPage;
-        //public RelayCommand NavigateToSecondPage
-        //{
-        //    get
-        //    {
-        //        return _navigateToSecondPage ?? (_navigateToSecondPage = new RelayCommand(() => _navigationService.NavigateTo(ViewModelKeys.SECOND_PAGE)));
-        //    }
-        //}
-
         private bool _canLogin = false;
         public bool CanLogin
         {
@@ -75,18 +63,7 @@ namespace YesPojiQuota.ViewModels
             set { Set("CanLogin", ref _canLogin, value); }
         }
 
-        //private RelayCommand _navigateToAddZone;
-
-        //public RelayCommand NavigateToAddZone
-        //{
-        //    get
-        //    {
-        //        return _navigateToAddZone ?? (_navigateToAddZone = new RelayCommand(() => _navigationService.NavigateTo(ViewModelKeys.ADD_ZONE_PAGE)));
-        //    }
-        //}
-
         //private RelayCommand _sendNotificationMessage;
-
         //public RelayCommand SendNotificationMessage
         //{
         //    get
@@ -108,7 +85,6 @@ namespace YesPojiQuota.ViewModels
         protected void SendNotificationMessage(string message)
         {
             //Messenger.Default.Send(message);
-
             SendDialogMessage(message, (x) => {; });
 
             //Messenger.Default.Send(
@@ -127,23 +103,10 @@ namespace YesPojiQuota.ViewModels
             Messenger.Default.Send(new NotificationMessageAction<string>(message, action));
         }
 
-
-
-        //private RelayCommand _showWarning;
-
-        //public RelayCommand ShowWarning
-        //{
-        //    get
-        //    {
-        //        return _showWarning
-        //            ?? (_showWarning = new RelayCommand(
-        //                async () =>
-        //                {
-        //                    var dialog = ServiceLocator.Current.GetInstance<IDialogService>();
-        //                    await dialog.ShowMessage("This is a warning.", "Warning");
-        //                }));
-        //    }
-        //}
+        protected void SetLoadingMessage(string message)
+        {
+            Messenger.Default.Send(new LoadingMessage() { IsLoading = true, Message = message });
+        }
 
         internal void BackRequested(object sender, BackRequestedEventArgs e)
         {
@@ -154,7 +117,5 @@ namespace YesPojiQuota.ViewModels
                 e.Handled = true;
             }
         }
-
-
     }
 }

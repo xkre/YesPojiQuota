@@ -9,7 +9,7 @@
     Title="Enter Account Info"
     PrimaryButtonText="Add"
     SecondaryButtonText="Cancel"
-    PrimaryButtonClick="{x:Bind vm.Save}"
+    PrimaryButtonClick="{x:Bind Vm.Save}"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
     KeyUp="ContentDialog_KeyUp" MaxHeight="500"
     >
@@ -17,8 +17,8 @@
     <Grid>
         <StackPanel>
             <TextBlock Text="Account Type" Margin="0,10"/>
-            <ListBox ItemsSource="{x:Bind vm.AccountTypes}" 
-                     SelectedIndex="{x:Bind vm.Type, Mode=TwoWay}"
+            <ListBox ItemsSource="{x:Bind Vm.AccountTypes}" 
+                     SelectedIndex="{x:Bind Vm.Type, Mode=TwoWay}"
                      Margin="0,2" TabIndex="0"/>
 
             <Grid>
@@ -38,7 +38,7 @@
                              Header="Password" Margin="0,10" Grid.Row="1" TabIndex="3"/>
 
                 <CheckBox x:Name="LoginCheckbox" Content="Enable Login" Margin="0,10"
-                          IsChecked="{x:Bind vm.EnableLogin, Mode=TwoWay}"
+                          IsChecked="{x:Bind Vm.EnableLogin, Mode=TwoWay}"
                           Unchecked="LoginCheckbox_Unchecked" Grid.Row="2" TabIndex="2"/>
 
             </Grid>
