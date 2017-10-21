@@ -95,7 +95,7 @@ namespace YesPojiQuota.Core.Services
                     }
                     else
                     {
-                        var failReason = ParseFailReason(rawHtml);
+                        var failReason = await ParseFailReasonAsync(rawHtml);
                         OnLoginFailed(failReason);
                     }
 
@@ -178,25 +178,35 @@ namespace YesPojiQuota.Core.Services
             var html = new HtmlDocument();
             html.LoadHtml(rawHhtml);
 
+            //TODO: this looks terrible...
             theKey += html.DocumentNode.ChildNodes[2].ChildNodes[7].ChildNodes[1].ChildNodes[1].GetAttributeValue("href", "failed");
             theKey = Regex.Match(theKey, @"key=([^)]*)\&").Groups[1].Value;
 
             return theKey;
         }
 
-        private LoginFailureReason ParseFailReason(string rawHTML)
+        private async Task<LoginFailureReason> ParseFailReasonAsync(string rawHTML)
         {
             //Searches for parseCause( and get the value after it
             //Might be better for performance to separate the html by line first.
-            var reason = Regex.Match(rawHTML, @"parseCause\(([^)]*)").Groups[1].Value;
+            var loginURL = Regex.Match(rawHTML, @"replace\(([^)]*)\)").Groups[1].Value;
+            loginURL = loginURL.Replace('"', ' ').Trim();
 
-            //Remove "
-            reason = reason.Replace('\"', ' ');
-            reason = reason.Trim();
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetAsync(loginURL);
+                var loginHtml = await response.Content.ReadAsStringAsync();
 
-            LoginFailureReason parsedReason = (LoginFailureReason)int.Parse(reason);
+                var reason = Regex.Match(loginHtml, @"deniedCause = parseCause\(([^)]*)").Groups[1].Value;
 
-            return parsedReason;
+                //Remove "
+                reason = reason.Replace('\"', ' ');
+                reason = reason.Trim();
+
+                LoginFailureReason parsedReason = (LoginFailureReason)int.Parse(reason);
+
+                return parsedReason;
+            }
         }
     }
 }
