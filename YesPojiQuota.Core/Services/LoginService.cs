@@ -149,13 +149,9 @@ namespace YesPojiQuota.Core.Services
                 try
                 {
                     rawHtml = await client.GetStringAsync(PORTAL_TEST_URL);
-
-                    if (rawHtml.Contains("success"))
-                    {
-                        return false;
-                    }
-
-                    return true;
+                    
+                    if (rawHtml.Contains("https://wifi.yes.my/pas/start"))
+                        return true;
                 }
                 catch (Exception e)
                 {
