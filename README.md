@@ -1,6 +1,6 @@
 # YesPojiQuota
 
-[![CodeFactor](https://www.codefactor.io/repository/github/xkre/yespojiquota/badge/develop)](https://www.codefactor.io/repository/github/xkre/yespojiquota/overview/develop)
+[![CodeFactor](https://www.codefactor.io/repository/github/xkre/yespojiquota/badge)](https://www.codefactor.io/repository/github/xkre/yespojiquota)
 
 YesPojiQuota
 
@@ -14,4 +14,5 @@ YesPojiQuota
     }
     ```
 #### Requirement
-Windows Anniversary Update SDK
+Windows 10 Anniversary Update SDK
+Visual Studio 2017
