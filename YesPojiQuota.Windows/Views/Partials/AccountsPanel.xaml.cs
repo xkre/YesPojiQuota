@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.Threading.Tasks;
+using YesPojiQuota.Core.Models;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -30,6 +31,13 @@ namespace YesPojiQuota.Views.Partials
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+        }
+
+        private void SortButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            ListView.ItemsSource = (ListView.ItemsSource as List<Account>).OrderBy(i => i.Quota.Available);
+            InvalidateArrange();
         }
 
         /*

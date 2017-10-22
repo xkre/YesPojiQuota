@@ -87,7 +87,7 @@
 
         <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Right"
                     Background="{ThemeResource SystemAccentColorDark2}" Opacity="0.7">
-            <Button Content="Sort" FontSize="12" Margin="0 0 5 0"/>
+            <Button Content="Sort" FontSize="12" Margin="0 0 5 0" Click="SortButton_Click"/>
             <Button Content="Filter" FontSize="12" />
         </StackPanel>
 
