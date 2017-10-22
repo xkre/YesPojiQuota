@@ -91,7 +91,7 @@
             <Button Content="Filter" FontSize="12" />
         </StackPanel>
 
-        <ListView ItemTemplate="{StaticResource AccountsPanelTemplate}"
+        <ListView x:Name="listview" ItemTemplate="{StaticResource AccountsPanelTemplate}"
                   ItemsSource="{x:Bind Vm.Accounts}" MaxWidth="700"
                   Grid.Row="1">
             <ListView.ItemContainerStyle>
