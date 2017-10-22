@@ -117,5 +117,26 @@ namespace YesPojiQuota.ViewModels
                 );
             });
         }
+
+
+        public void Sort(SortType sorting = SortType.Quota)
+        {
+            switch (sorting)
+            {
+                case SortType.AccountName:
+                    _accounts.OrderBy(a => a.Account.AccountId); 
+                    break;
+                default:
+                    _accounts.OrderBy(a => a.Quota);
+                    break;
+            }
+        }
+
+
+        public enum SortType
+        {
+            Quota, 
+            AccountName,
+        }
     }
 }
