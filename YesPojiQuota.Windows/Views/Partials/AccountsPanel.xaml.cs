@@ -35,8 +35,11 @@ namespace YesPojiQuota.Views.Partials
 
         private void SortButton_Click(object sender, RoutedEventArgs e)
         {
-            this.listview.ItemsSource = (listview.ItemsSource as List<Account>).OrderBy(i => i.Quota.Available);
-            InvalidateArrange();
+            if (this.listview.Items.Count > 0)
+            {
+                (this.listview.ItemsSource as AccountsPanelViewModel).Accounts.OrderBy(a => a.Account.Quota);
+                InvalidateArrange();
+            }
         }
 
         /*
