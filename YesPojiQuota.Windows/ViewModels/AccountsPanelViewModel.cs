@@ -26,8 +26,8 @@ namespace YesPojiQuota.ViewModels
         private ObservableCollection<AccountViewModel> _accounts;
         public ObservableCollection<AccountViewModel> Accounts
         {
-            get => _accounts ?? (_accounts = new ObservableCollection<AccountViewModel>());
-            set => _accounts = value;
+            get => _accounts ?? (Accounts = new ObservableCollection<AccountViewModel>());
+            set => Set("Accounts", ref _accounts, value);
         }
 
         public AccountsPanelViewModel(YesContext db)
@@ -124,10 +124,10 @@ namespace YesPojiQuota.ViewModels
             switch (sorting)
             {
                 case SortType.AccountName:
-                    _accounts.OrderBy(a => a.Account.AccountId); 
+                    Accounts = Accounts.OrderBy(a => a.Account.AccountId); 
                     break;
                 default:
-                    _accounts.OrderBy(a => a.Quota);
+                    Accounts = Accounts.OrderBy(a => a.Quota);
                     break;
             }
         }
