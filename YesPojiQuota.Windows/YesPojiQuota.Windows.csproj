@@ -12,7 +12,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.16299.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -210,6 +210,10 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CoreLibs\CoreLibs.csproj">
+      <Project>{a70d66e0-229b-462f-aa0d-243c5c8ea41a}</Project>
+      <Name>CoreLibs</Name>
+    </ProjectReference>
     <ProjectReference Include="..\YesPojiQuota.Core\YesPojiQuota.Core.csproj">
       <Project>{2D15D326-FC0F-4855-993B-FD848C12B1B0}</Project>
       <Name>YesPojiQuota.Core</Name>

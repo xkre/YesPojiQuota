@@ -44,12 +44,8 @@ namespace YesPojiQuota.ViewModels
             get { return _sessionRefreshInterval; }
             set { Set("QuotaRefreshInterval", ref _sessionRefreshInterval, value); }
         }
-
         #endregion Properties
-
-
-
-
+        
         private string GetVersionNumber()
         {
             Package package = Package.Current;
