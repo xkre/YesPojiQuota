@@ -9,7 +9,7 @@ namespace YesPojiQuotaUtmLibs.Events
     public class Events
     {
         public delegate void SessionDataUpdateEvent(SessionData data);
-        public delegate void LoginFailedEvent(LoginFailureReason reason);
+        public delegate void LoginFailedEvent(LoginStatus reason);
 
         public delegate void SimpleEvent();
     }

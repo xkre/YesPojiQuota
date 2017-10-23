@@ -8,9 +8,9 @@ using YesPojiQuotaUtmLibs.Models;
 
 namespace YesPojiQuotaUtmLibs.Services
 {
-    public class QuotaService
+    public class YesQuotaService : IYesQuotaService
     {
-        private const string URL = "http://quota.utm.my/balance.php";
+        private const string QUOTA_URL = "http://quota.utm.my/balance.php";
 
         public async Task<double> GetQuotaAsync(string username)
         {
@@ -22,7 +22,7 @@ namespace YesPojiQuotaUtmLibs.Services
                     new KeyValuePair<string, string>("Username", username),
                 });
 
-                var result = await client.PostAsync(URL, content);
+                var result = await client.PostAsync(QUOTA_URL, content);
                 var rawHtml = await result.Content.ReadAsStringAsync();
 
                 quota = ProcessQuota(rawHtml);
@@ -49,7 +49,7 @@ namespace YesPojiQuotaUtmLibs.Services
             {
                 return double.Parse(result);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //Debug.WriteLine($"Exception in ProcessQuota {e}");
             }

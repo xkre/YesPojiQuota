@@ -1,8 +1,9 @@
 ﻿
 namespace YesPojiQuotaUtmLibs.Enums
 {
-    public enum LoginFailureReason
+    public enum LoginStatus
     {
+        Success = 0,
         UserNotFound = 1,
         WrongPassword = 2,
         NoZoneAccess = 3,

@@ -8,51 +8,27 @@ using YesPojiQuotaUtmLibs.Exceptions;
 
 namespace YesPojiQuotaUtmLibs.Services
 {
-    public class YesSessionService
+    public class YesSessionService : IYesSessionService
     {
         private string SESSION_URL = "https://apc.aptilo.com/apc/session.phtml";
 
-        //private SessionData _lastSession;
+        public async Task<SessionData> GetSessionDataAsync()
+            => ParseSession(await GetRawSessionDataAsync());
 
-        public async Task<SessionData> GetSessionData()
+        public async Task<string> GetRawSessionDataAsync()
         {
-            SessionData session;
-
-            Debug.WriteLine("Updating Session Data");
             using (var client = new HttpClient())
             {
                 var result = await client.GetAsync(SESSION_URL);
                 var rawHtml = await result.Content.ReadAsStringAsync();
 
-                session = ParseSession(rawHtml);
-                //_lastSession = session;
-            }
-
-            return session;
-        }
-
-        public async Task<bool> IsConnectedToYesAsync()
-        {
-            Debug.WriteLine("In IsConnectedToYesAsync :: ");
-            using (var client = new HttpClient())
-            {
-                try
-                {
-                    var result = await client.GetAsync(SESSION_URL);
-                    var rawHtml = await result.Content.ReadAsStringAsync();
-
-                    var session = ParseSession(rawHtml);
-                    return session.Received > 0 || session.Sent > 0;
-                }
-                catch
-                {
-                    throw new YesNotConnectedException("Not Connected to yes network");
-                }
+                return rawHtml;
             }
         }
 
-        private SessionData ParseSession(string rawHtml)
+        public SessionData ParseSession(string rawHtml)
         {
+            //TODO::Change the way the data is read.
             var htmlByLine = rawHtml.Split('\n');
 
             string sentS = htmlByLine[17];
@@ -73,9 +49,8 @@ namespace YesPojiQuotaUtmLibs.Services
                 };
                 return session;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Debug.WriteLine($"Exception: {ex.StackTrace}");
                 return null;
             }
         }
