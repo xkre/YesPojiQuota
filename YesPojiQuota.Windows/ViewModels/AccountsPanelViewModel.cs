@@ -26,8 +26,8 @@ namespace YesPojiQuota.ViewModels
         private ObservableCollection<AccountViewModel> _accounts;
         public ObservableCollection<AccountViewModel> Accounts
         {
-            get => _accounts ?? (_accounts = new ObservableCollection<AccountViewModel>());
-            set => _accounts = value;
+            get => _accounts ?? (Accounts = new ObservableCollection<AccountViewModel>());
+            set => Set("Accounts", ref _accounts, value);
         }
 
         public AccountsPanelViewModel(YesContext db)
@@ -116,6 +116,25 @@ namespace YesPojiQuota.ViewModels
                     { IsLoading = false, Message = "Quota Refreshed" }
                 );
             });
+        }
+
+        public void Sort(SortType sorting = SortType.Quota)
+        {
+            switch (sorting)
+            {
+                case SortType.AccountName:
+                    Accounts = new ObservableCollection<AccountViewModel>(Accounts.ToList().OrderBy(a => a.Account.AccountId)); 
+                    break;
+                default:
+                    Accounts = new ObservableCollection<AccountViewModel>(Accounts.ToList().OrderBy(a => a.Quota.Available));
+                    break;
+            }
+        }
+
+        public enum SortType
+        {
+            Quota, 
+            AccountName,
         }
     }
 }
