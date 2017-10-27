@@ -11,7 +11,7 @@ using YesPojiQuota.CoreLibs.Data;
 using YesPojiQuota.CoreLibs.Interfaces;
 using YesPojiQuota.CoreLibs.Observers;
 using YesPojiQuota.CoreLibs.Services;
-using YesPojiQuota.Views;
+
 
 namespace YesPojiQuota.CoreLibs.ViewModels
 {
@@ -25,7 +25,7 @@ namespace YesPojiQuota.CoreLibs.ViewModels
             RegisterViewModels();
         }
 
-        private void RegisterViewModels()
+        protected void RegisterViewModels()
         {
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<MainPageViewModel>();
@@ -38,7 +38,7 @@ namespace YesPojiQuota.CoreLibs.ViewModels
             SimpleIoc.Default.Register<AccountViewModel>();
         }
 
-        private void RegisterServices()
+        protected void RegisterServices()
         {
             var nav = new CustomNavigationService(new NavigationService());
 

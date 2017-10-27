@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YesPojiQuota.Tasks", "YesPo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreLibs", "CoreLibs\CoreLibs.csproj", "{A70D66E0-229B-462F-AA0D-243C5C8EA41A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YesPojiQuotaUtmLibs", "YesPojiQuotaUtmLibs\YesPojiQuotaUtmLibs.csproj", "{976B3060-5133-4602-851D-F3B31809F7B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YesPojiQuotaUtmLibs", "YesPojiQuotaUtmLibs\YesPojiQuotaUtmLibs.csproj", "{976B3060-5133-4602-851D-F3B31809F7B4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YesPojiQuota.Android", "YesPojiQuota.Android\YesPojiQuota.Android.csproj", "{63391B76-6DF2-4F77-83BB-35A9D27B9B21}"
 EndProject
