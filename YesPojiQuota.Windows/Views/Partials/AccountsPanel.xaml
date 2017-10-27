@@ -92,7 +92,7 @@
         </StackPanel>
 
         <ListView x:Name="listview" ItemTemplate="{StaticResource AccountsPanelTemplate}"
-                  ItemsSource="{x:Bind Vm.Accounts}" MaxWidth="700"
+                  ItemsSource="{x:Bind Vm.Accounts, Mode=OneWay}" MaxWidth="700"
                   Grid.Row="1">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">

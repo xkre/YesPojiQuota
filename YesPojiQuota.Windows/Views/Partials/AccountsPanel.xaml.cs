@@ -35,13 +35,7 @@ namespace YesPojiQuota.Views.Partials
 
         private void SortButton_Click(object sender, RoutedEventArgs e)
         {
-            AccountsPanelViewModel model = (this.listview.ItemsSource as AccountsPanelViewModel);
-            if (model != null)
-            {
-                model.Sort();
-                this.listview.ItemsSource = model;
-                InvalidateArrange();
-            }
+            Vm.Sort();
         }
 
         /*

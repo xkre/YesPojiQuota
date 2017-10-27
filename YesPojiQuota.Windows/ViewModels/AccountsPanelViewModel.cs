@@ -118,20 +118,18 @@ namespace YesPojiQuota.ViewModels
             });
         }
 
-
         public void Sort(SortType sorting = SortType.Quota)
         {
             switch (sorting)
             {
                 case SortType.AccountName:
-                    Accounts = Accounts.OrderBy(a => a.Account.AccountId); 
+                    Accounts = new ObservableCollection<AccountViewModel>(Accounts.ToList().OrderBy(a => a.Account.AccountId)); 
                     break;
                 default:
-                    Accounts = Accounts.OrderBy(a => a.Quota);
+                    Accounts = new ObservableCollection<AccountViewModel>(Accounts.ToList().OrderBy(a => a.Quota.Available));
                     break;
             }
         }
-
 
         public enum SortType
         {
