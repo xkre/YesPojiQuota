@@ -48,7 +48,7 @@ namespace YesPojiQuota.ViewModels
             SimpleIoc.Default.Register<ICustomNavigationService>(() => nav);
             SimpleIoc.Default.Register<IDialogService, DialogService>();
             SimpleIoc.Default.Register<ILoginService, LoginService>();
-            SimpleIoc.Default.Register<IQuotaService, QuotaServiceMock>();
+            SimpleIoc.Default.Register<IQuotaService, QuotaService>();
             SimpleIoc.Default.Register<INetworkService, NetworkService>();
 
             SimpleIoc.Default.Register<YesSessionService>();
