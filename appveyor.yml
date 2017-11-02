@@ -30,7 +30,7 @@ assembly_info:
 
 before_build:
 
-- cmd: pushd . && cd src && nuget restore && popd
+- cmd: pushd . && nuget restore && popd
 
 build:
 
