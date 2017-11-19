@@ -12,6 +12,7 @@ using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Observers;
 using YesPojiQuota.Core.Services;
 using YesPojiQuota.Views;
+using YesPojiUtmLib.Services;
 
 namespace YesPojiQuota.ViewModels
 {
@@ -47,15 +48,17 @@ namespace YesPojiQuota.ViewModels
             SimpleIoc.Default.Register<INavigationService>(() => nav);
             SimpleIoc.Default.Register<ICustomNavigationService>(() => nav);
             SimpleIoc.Default.Register<IDialogService, DialogService>();
-            SimpleIoc.Default.Register<ILoginService, LoginService>();
-            SimpleIoc.Default.Register<IQuotaService, QuotaService>();
-            SimpleIoc.Default.Register<INetworkService, NetworkService>();
+            SimpleIoc.Default.Register<IYesLoginService, YesLoginService>();
+            SimpleIoc.Default.Register<IYesQuotaService, YesQuotaService>();
+            SimpleIoc.Default.Register<IYesNetworkService, YesNetworkService>();
 
             SimpleIoc.Default.Register<YesSessionService>();
-            SimpleIoc.Default.Register<YesContext>();
+
             SimpleIoc.Default.Register<NetworkChangeHandler>();
             SimpleIoc.Default.Register<YesSessionUpdater>();
             SimpleIoc.Default.Register<QuotaObserverManager>();
+
+            SimpleIoc.Default.Register<YesContext>();
         }
 
         /*

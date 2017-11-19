@@ -145,7 +145,6 @@
     <Compile Include="Services\NetworkService.cs" />
     <Compile Include="Services\QuotaService.cs" />
     <Compile Include="Services\QuotaServiceMock.cs" />
-    <Compile Include="Services\YesSessionService.cs" />
     <EmbeddedResource Include="Properties\YesPojiQuota.Core.rd.xml" />
   </ItemGroup>
   <ItemGroup>

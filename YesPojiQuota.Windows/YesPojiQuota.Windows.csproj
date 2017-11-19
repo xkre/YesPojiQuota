@@ -214,6 +214,10 @@
       <Project>{2D15D326-FC0F-4855-993B-FD848C12B1B0}</Project>
       <Name>YesPojiQuota.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\YesPojiUtmLib\YesPojiUtmLib\YesPojiUtmLib.csproj">
+      <Project>{F1A6413C-DB09-47F7-BC35-BA17A7AE56DD}</Project>
+      <Name>YesPojiUtmLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore">
