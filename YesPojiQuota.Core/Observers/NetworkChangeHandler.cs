@@ -5,12 +5,13 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using YesPojiQuota.Core.Enums;
-using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Models;
 using YesPojiQuota.Core.Services;
 using Windows.Networking.Connectivity;
 using YesPojiQuota.Core.Helpers;
+using YesPojiUtmLib.Services;
+using YesPojiQuota.Core.Interfaces;
+using YesPojiUtmLib.Enums;
 
 namespace YesPojiQuota.Core.Observers
 {
@@ -22,7 +23,7 @@ namespace YesPojiQuota.Core.Observers
         public event SimpleEvent WentOnline;
         public event SimpleEvent WentOffline;
 
-        private INetworkService _ns;
+        private IYesNetworkService _ns;
         private YesSessionService _ys;
 
         private NetworkCondition _currentNetwork;
@@ -30,7 +31,7 @@ namespace YesPojiQuota.Core.Observers
         private bool _yesConnected;
         private bool _isInitialized;
 
-        public NetworkChangeHandler(INetworkService ns, YesSessionService ys)
+        public NetworkChangeHandler(IYesNetworkService ns, YesSessionService ys)
         {
             _ns = ns;
             _ys = ys;

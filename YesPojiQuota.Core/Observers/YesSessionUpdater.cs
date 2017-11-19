@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Models;
 using YesPojiQuota.Core.Services;
+using YesPojiUtmLib.Services;
 
 namespace YesPojiQuota.Core.Observers
 {
@@ -41,7 +42,7 @@ namespace YesPojiQuota.Core.Observers
 
         private async void ProcessSessionData(long x)
         {
-            var session = await _ys.GetSessionData();
+            var session = await _ys.GetSessionDataAsync();
 
             SessionUpdated(session);
         }

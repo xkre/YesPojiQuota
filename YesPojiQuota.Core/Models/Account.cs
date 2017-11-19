@@ -1,7 +1,9 @@
 ﻿
+using YesPojiUtmLib.Models;
+
 namespace YesPojiQuota.Core.Models
 {
-    public class Account
+    public class Account : IAccount
     {
         public int AccountId { get; set; }
         public string Username { get; set; }
