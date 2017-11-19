@@ -204,7 +204,9 @@ namespace YesPojiQuota.ViewModels
             unencryptedAccount.Password = EncryptionHelper.AES_Decrypt(Password, Username);
 
 
-            await _ls.LoginAsync(unencryptedAccount);
+            var loginStatus = await _ls.LoginAsync(unencryptedAccount);
+
+            SendLoginStatusMessage(loginStatus);
         }
 
         public async void Remove()

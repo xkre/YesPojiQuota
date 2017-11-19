@@ -13,10 +13,10 @@ namespace YesPojiQuota.Utils.Notifications
         public LoginToast()
         {
             // In a real app, these would be initialized with actual data
-            string title = "Andrew sent you a picture";
-            string content = "Check this out, Happy Canyon in Utah!";
-            string image = "https://unsplash.it/360/202?image=883";
-            string logo = "ms-appdata:///local/Andrew.jpg";
+            string title = "Login to Yes4G Wifi";
+            string content = "You are connected to Yes4G network, would you like to login";
+            //string image = "https://unsplash.it/360/202?image=883";
+            //string logo = "ms-appdata:///local/Andrew.jpg";
 
             // Construct the visuals of the toast
             ToastVisual toast = new ToastVisual()
@@ -33,19 +33,14 @@ namespace YesPojiQuota.Utils.Notifications
                         new AdaptiveText()
                         {
                             Text = content
-                        },
-
-                        new AdaptiveImage()
-                        {
-                            Source = image
                         }
-                    },
-
-                    AppLogoOverride = new ToastGenericAppLogo()
-                    {
-                        Source = logo,
-                        HintCrop = ToastGenericAppLogoCrop.Circle
                     }
+
+                    //AppLogoOverride = new ToastGenericAppLogo()
+                    //{
+                    //    Source = logo,
+                    //    HintCrop = ToastGenericAppLogoCrop.Circle
+                    //}
                 }
             };
 
@@ -58,15 +53,21 @@ namespace YesPojiQuota.Utils.Notifications
             {
                 Inputs =
                 {
-                    new ToastTextBox("tbReply")
+                    new ToastSelectionBox("account")
                     {
-                        PlaceholderContent = "Type a response"
+                        DefaultSelectionBoxItemId = "ac1",
+                        Items =
+                        {
+                            new ToastSelectionBoxItem("ac1", "AC1"),
+                            new ToastSelectionBoxItem("ac2", "AC2"),
+                            new ToastSelectionBoxItem("ac3", "AC3")
+                        }
                     }
                 },
 
                 Buttons =
                 {
-                    new ToastButton("Reply", new QueryString()
+                    new ToastButton("Login", new QueryString()
                     {
                         { "action", "reply" },
                         { "conversationId", conversationId.ToString() }
@@ -89,14 +90,7 @@ namespace YesPojiQuota.Utils.Notifications
                     }.ToString())
                     {
                         ActivationType = ToastActivationType.Background
-                    },
-
-                    new ToastButton("View", new QueryString()
-                    {
-                        { "action", "viewImage" },
-                        { "imageUrl", image }
-
-                    }.ToString())
+                    }
                 }
             };
 

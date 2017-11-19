@@ -112,6 +112,7 @@
     <Compile Include="Utils\ColourHelper.cs" />
     <Compile Include="Utils\Converters\AccountTypeConverter.cs" />
     <Compile Include="Utils\LoadingMessage.cs" />
+    <Compile Include="Utils\LoginMessage.cs" />
     <Compile Include="Utils\Notifications\LoginToast.cs" />
     <Compile Include="ViewModels\AccountsPanelViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModel.cs" />

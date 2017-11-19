@@ -106,6 +106,38 @@ namespace YesPojiQuota.ViewModels
             //_ls.OnLoginFailed += ProcessLoginFail;
             //_ls.OnLoginSuccess += ProcessLoginSuccess;
 
+            InitMessengerRegistration();
+        }
+
+        public async void Logout()
+        {
+            SetLoadingMessage("Logging out");
+            var success = await _ls.LogoutAsync();
+
+            if (success)
+            {
+                Message = "Logout Successfull";
+                IsConnected = false;
+            }
+            else
+            {
+                Message = "Logout Not Successfull";
+            }
+
+            IsLoading = false;
+        }
+
+        private async Task InitLoading()
+        {
+            await DispatcherHelper.RunAsync(() =>
+            {
+                Message = "Checking network status";
+                IsLoading = true;
+            });
+        }
+
+        private void InitMessengerRegistration()
+        {
             Messenger.Default.Register<string>(this, HandleNotification);
             //TODO: Temporary   -- Seriously -------------------------------------
             Messenger.Default.Register<bool>(this, HandleNotification);
@@ -128,16 +160,9 @@ namespace YesPojiQuota.ViewModels
                     });
                 });
             });
-            ////Temporary   -- Seriously -------------------------------------
-        }
 
-        public async Task InitLoading()
-        {
-            await DispatcherHelper.RunAsync(() =>
-            {
-                Message = "Checking network status";
-                IsLoading = true;
-            });
+            Messenger.Default.Register<LoginMessage>(this, HandleLoginMessage);
+            ////Temporary   -- Seriously -------------------------------------
         }
 
         private void ProcessSessionUpdate(YesSessionData data)
@@ -161,24 +186,6 @@ namespace YesPojiQuota.ViewModels
         private void HandleNotification(bool a)
         {
             DispatcherHelper.RunAsync(() => IsConnected = a);
-        }
-
-        public async void Logout()
-        {
-            SetLoadingMessage("Logging out");
-            var success = await _ls.LogoutAsync();
-
-            if (success)
-            {
-                Message = "Logout Successfull";
-                IsConnected = false;
-            }
-            else
-            {
-                Message = "Logout Not Successfull";
-            }
-
-            IsLoading = false;
         }
 
         private async void UpdateNetworkStatusDisplay(NetworkCondition condition)
@@ -208,25 +215,48 @@ namespace YesPojiQuota.ViewModels
             });
         }
 
-        //private async void ProcessLoginSuccess()
-        //{
-        //    //TODO: Show session data
-        //    await DispatcherHelper.RunAsync(() => 
-        //    {
-        //        Message = "Login Success";
-        //        IsConnected = true;
-        //        IsLoading = false;
-        //    });
-        //}
+        private async void HandleLoginMessage(LoginMessage message)
+        {
+            //TODO: Maybe separate this into a class
+            if (message.Status == LoginStatus.Success)
+            {
+                await DispatcherHelper.RunAsync(() =>
+                {
+                    Message = "Login Success";
+                    IsConnected = true;
+                    IsLoading = false;
+                });
+            }
+            else
+            {
+                await DispatcherHelper.RunAsync(() =>
+                {
+                    Message = $"Login Not Successful - {message.ToString()}";
+                    IsLoading = false;
+                });
+            }
+        }
+        /*
+        private async void ProcessLoginSuccess()
+        {
+            //TODO: Show session data
+            await DispatcherHelper.RunAsync(() =>
+            {
+                Message = "Login Success";
+                IsConnected = true;
+                IsLoading = false;
+            });
+        }
 
-        //private async void ProcessLoginFail(LoginFailureReason reason)
-        //{
-        //    //TODO: Show Login fail message
-        //    await DispatcherHelper.RunAsync(() =>
-        //    {
-        //        Message = $"Login Not Successful - {reason.ToString()}";
-        //        IsLoading = false;
-        //    });
-        //}
+        private async void ProcessLoginFail(LoginFailureReason reason)
+        {
+            //TODO: Show Login fail message
+            await DispatcherHelper.RunAsync(() =>
+            {
+                Message = $"Login Not Successful - {reason.ToString()}";
+                IsLoading = false;
+            });
+        }
+        */
     }
 }
