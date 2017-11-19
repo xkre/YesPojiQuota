@@ -12,6 +12,7 @@ using YesPojiQuota.Core.Helpers;
 using YesPojiUtmLib.Services;
 using YesPojiQuota.Core.Interfaces;
 using YesPojiUtmLib.Enums;
+using YesPojiUtmLib.Models;
 
 namespace YesPojiQuota.Core.Observers
 {
@@ -49,7 +50,7 @@ namespace YesPojiQuota.Core.Observers
             Debug.WriteLine("Initialized NetworkChangeHandler");
         }
 
-        private void ProcessSessionUpdate(SessionData data)
+        private void ProcessSessionUpdate(YesSessionData data)
         {
             throw new NotImplementedException();
         }

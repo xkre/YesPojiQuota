@@ -129,7 +129,6 @@
     <Compile Include="Models\AppData.cs" />
     <Compile Include="Models\Metadata.cs" />
     <Compile Include="Models\Quota.cs" />
-    <Compile Include="Models\SessionData.cs" />
     <Compile Include="Notifications\Toast.cs" />
     <Compile Include="Observers\NetworkChangeHandler.cs" />
     <Compile Include="Observers\QuotaObserverManager.cs" />

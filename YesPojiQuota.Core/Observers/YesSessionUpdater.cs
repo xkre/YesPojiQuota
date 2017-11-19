@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Models;
 using YesPojiQuota.Core.Services;
+using YesPojiUtmLib.Models;
 using YesPojiUtmLib.Services;
 
 namespace YesPojiQuota.Core.Observers
@@ -15,7 +16,7 @@ namespace YesPojiQuota.Core.Observers
     {
         public event SessionDataUpdateEvent SessionUpdated;
 
-        private SessionData _session;
+        private YesSessionData _session;
         private IDisposable _updateTimer;
 
         private YesSessionService _ys;
