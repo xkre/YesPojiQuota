@@ -1,0 +1,3 @@
+[submodule "YesPojiUtmLib"]
+	path = YesPojiUtmLib
+	url = https://github.com/xkre/YesPojiUtmLib.git
