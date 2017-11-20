@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using YesPojiQuota.Core.Models;
 using YesPojiQuota.Core.Services;
-using Windows.Networking.Connectivity;
 using YesPojiQuota.Core.Helpers;
 using YesPojiUtmLib.Services;
 using YesPojiQuota.Core.Interfaces;
@@ -19,10 +18,10 @@ namespace YesPojiQuota.Core.Observers
     public class NetworkChangeHandler
     {
         public event NetworkChangeEvent NetworkChanged;
+
         public event SimpleEvent YesConnected;
         public event SimpleEvent YesDisconnected;
-        public event SimpleEvent WentOnline;
-        public event SimpleEvent WentOffline;
+        public event SimpleEvent LoginRequired;
 
         private IYesNetworkService _ns;
         private YesSessionService _ys;
@@ -50,11 +49,6 @@ namespace YesPojiQuota.Core.Observers
             Debug.WriteLine("Initialized NetworkChangeHandler");
         }
 
-        private void ProcessSessionUpdate(YesSessionData data)
-        {
-            throw new NotImplementedException();
-        }
-
         private void ProcessNetworkChange(NetworkCondition condition)
         {
             if (_currentNetwork != condition)
@@ -70,6 +64,10 @@ namespace YesPojiQuota.Core.Observers
                         _yesConnected = true;
 
                         YesConnected();
+
+                        if (condition == NetworkCondition.YesWifiConnected)
+                            LoginRequired();
+
                         Debug.WriteLine("NetworkChangeHandler Raised YesConnected Event");
                     }
                 }
@@ -102,21 +100,14 @@ namespace YesPojiQuota.Core.Observers
 
         private void CheckNetworkCondition(long s) => CheckNetworkCondition((object)s);
 
-        private async void CheckNetworkCondition (object s)
+        protected async void CheckNetworkCondition (object s)
         {
             var network = await _ns.GetNetworkConditionAsync();
             ProcessNetworkChange(network);
         }
 
-        private void InitNetworkChangeMonitor()
+        protected virtual void InitNetworkChangeMonitor()
         {
-            NetworkInformation.NetworkStatusChanged += CheckNetworkCondition;
-                //{
-                //    //var profile = NetworkInformation.GetInternetConnectionProfile();
-                //    //var isConnected = (profile != null
-                //    //    && profile.GetNetworkConnectivityLevel() ==
-                //    //    NetworkConnectivityLevel.InternetAccess);
-            //};
         }
     }
 }
