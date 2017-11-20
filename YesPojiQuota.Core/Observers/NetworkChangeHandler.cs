@@ -102,6 +102,7 @@ namespace YesPojiQuota.Core.Observers
 
         protected async void CheckNetworkCondition (object s)
         {
+            Debug.WriteLine("NetworkChangeHandler:: Checking network condition");
             var network = await _ns.GetNetworkConditionAsync();
             ProcessNetworkChange(network);
         }
