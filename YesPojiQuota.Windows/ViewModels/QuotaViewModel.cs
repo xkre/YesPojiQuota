@@ -13,19 +13,20 @@ using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Models;
 using YesPojiQuota.Core.Observers;
 using YesPojiQuota.Core.Services;
+using YesPojiUtmLib.Services;
 
 namespace YesPojiQuota.ViewModels
 {
     public class QuotaViewModel : MainViewModel
     {
         private YesContext _db;
-        private IQuotaService _qs;
+        private IYesQuotaService _qs;
         private QuotaObserverManager _qom;
 
         private bool _isChanged = false;
         private IDisposable quotaObserver;
 
-        public QuotaViewModel(YesContext db, IQuotaService qs, QuotaObserverManager qom)
+        public QuotaViewModel(YesContext db, IYesQuotaService qs, QuotaObserverManager qom)
         {
             _db = db;
             _qs = qs;
@@ -101,7 +102,7 @@ namespace YesPojiQuota.ViewModels
             Debug.WriteLine($"Refreshing quota for: {Quota.Account.Username}");
             try
             {
-                var available = await _qs.GetQuota(Quota.Account.Username);
+                var available = await _qs.GetQuotaAsync(Quota.Account.Username);
 
                 _isChanged = available != Available;
 

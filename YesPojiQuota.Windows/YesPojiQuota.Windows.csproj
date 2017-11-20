@@ -112,6 +112,7 @@
     <Compile Include="Utils\ColourHelper.cs" />
     <Compile Include="Utils\Converters\AccountTypeConverter.cs" />
     <Compile Include="Utils\LoadingMessage.cs" />
+    <Compile Include="Utils\LoginMessage.cs" />
     <Compile Include="Utils\Notifications\LoginToast.cs" />
     <Compile Include="ViewModels\AccountsPanelViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModel.cs" />
@@ -214,13 +215,17 @@
       <Project>{2D15D326-FC0F-4855-993B-FD848C12B1B0}</Project>
       <Name>YesPojiQuota.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\YesPojiUtmLib\YesPojiUtmLib\YesPojiUtmLib.csproj">
+      <Project>{F1A6413C-DB09-47F7-BC35-BA17A7AE56DD}</Project>
+      <Name>YesPojiUtmLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore">
-      <Version>1.1.2</Version>
+      <Version>1.1.4</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>5.3.2</Version>
+      <Version>5.4.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
       <Version>2.0.0</Version>

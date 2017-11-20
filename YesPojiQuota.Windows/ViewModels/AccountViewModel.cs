@@ -12,11 +12,14 @@ using System.Collections.Concurrent;
 using YesPojiQuota.Core.Data;
 using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Helpers;
-using YesPojiQuota.Core.Enums;
 using YesPojiQuota.Core.Models;
 using YesPojiQuota.Utils;
 using YesPojiQuota.Core.Observers;
 using GalaSoft.MvvmLight.Threading;
+using YesPojiUtmLib.Services;
+using YesPojiUtmLib.Enums;
+using YesPojiQuota.Core.Enums;
+using YesPojiUtmLib.Models;
 
 namespace YesPojiQuota.ViewModels
 {
@@ -27,11 +30,11 @@ namespace YesPojiQuota.ViewModels
         public event MyEventHandler Removed;
 
         private YesContext _db;
-        private ILoginService _ls;
+        private IYesLoginService _ls;
         private NetworkChangeHandler _nch;
 
         #region Constructors
-        public AccountViewModel(YesContext db, ILoginService ls, NetworkChangeHandler nch)
+        public AccountViewModel(YesContext db, IYesLoginService ls, NetworkChangeHandler nch)
         {
             _db = db;
             _ls = ls;
@@ -167,7 +170,7 @@ namespace YesPojiQuota.ViewModels
             }
 
             Username = Username.ToLower();
-            Username += _type == AccountType.Student ? "@live.utm.my" : "@utm.my";
+            Username += _type == Core.Enums.AccountType.Student ? "@live.utm.my" : "@utm.my";
 
             if (null != _db.Accounts.Where(x => x.Username == Username).FirstOrDefault())
             {
@@ -200,7 +203,9 @@ namespace YesPojiQuota.ViewModels
             Account unencryptedAccount = Account;
             unencryptedAccount.Password = EncryptionHelper.AES_Decrypt(Password, Username);
 
-            await _ls.LoginAsync(unencryptedAccount);
+            var loginStatus = await _ls.LoginAsync(unencryptedAccount);
+
+            Messenger.Default.Send(new LoginMessage(loginStatus));
         }
 
         public async void Remove()
