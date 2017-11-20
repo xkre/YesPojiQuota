@@ -11,6 +11,7 @@ using YesPojiQuota.Core.Data;
 using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Observers;
 using YesPojiQuota.Core.Services;
+using YesPojiQuota.Utils;
 using YesPojiQuota.Views;
 using YesPojiUtmLib.Services;
 
@@ -54,9 +55,10 @@ namespace YesPojiQuota.ViewModels
 
             SimpleIoc.Default.Register<YesSessionService>();
 
-            SimpleIoc.Default.Register<NetworkChangeHandler>();
+            SimpleIoc.Default.Register<NetworkChangeHandler, WindowsNetworkChangeHandler>();
             SimpleIoc.Default.Register<YesSessionUpdater>();
             SimpleIoc.Default.Register<QuotaObserverManager>();
+            SimpleIoc.Default.Register<ToastManager>();
 
             SimpleIoc.Default.Register<YesContext>();
         }
