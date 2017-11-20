@@ -25,15 +25,18 @@ namespace YesPojiQuota.ViewModels
         private YesSessionUpdater _ys;
         private NetworkChangeHandler _nch;
 
+        private ToastManager _tm;
+
         private IDisposable _messageTimer;
 
         public InnAppToastViewModel(IYesNetworkService ns, IYesLoginService ls,
-            YesSessionUpdater ys, NetworkChangeHandler nch)
+            YesSessionUpdater ys, NetworkChangeHandler nch, ToastManager tm)
         {
             _ns = ns;
             _ls = ls;
             _ys = ys;
             _nch = nch;
+            _tm = tm;
         }
 
         #region Properties
@@ -102,6 +105,8 @@ namespace YesPojiQuota.ViewModels
 
             _nch.NetworkChanged += UpdateNetworkStatusDisplay;
             _ys.SessionUpdated += ProcessSessionUpdate;
+
+            await _tm.InitAsync();
 
             //_ls.OnLoginFailed += ProcessLoginFail;
             //_ls.OnLoginSuccess += ProcessLoginSuccess;

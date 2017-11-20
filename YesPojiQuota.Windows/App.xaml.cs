@@ -23,6 +23,12 @@ using Windows.UI.Popups;
 using Windows.Foundation.Metadata;
 using Windows.UI.ViewManagement;
 using Windows.UI;
+using YesPojiQuota.Utils;
+using Windows.UI.Notifications;
+using YesPojiUtmLib.Services;
+using YesPojiQuota.Core.Data;
+using YesPojiQuota.Core.Helpers;
+using Windows.Networking.NetworkOperators;
 
 namespace YesPojiQuota
 {
@@ -110,6 +116,60 @@ namespace YesPojiQuota
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+        }
+
+        protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)
+        {
+            base.OnBackgroundActivated(args);
+            ToastHelper.PopToast("Debug", args.TaskInstance.Task.Name);
+
+            var deferral = args.TaskInstance.GetDeferral();
+
+            switch (args.TaskInstance.Task.Name)
+            {
+                case "ToastBackgroundTask":
+                    {
+                        YesContext _db = new YesContext();
+
+                        var details = args.TaskInstance.TriggerDetails as ToastNotificationActionTriggerDetail;
+                        var input = details.UserInput.Values.FirstOrDefault().ToString();
+
+                        ToastHelper.PopToast("SUCCESS", args.TaskInstance.Task.Name);
+
+                        var _ls = new YesLoginService();
+                        var account = _db.Accounts.Where(x => x.Username == input).FirstOrDefault();
+
+                        account.Password = EncryptionHelper.AES_Decrypt(account.Password, account.Username);
+
+                        ToastHelper.PopToast("ACCOUnt", $"Usename: {account.Username} P: {account.Password}");
+
+                        var status = await _ls.LoginAsync(account);
+                        ToastHelper.PopToast("LOGIN", status.ToString());
+
+                        break;
+                    }
+                case "NetworkBackgroundTask":
+                    {
+                        ToastHelper.PopToast("SUCCESS, NetworkTask", args.TaskInstance.Task.Name);
+
+                        var details = args.TaskInstance.TriggerDetails as HotspotAuthenticationEventDetails;
+                        break;
+                    }
+
+
+                    //var details = args.TaskInstance.TriggerDetails as ToastNotificationActionTriggerDetail;
+                    //if (details != null)
+                    //{
+                    //    string arguments = details.Argument;
+                    //    var userInput = details.UserInput;
+
+                    //    // Perform tasks
+
+                    //}
+                    //break;
+            }
+
+            deferral.Complete();
         }
 
         /// <summary>

@@ -20,7 +20,7 @@
     <PackageCertificateKeyFile>YesPojiQuota.Windows_StoreKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86</AppxBundlePlatforms>
     <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
     <PackageCertificateThumbprint>3F6483D45AEA1DE256213485675108FF8A22BBA0</PackageCertificateThumbprint>
     <AppxPackageDir>C:\Users\Akram\Source\Repos\YesPojiQuota\YesPojiQuota.Windows\AppPackages\</AppxPackageDir>
@@ -114,6 +114,9 @@
     <Compile Include="Utils\LoadingMessage.cs" />
     <Compile Include="Utils\LoginMessage.cs" />
     <Compile Include="Utils\Notifications\LoginToast.cs" />
+    <Compile Include="Utils\ToastHelper.cs" />
+    <Compile Include="Utils\ToastManager.cs" />
+    <Compile Include="Utils\WindowsNetworkChangeHandler.cs" />
     <Compile Include="ViewModels\AccountsPanelViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModel.cs" />
     <Compile Include="ViewModels\InnAppToastViewModel.cs" />
@@ -179,6 +182,7 @@
     <None Include="HTMLSource\LoginPageStart.html" />
     <None Include="HTMLSource\SuccessRedirectedResoponse.html" />
     <None Include="HTMLSource\SuccessResponse.html" />
+    <Content Include="HTMLSource\LimitReached.html" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>
