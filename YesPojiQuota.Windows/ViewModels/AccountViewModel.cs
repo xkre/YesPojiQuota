@@ -203,10 +203,9 @@ namespace YesPojiQuota.ViewModels
             Account unencryptedAccount = Account;
             unencryptedAccount.Password = EncryptionHelper.AES_Decrypt(Password, Username);
 
-
             var loginStatus = await _ls.LoginAsync(unencryptedAccount);
 
-            SendLoginStatusMessage(loginStatus);
+            Messenger.Default.Send(new LoginMessage(loginStatus));
         }
 
         public async void Remove()

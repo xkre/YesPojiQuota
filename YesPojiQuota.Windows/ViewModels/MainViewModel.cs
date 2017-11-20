@@ -99,11 +99,6 @@ namespace YesPojiQuota.ViewModels
             //);
         }
 
-        protected void SendLoginStatusMessage(LoginStatus message)
-        {
-            Messenger.Default.Send(new LoginMessage(message));
-        }
-
         protected void SendDialogMessage(string message, Action<string> action)
         {
             Messenger.Default.Send(new NotificationMessageAction<string>(message, action));
