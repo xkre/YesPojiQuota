@@ -11,6 +11,13 @@ namespace YesPojiQuota.Core.Services
 {
     public class DataService : IDataService
     {
-        public IEnumerable<Account> Accounts => throw new NotImplementedException();
+        private YesContext _db;
+
+        public DataService(YesContext db)
+        {
+            _db = db;
+        }
+
+        public IEnumerable<Account> Accounts => _db.Accounts.AsEnumerable();
     }
 }
