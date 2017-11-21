@@ -8,16 +8,16 @@ using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Security.Cryptography.DataProtection;
 using Windows.Storage.Streams;
+using YesPojiQuota.Core.Interfaces;
 
-namespace YesPojiQuota.Core.Helpers
+namespace YesPojiQuota.Core.Windows.Services
 {
-    public static class EncryptionHelper
+    public class WindowsEncryptionService : IEncryptionService
     {
-        static String strDescriptor = "LOCAL=user";
+        private const string strDescriptor = "LOCAL=user";
+        private const BinaryStringEncoding encoding = BinaryStringEncoding.Utf8;
 
-        public static async Task<String> SampleProtectAsync(
-            String strMsg,
-            BinaryStringEncoding encoding = BinaryStringEncoding.Utf8)
+        public async Task<string> SampleProtectAsync(string strMsg)
         {
             // Create a DataProtectionProvider object for the specified descriptor.
             DataProtectionProvider provider = new DataProtectionProvider(strDescriptor);
@@ -33,9 +33,7 @@ namespace YesPojiQuota.Core.Helpers
             return CryptographicBuffer.ConvertBinaryToString(BinaryStringEncoding.Utf16BE, buffProtected);
         }
 
-        public static async Task<String> SampleUnprotectData(
-            String stringProtected,
-            BinaryStringEncoding encoding = BinaryStringEncoding.Utf8)
+        public async Task<string> SampleUnprotectData(string stringProtected)
         {
             // Create a DataProtectionProvider object.
             DataProtectionProvider provider = new DataProtectionProvider();
@@ -54,7 +52,7 @@ namespace YesPojiQuota.Core.Helpers
             return strClearText;
         }
 
-        public static string AES_Encrypt(string input, string pass)
+        public string AES_Encrypt(string input, string pass)
         {
             SymmetricKeyAlgorithmProvider sap = SymmetricKeyAlgorithmProvider.OpenAlgorithm(SymmetricAlgorithmNames.AesEcbPkcs7);
             CryptographicKey aes;
@@ -66,8 +64,7 @@ namespace YesPojiQuota.Core.Helpers
             {
                 byte[] hash = new byte[32];
                 hash_AES.Append(CryptographicBuffer.CreateFromByteArray(System.Text.Encoding.UTF8.GetBytes(pass)));
-                byte[] temp;
-                CryptographicBuffer.CopyToByteArray(hash_AES.GetValueAndReset(), out temp);
+                CryptographicBuffer.CopyToByteArray(hash_AES.GetValueAndReset(), out byte[] temp);
 
                 Array.Copy(temp, 0, hash, 0, 16);
                 Array.Copy(temp, 0, hash, 15, 16);
@@ -85,7 +82,7 @@ namespace YesPojiQuota.Core.Helpers
             }
         }
 
-        public static string AES_Decrypt(string input, string pass)
+        public string AES_Decrypt(string input, string pass)
         {
             SymmetricKeyAlgorithmProvider sap = SymmetricKeyAlgorithmProvider.OpenAlgorithm(SymmetricAlgorithmNames.AesEcbPkcs7);
             CryptographicKey aes;
@@ -97,8 +94,7 @@ namespace YesPojiQuota.Core.Helpers
             {
                 byte[] hash = new byte[32];
                 hash_AES.Append(CryptographicBuffer.CreateFromByteArray(System.Text.Encoding.UTF8.GetBytes(pass)));
-                byte[] temp;
-                CryptographicBuffer.CopyToByteArray(hash_AES.GetValueAndReset(), out temp);
+                CryptographicBuffer.CopyToByteArray(hash_AES.GetValueAndReset(), out byte[] temp);
 
                 Array.Copy(temp, 0, hash, 0, 16);
                 Array.Copy(temp, 0, hash, 15, 16);
@@ -106,8 +102,7 @@ namespace YesPojiQuota.Core.Helpers
                 aes = sap.CreateSymmetricKey(CryptographicBuffer.CreateFromByteArray(hash));
 
                 IBuffer Buffer = CryptographicBuffer.DecodeFromBase64String(input);
-                byte[] Decrypted;
-                CryptographicBuffer.CopyToByteArray(CryptographicEngine.Decrypt(aes, Buffer, null), out Decrypted);
+                CryptographicBuffer.CopyToByteArray(CryptographicEngine.Decrypt(aes, Buffer, null), out byte[] Decrypted);
                 decrypted = Encoding.UTF8.GetString(Decrypted, 0, Decrypted.Length);
 
                 return decrypted;

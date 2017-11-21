@@ -5,9 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
-using YesPojiQuota.Core.Managers;
 
-namespace YesPojiQuota.Core.Notifications
+namespace YesPojiQuota.Core.Windows.Notifications
 {
     public class Toast
     {

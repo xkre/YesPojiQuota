@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 
 
-namespace YesPojiQuota.Core.Managers
+namespace YesPojiQuota.Core.Windows.Managers
 {
     public class BackgroundTaskManager
     {

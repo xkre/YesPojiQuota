@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{661BC159-0560-4A9E-8FFE-9B62D7896416}</ProjectGuid>
-    <OutputType>winmdobj</OutputType>
+    <ProjectGuid>{36813669-2F68-4A6F-A871-70F507AC7633}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>YesPojiQuota.Tasks</RootNamespace>
-    <AssemblyName>YesPojiQuota.Tasks</AssemblyName>
+    <RootNamespace>YesPojiQuota.Core.Windows</RootNamespace>
+    <AssemblyName>YesPojiQuota.Core.Windows</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.15063.0</TargetPlatformVersion>
@@ -16,7 +16,6 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <AllowCrossPlatformRetargeting>false</AllowCrossPlatformRetargeting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -107,31 +106,53 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Helpers\ToastHelper.cs" />
-    <Compile Include="NetworkChangeTask.cs" />
-    <Compile Include="LoginToastActionTask.cs" />
+    <Compile Include="Services\ICustomNavigatorService.cs" />
+    <Compile Include="Services\WindowsEncryptionService.cs" />
+    <Compile Include="Managers\BackgroundTaskManager.cs" />
+    <Compile Include="Notifications\Toast.cs" />
+    <Compile Include="Observers\NetworkChangeHandler.cs" />
+    <Compile Include="Observers\QuotaObserverManager.cs" />
+    <Compile Include="Observers\YesSessionUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestTask.cs" />
+    <Compile Include="Services\CustomNavigationService.cs" />
+    <EmbeddedResource Include="Properties\YesPojiQuota.Core.Windows.rd.xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack">
+      <Version>1.6.5</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore">
+      <Version>1.1.4</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite">
+      <Version>1.1.4</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools">
+      <Version>1.1.4</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
       <Version>2.0.0</Version>
     </PackageReference>
+    <PackageReference Include="MvvmLightLibs">
+      <Version>5.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.Reactive">
+      <Version>3.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="System.Threading">
+      <Version>4.3.0</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\YesPojiQuota.Core.Windows\YesPojiQuota.Core.Windows.csproj">
-      <Project>{36813669-2f68-4a6f-a871-70f507ac7633}</Project>
-      <Name>YesPojiQuota.Core.Windows</Name>
-    </ProjectReference>
     <ProjectReference Include="..\YesPojiQuota.Core\YesPojiQuota.Core.csproj">
       <Project>{5e4540d5-7074-4720-93be-e7f095060fc4}</Project>
       <Name>YesPojiQuota.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\YesPojiUtmLib\YesPojiUtmLib\YesPojiUtmLib.csproj">
-      <Project>{F1A6413C-DB09-47F7-BC35-BA17A7AE56DD}</Project>
+      <Project>{f1a6413c-db09-47f7-bc35-ba17a7ae56dd}</Project>
       <Name>YesPojiUtmLib</Name>
     </ProjectReference>
   </ItemGroup>

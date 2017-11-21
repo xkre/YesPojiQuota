@@ -14,6 +14,7 @@ using System.Data;
 using GalaSoft.MvvmLight.Ioc;
 using YesPojiQuota.Core.Interfaces;
 using YesPojiUtmLib.Enums;
+using YesPojiQuota.Core.Windows.Services;
 
 namespace YesPojiQuota.ViewModels
 {

@@ -24,7 +24,6 @@ namespace YesPojiQuota.ViewModels
         private QuotaObserverManager _qom;
 
         private bool _isChanged = false;
-        private IDisposable quotaObserver;
 
         public QuotaViewModel(YesContext db, IYesQuotaService qs, QuotaObserverManager qom)
         {

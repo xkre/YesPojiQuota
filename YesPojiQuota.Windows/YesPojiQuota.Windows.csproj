@@ -216,9 +216,17 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\YesPojiQuota.Core.Windows\YesPojiQuota.Core.Windows.csproj">
+      <Project>{36813669-2f68-4a6f-a871-70f507ac7633}</Project>
+      <Name>YesPojiQuota.Core.Windows</Name>
+    </ProjectReference>
     <ProjectReference Include="..\YesPojiQuota.Core\YesPojiQuota.Core.csproj">
-      <Project>{2D15D326-FC0F-4855-993B-FD848C12B1B0}</Project>
+      <Project>{5e4540d5-7074-4720-93be-e7f095060fc4}</Project>
       <Name>YesPojiQuota.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\YesPojiQuota.Tasks\YesPojiQuota.Tasks.csproj">
+      <Project>{661bc159-0560-4a9e-8ffe-9b62d7896416}</Project>
+      <Name>YesPojiQuota.Tasks</Name>
     </ProjectReference>
     <ProjectReference Include="..\YesPojiUtmLib\YesPojiUtmLib\YesPojiUtmLib.csproj">
       <Project>{F1A6413C-DB09-47F7-BC35-BA17A7AE56DD}</Project>
@@ -230,7 +238,7 @@
       <Version>1.1.4</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>5.4.1</Version>
+      <Version>6.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
       <Version>2.0.0</Version>

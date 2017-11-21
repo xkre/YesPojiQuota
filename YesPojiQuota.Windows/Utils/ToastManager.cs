@@ -43,8 +43,8 @@ namespace YesPojiQuota.Utils
 
         private async Task RegisterToastBackgroundTasks()
         {
-            await BackgroundTaskManager.RegisterTaskAsync(new ToastNotificationActionTrigger(), "ToastBackgroundTask", "YesPojiQuota.Tasks.LoginToastActionTask");
-            await BackgroundTaskManager.RegisterTaskAsync(new ToastNotificationActionTrigger(), "NetworkBackgroundTask", "YesPojiQuota.Tasks.NetworkChangeTask");
+            await BackgroundTaskManager.RegisterTaskAsync(new ToastNotificationActionTrigger(), "LoginToastActionTask", "YesPojiQuota.Tasks.LoginToastActionTask");
+            await BackgroundTaskManager.RegisterTaskAsync(new SystemTrigger(SystemTriggerType.NetworkStateChange, false), "NetworkChangeTask", "YesPojiQuota.Tasks.NetworkChangeTask");
 
             //task.Completed += new BackgroundTaskCompletedEventHandler(OnBackgroundTaskCompleted);
         }

@@ -13,6 +13,7 @@ using YesPojiQuota.Core.Observers;
 using YesPojiQuota.Core.Services;
 using YesPojiQuota.Utils;
 using YesPojiQuota.Views;
+using YesPojiQuota.Core.Windows.Services;
 using YesPojiUtmLib.Services;
 
 namespace YesPojiQuota.ViewModels
@@ -52,6 +53,7 @@ namespace YesPojiQuota.ViewModels
             SimpleIoc.Default.Register<IYesLoginService, YesLoginService>();
             SimpleIoc.Default.Register<IYesQuotaService, YesQuotaService>();
             SimpleIoc.Default.Register<IYesNetworkService, YesNetworkService>();
+            SimpleIoc.Default.Register<IEncryptionService, WindowsEncryptionService>();
 
             SimpleIoc.Default.Register<YesSessionService>();
 

@@ -32,13 +32,15 @@ namespace YesPojiQuota.ViewModels
         private YesContext _db;
         private IYesLoginService _ls;
         private NetworkChangeHandler _nch;
+        private IEncryptionService _es;
 
         #region Constructors
-        public AccountViewModel(YesContext db, IYesLoginService ls, NetworkChangeHandler nch)
+        public AccountViewModel(YesContext db, IYesLoginService ls, NetworkChangeHandler nch, IEncryptionService es)
         {
             _db = db;
             _ls = ls;
             _nch = nch;
+            _es = es;
         }
 
         #endregion Constructors
@@ -181,7 +183,7 @@ namespace YesPojiQuota.ViewModels
             string pw = null;
             if (Password != null)
             {
-                pw = EncryptionHelper.AES_Encrypt(Password, Username);
+                pw = _es.AES_Encrypt(Password, Username);
             }
             var account = new Account(Username, pw);
             var quota = new Quota();
@@ -201,7 +203,7 @@ namespace YesPojiQuota.ViewModels
             SetLoadingMessage("Logging In");
 
             Account unencryptedAccount = Account;
-            unencryptedAccount.Password = EncryptionHelper.AES_Decrypt(Password, Username);
+            unencryptedAccount.Password = _es.AES_Decrypt(Password, Username);
 
             var loginStatus = await _ls.LoginAsync(unencryptedAccount);
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,22 +10,15 @@ namespace YesPojiQuota.Utils
 {
     internal static class BackgroundTaskManager
     {
-        private static Dictionary<string, BackgroundTaskRegistration> _taskRegistration;
-
-        static BackgroundTaskManager()
-        {
-            _taskRegistration = new Dictionary<string, BackgroundTaskRegistration>();
-        }
-
-        public static async Task<BackgroundTaskRegistration> RegisterTaskAsync(IBackgroundTrigger trigger, string name, string entryPoint)
+        public static async Task RegisterTaskAsync(IBackgroundTrigger trigger, string name, string entryPoint)
         {
             if (BackgroundTaskRegistration.AllTasks.Any(i => i.Value.Name.Equals(name)))
-                return null;
+                return ;
 
             BackgroundAccessStatus status = await BackgroundExecutionManager.RequestAccessAsync();
 
             if (status == BackgroundAccessStatus.DeniedBySystemPolicy || status == BackgroundAccessStatus.DeniedByUser)
-                return null;
+                return ;
 
             BackgroundTaskBuilder builder = new BackgroundTaskBuilder()
             {
@@ -33,11 +27,12 @@ namespace YesPojiQuota.Utils
             };
             builder.SetTrigger(trigger);
 
+            Debug.WriteLine($"Registering BG Task : {name}");
             BackgroundTaskRegistration registration = builder.Register();
 
             //registration.Completed += OnCompleted;
             //registration.Progress += Progress;
-            return registration;
+            return ;
         }
 
         public static bool UnregisterTask(string name)

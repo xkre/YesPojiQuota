@@ -21,7 +21,7 @@ namespace YesPojiQuota.Tasks
         public void Run(IBackgroundTaskInstance taskInstance)
         {
             _deferral = taskInstance.GetDeferral();
-           
+
             var networkStatus = NetworkInformation.GetInternetConnectionProfile();
 
             if (networkStatus.IsWlanConnectionProfile &&
@@ -31,8 +31,8 @@ namespace YesPojiQuota.Tasks
 
                 if (networkLevel == NetworkConnectivityLevel.ConstrainedInternetAccess)
                 {
-                        var networkService = new YesNetworkService();
-                        ToastHelper.PopToast("From NetworkChange", "Need to Login???");
+                    var networkService = new YesNetworkService();
+                    ToastHelper.PopToast("From NetworkChange", "Need to Login???");
                 }
             }
             _deferral.Complete();

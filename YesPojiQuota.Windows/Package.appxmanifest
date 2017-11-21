@@ -23,11 +23,13 @@
       <Extensions>
         <Extension Category="windows.backgroundTasks" EntryPoint="YesPojiQuota.Tasks.LoginToastActionTask">
           <BackgroundTasks>
+            <Task Type="general" />
             <Task Type="systemEvent" />
           </BackgroundTasks>
         </Extension>
         <Extension Category="windows.backgroundTasks" EntryPoint="YesPojiQuota.Tasks.NetworkChangeTask">
           <BackgroundTasks>
+            <Task Type="general" />
             <Task Type="systemEvent" />
           </BackgroundTasks>
         </Extension>

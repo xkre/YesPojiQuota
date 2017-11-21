@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Practices.ServiceLocation;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using YesPojiQuota.Core.Models;
 
-namespace YesPojiQuota.Core.Observers
+namespace YesPojiQuota.Core.Windows.Observers
 {
     public class QuotaObserverManager
     {
