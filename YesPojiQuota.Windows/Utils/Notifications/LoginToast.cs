@@ -10,11 +10,15 @@ namespace YesPojiQuota.Utils.Notifications
 {
     internal class LoginToast
     {
+        ToastContent tc;
+
+        public ToastContent Content => tc;
+
         public LoginToast()
         {
             // In a real app, these would be initialized with actual data
             string title = "Login to Yes4G Wifi";
-            string content = "You are connected to Yes4G network, would you like to login";
+            string content = "You are connected to Yes4G network, would you like to login?";
             //string image = "https://unsplash.it/360/202?image=883";
             //string logo = "ms-appdata:///local/Andrew.jpg";
 
@@ -58,9 +62,8 @@ namespace YesPojiQuota.Utils.Notifications
                         DefaultSelectionBoxItemId = "ac1",
                         Items =
                         {
-                            new ToastSelectionBoxItem("ac1", "AC1"),
-                            new ToastSelectionBoxItem("ac2", "AC2"),
-                            new ToastSelectionBoxItem("ac3", "AC3")
+                            new ToastSelectionBoxItem("makram23@live.utm.my", "makram23@live.utm.my"),
+                            new ToastSelectionBoxItem("makram23@utm.my", "makram23@utm.my")
                         }
                     }
                 },
@@ -69,34 +72,27 @@ namespace YesPojiQuota.Utils.Notifications
                 {
                     new ToastButton("Login", new QueryString()
                     {
-                        { "action", "reply" },
-                        { "conversationId", conversationId.ToString() }
+                        { "action", "login" },
+                        { "accountId", conversationId.ToString() }
 
                     }.ToString())
                     {
                         ActivationType = ToastActivationType.Background,
-                        ImageUri = "Assets/Reply.png",
+                        //ImageUri = "Assets/Reply.png",
 
                         // Reference the text box's ID in order to
                         // place this button next to the text box
-                        TextBoxId = "tbReply"
-                    },
-
-                    new ToastButton("Like", new QueryString()
-                    {
-                        { "action", "like" },
-                        { "conversationId", conversationId.ToString() }
-
-                    }.ToString())
-                    {
-                        ActivationType = ToastActivationType.Background
+                        //TextBoxId = "tbReply"
                     }
                 }
             };
 
+            tc = new ToastContent()
+            {
+                Visual = toast,
+                Actions = actions
+            };
         }
-
-
 
     }
 }

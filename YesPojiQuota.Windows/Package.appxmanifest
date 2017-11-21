@@ -21,12 +21,12 @@
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
-        <Extension Category="windows.backgroundTasks" EntryPoint="YesPojiQuota.Tasks.LoginToastActionBackgroundTask">
+        <Extension Category="windows.backgroundTasks" EntryPoint="YesPojiQuota.Tasks.LoginToastActionTask">
           <BackgroundTasks>
             <Task Type="systemEvent" />
           </BackgroundTasks>
         </Extension>
-        <Extension Category="windows.backgroundTasks" EntryPoint="YesPojiQuota.Tasks.TestTask">
+        <Extension Category="windows.backgroundTasks" EntryPoint="YesPojiQuota.Tasks.NetworkChangeTask">
           <BackgroundTasks>
             <Task Type="systemEvent" />
           </BackgroundTasks>

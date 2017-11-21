@@ -35,57 +35,19 @@ namespace YesPojiQuota.Utils
         public async Task InitAsync()
         {
             _nch.LoginRequired += ShowToast;
-            await RegisterBackgroundTask();
+            UnregisterTask();
 
-            //await RegisterBackgroundTask2();
+            await RegisterToastBackgroundTasks();
             //ShowToast();
         }
 
-        private async Task RegisterBackgroundTask()
+        private async Task RegisterToastBackgroundTasks()
         {
-            const string taskName = "ToastBackgroundTask";
+            await BackgroundTaskManager.RegisterTaskAsync(new ToastNotificationActionTrigger(), "ToastBackgroundTask", "YesPojiQuota.Tasks.LoginToastActionTask");
+            await BackgroundTaskManager.RegisterTaskAsync(new ToastNotificationActionTrigger(), "NetworkBackgroundTask", "YesPojiQuota.Tasks.NetworkChangeTask");
 
-            // If background task is already registered, do nothing
-            if (BackgroundTaskRegistration.AllTasks.Any(i => i.Value.Name.Equals(taskName)))
-                return;
-
-            // Otherwise request access
-            BackgroundAccessStatus status = await BackgroundExecutionManager.RequestAccessAsync();
-
-            // Create the background task
-            BackgroundTaskBuilder builder = new BackgroundTaskBuilder()
-            {
-                Name = taskName,
-            };
-
-            // Assign the toast action trigger
-            builder.SetTrigger(new ToastNotificationActionTrigger());
-
-            // And register the task
-            BackgroundTaskRegistration registration = builder.Register();
-
-            //registration.Completed += OnCompleted;
-            //registration.Progress += Progress;
+            //task.Completed += new BackgroundTaskCompletedEventHandler(OnBackgroundTaskCompleted);
         }
-
-        //private async Task RegisterBackgroundTask2()
-        //{
-        //    const string taskName = "NetworkBackgroundTask";
-
-        //    if (BackgroundTaskRegistration.AllTasks.Any(i => i.Value.Name.Equals(taskName)))
-        //        return;
-
-        //    BackgroundAccessStatus status = await BackgroundExecutionManager.RequestAccessAsync();
-        //    BackgroundTaskBuilder builder = new BackgroundTaskBuilder()
-        //    {
-        //        Name = taskName,
-        //    };
-
-        //    builder.SetTrigger(new NetworkOperatorHotspotAuthenticationTrigger());
-        //    BackgroundTaskRegistration task = builder.Register();
-
-        //    task.Completed += new BackgroundTaskCompletedEventHandler(OnBackgroundTaskCompleted);
-        //}
 
         private void UnregisterTask()
         {
@@ -102,16 +64,5 @@ namespace YesPojiQuota.Utils
         {
             ToastHelper.PopToast("BackgroundCompleted", "NetworkBackgroundTask Completed");
         }
-
-
-        //private void Progress(BackgroundTaskRegistration sender, BackgroundTaskProgressEventArgs args)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //private void OnCompleted(BackgroundTaskRegistration sender, BackgroundTaskCompletedEventArgs args)
-        //{
-        //    Messenger.Default.Send(new NotificationMessageAction<string>(args.ToString(), (x)=> {; }));
-        //}
     }
 }
