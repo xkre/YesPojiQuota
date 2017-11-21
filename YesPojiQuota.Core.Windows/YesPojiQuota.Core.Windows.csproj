@@ -110,9 +110,6 @@
     <Compile Include="Services\WindowsEncryptionService.cs" />
     <Compile Include="Managers\BackgroundTaskManager.cs" />
     <Compile Include="Notifications\Toast.cs" />
-    <Compile Include="Observers\NetworkChangeHandler.cs" />
-    <Compile Include="Observers\QuotaObserverManager.cs" />
-    <Compile Include="Observers\YesSessionUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CustomNavigationService.cs" />
     <EmbeddedResource Include="Properties\YesPojiQuota.Core.Windows.rd.xml" />
