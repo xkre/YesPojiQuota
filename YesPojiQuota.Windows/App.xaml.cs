@@ -69,6 +69,18 @@ namespace YesPojiQuota
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            Initialize(e);
+        }
+
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            base.OnActivated(args);
+
+            Initialize(args);
+        }
+
+        private void Initialize(IActivatedEventArgs e)
+        {
             Frame rootFrame = Window.Current.Content as Frame;
             DispatcherHelper.Initialize();
 
@@ -90,17 +102,21 @@ namespace YesPojiQuota
                 Window.Current.Content = rootFrame;
             }
 
-            if (e.PrelaunchActivated == false)
+            if (e is LaunchActivatedEventArgs)
             {
-                if (rootFrame.Content == null)
+                var ee = e as LaunchActivatedEventArgs;
+                if (ee.PrelaunchActivated == false)
                 {
-                    // When the navigation stack isn't restored navigate to the first page,
-                    // configuring the new page by passing required information as a navigation
-                    // parameter
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                    if (rootFrame.Content == null)
+                    {
+                        // When the navigation stack isn't restored navigate to the first page,
+                        // configuring the new page by passing required information as a navigation
+                        // parameter
+                        rootFrame.Navigate(typeof(MainPage), ee.Arguments);
+                    }
+                    // Ensure the current window is active
+                    Window.Current.Activate();
                 }
-                // Ensure the current window is active
-                Window.Current.Activate();
             }
 
             Messenger.Default.Register<NotificationMessageAction<string>>(this, HandleNotification);
@@ -121,55 +137,8 @@ namespace YesPojiQuota
         protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)
         {
             base.OnBackgroundActivated(args);
-            ToastHelper.PopToast("Debug", args.TaskInstance.Task.Name);
-
-            var deferral = args.TaskInstance.GetDeferral();
-
-            switch (args.TaskInstance.Task.Name)
-            {
-                case "ToastBackgroundTask":
-                    {
-                        YesContext _db = new YesContext();
-
-                        var details = args.TaskInstance.TriggerDetails as ToastNotificationActionTriggerDetail;
-                        var input = details.UserInput.Values.FirstOrDefault().ToString();
-
-                        ToastHelper.PopToast("SUCCESS", args.TaskInstance.Task.Name);
-
-                        var _ls = new YesLoginService();
-                        var account = _db.Accounts.Where(x => x.Username == input).FirstOrDefault();
-
-                        account.Password = EncryptionHelper.AES_Decrypt(account.Password, account.Username);
-
-                        ToastHelper.PopToast("ACCOUnt", $"Usename: {account.Username} P: {account.Password}");
-
-                        var status = await _ls.LoginAsync(account);
-                        ToastHelper.PopToast("LOGIN", status.ToString());
-
-                        break;
-                    }
-                case "NetworkBackgroundTask":
-                    {
-                        ToastHelper.PopToast("SUCCESS, NetworkTask", args.TaskInstance.Task.Name);
-
-                        var details = args.TaskInstance.TriggerDetails as HotspotAuthenticationEventDetails;
-                        break;
-                    }
 
 
-                    //var details = args.TaskInstance.TriggerDetails as ToastNotificationActionTriggerDetail;
-                    //if (details != null)
-                    //{
-                    //    string arguments = details.Argument;
-                    //    var userInput = details.UserInput;
-
-                    //    // Perform tasks
-
-                    //}
-                    //break;
-            }
-
-            deferral.Complete();
         }
 
         /// <summary>
