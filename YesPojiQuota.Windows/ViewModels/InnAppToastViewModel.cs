@@ -7,25 +7,27 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using YesPojiQuota.Core.Enums;
 using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Models;
 using YesPojiQuota.Core.Observers;
 using YesPojiQuota.Core.Services;
 using YesPojiQuota.Utils;
+using YesPojiUtmLib.Enums;
+using YesPojiUtmLib.Models;
+using YesPojiUtmLib.Services;
 
 namespace YesPojiQuota.ViewModels
 {
     public class InnAppToastViewModel : MainViewModel
     {
-        private INetworkService _ns;
-        private ILoginService _ls;
+        private IYesNetworkService _ns;
+        private IYesLoginService _ls;
         private YesSessionUpdater _ys;
         private NetworkChangeHandler _nch;
 
         private IDisposable _messageTimer;
 
-        public InnAppToastViewModel(INetworkService ns, ILoginService ls,
+        public InnAppToastViewModel(IYesNetworkService ns, IYesLoginService ls,
             YesSessionUpdater ys, NetworkChangeHandler nch)
         {
             _ns = ns;
@@ -101,9 +103,41 @@ namespace YesPojiQuota.ViewModels
             _nch.NetworkChanged += UpdateNetworkStatusDisplay;
             _ys.SessionUpdated += ProcessSessionUpdate;
 
-            _ls.OnLoginFailed += ProcessLoginFail;
-            _ls.OnLoginSuccess += ProcessLoginSuccess;
+            //_ls.OnLoginFailed += ProcessLoginFail;
+            //_ls.OnLoginSuccess += ProcessLoginSuccess;
 
+            InitMessengerRegistration();
+        }
+
+        public async void Logout()
+        {
+            SetLoadingMessage("Logging out");
+            var success = await _ls.LogoutAsync();
+
+            if (success)
+            {
+                Message = "Logout Successfull";
+                IsConnected = false;
+            }
+            else
+            {
+                Message = "Logout Not Successfull";
+            }
+
+            IsLoading = false;
+        }
+
+        private async Task InitLoading()
+        {
+            await DispatcherHelper.RunAsync(() =>
+            {
+                Message = "Checking network status";
+                IsLoading = true;
+            });
+        }
+
+        private void InitMessengerRegistration()
+        {
             Messenger.Default.Register<string>(this, HandleNotification);
             //TODO: Temporary   -- Seriously -------------------------------------
             Messenger.Default.Register<bool>(this, HandleNotification);
@@ -126,19 +160,12 @@ namespace YesPojiQuota.ViewModels
                     });
                 });
             });
+
+            Messenger.Default.Register<LoginMessage>(this, HandleLoginMessage);
             ////Temporary   -- Seriously -------------------------------------
         }
 
-        public async Task InitLoading()
-        {
-            await DispatcherHelper.RunAsync(() =>
-            {
-                Message = "Checking network status";
-                IsLoading = true;
-            });
-        }
-
-        private void ProcessSessionUpdate(SessionData data)
+        private void ProcessSessionUpdate(YesSessionData data)
         {
             #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             DispatcherHelper.RunAsync(() =>
@@ -159,24 +186,6 @@ namespace YesPojiQuota.ViewModels
         private void HandleNotification(bool a)
         {
             DispatcherHelper.RunAsync(() => IsConnected = a);
-        }
-
-        public async void Logout()
-        {
-            SetLoadingMessage("Logging out");
-            var success = await _ls.LogoutAsync();
-
-            if (success)
-            {
-                Message = "Logout Successfull";
-                IsConnected = false;
-            }
-            else
-            {
-                Message = "Logout Not Successfull";
-            }
-
-            IsLoading = false;
         }
 
         private async void UpdateNetworkStatusDisplay(NetworkCondition condition)
@@ -206,10 +215,32 @@ namespace YesPojiQuota.ViewModels
             });
         }
 
+        private async void HandleLoginMessage(LoginMessage message)
+        {
+            //TODO: Maybe separate this into a class
+            if (message.Status == LoginStatus.Success)
+            {
+                await DispatcherHelper.RunAsync(() =>
+                {
+                    Message = "Login Success";
+                    IsConnected = true;
+                    IsLoading = false;
+                });
+            }
+            else
+            {
+                await DispatcherHelper.RunAsync(() =>
+                {
+                    Message = $"Login Not Successful - {message.ToString()}";
+                    IsLoading = false;
+                });
+            }
+        }
+        /*
         private async void ProcessLoginSuccess()
         {
             //TODO: Show session data
-            await DispatcherHelper.RunAsync(() => 
+            await DispatcherHelper.RunAsync(() =>
             {
                 Message = "Login Success";
                 IsConnected = true;
@@ -226,5 +257,6 @@ namespace YesPojiQuota.ViewModels
                 IsLoading = false;
             });
         }
+        */
     }
 }

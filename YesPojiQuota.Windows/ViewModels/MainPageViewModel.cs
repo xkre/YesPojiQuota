@@ -10,6 +10,7 @@ using YesPojiQuota.Core.Data;
 using Microsoft.EntityFrameworkCore;
 using YesPojiQuota.Core.Observers;
 using System.Diagnostics;
+using YesPojiUtmLib.Services;
 
 namespace YesPojiQuota.ViewModels
 {
@@ -18,8 +19,8 @@ namespace YesPojiQuota.ViewModels
         private AccountsPanelViewModel _accountsVM;
         private InnAppToastViewModel _inAppToastVM;
 
-        private ILoginService _ls;
-        private INetworkService _ns;
+        private IYesLoginService _ls;
+        private IYesNetworkService _ns;
         private IDialogService _ds;
         private YesContext _db;
         private NetworkChangeHandler _nch;
@@ -29,8 +30,8 @@ namespace YesPojiQuota.ViewModels
 
         public MainPageViewModel(
             INavigationService navS,
-            ILoginService ls,
-            INetworkService ns,
+            IYesLoginService ls,
+            IYesNetworkService ns,
             IDialogService ds,
             AccountsPanelViewModel acsvm,
             InnAppToastViewModel iatvm,
@@ -89,7 +90,7 @@ namespace YesPojiQuota.ViewModels
                 _yesConnected = true;
                 RefreshAccounts();
 
-                _ls.InitAsync();
+                //_ls.InitAsync();
             };
             _nch.YesDisconnected += () => _yesConnected = false;
         }
