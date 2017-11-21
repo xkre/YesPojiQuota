@@ -19,5 +19,4 @@ namespace YesPojiQuota.Core.Interfaces
 
     public delegate void SimpleEvent();
     //public delegate void SimpleBoolEvent(bool b);
-
 }

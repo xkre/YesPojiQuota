@@ -47,9 +47,6 @@ namespace YesPojiQuota.ViewModels
 
         #endregion Properties
 
-
-
-
         private string GetVersionNumber()
         {
             Package package = Package.Current;
@@ -58,7 +55,5 @@ namespace YesPojiQuota.ViewModels
 
             return string.Format("{0}.{1}.{2}.{3}", version.Major, version.Minor, version.Build, version.Revision);
         }
-
-
     }
 }

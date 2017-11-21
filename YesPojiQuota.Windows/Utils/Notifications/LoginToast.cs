@@ -71,7 +71,6 @@ namespace YesPojiQuota.Utils.Notifications
                     {
                         { "action", "login" },
                         { "accountId", conversationId.ToString() }
-
                     }.ToString())
                     {
                         ActivationType = ToastActivationType.Background,

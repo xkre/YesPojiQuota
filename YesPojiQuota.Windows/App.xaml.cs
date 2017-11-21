@@ -134,11 +134,9 @@ namespace YesPojiQuota
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 
-        protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)
+        protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
         {
             base.OnBackgroundActivated(args);
-
-
         }
 
         /// <summary>

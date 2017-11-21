@@ -34,7 +34,6 @@ namespace YesPojiQuota.Core.Data
             modelBuilder.Entity<Quota>()
                 .Property(p => p.QuotaId)
                 .IsRequired();
-
         }
     }
 }

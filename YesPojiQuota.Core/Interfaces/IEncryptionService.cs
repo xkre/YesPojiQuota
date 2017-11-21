@@ -13,6 +13,5 @@ namespace YesPojiQuota.Core.Interfaces
 
         string AES_Encrypt(string input, string pass);
         string AES_Decrypt(string input, string pass);
-
     }
 }

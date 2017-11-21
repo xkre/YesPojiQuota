@@ -8,6 +8,5 @@ namespace YesPojiQuota.Core.Helpers.Exceptions
 {
     class QuotaException : Exception
     {
-
     }
 }
