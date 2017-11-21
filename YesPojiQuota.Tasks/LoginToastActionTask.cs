@@ -8,10 +8,10 @@ using Windows.UI.Notifications;
 using YesPojiQuota.Core.Data;
 using YesPojiQuota.Core.Windows;
 using YesPojiQuota.Core.Helpers;
-using YesPojiQuota.Tasks.Helpers;
 using YesPojiUtmLib.Services;
 using YesPojiQuota.Core.Windows.Services;
 using YesPojiQuota.Core.Services;
+using YesPojiQuota.Core.Windows.Utils;
 
 namespace YesPojiQuota.Tasks
 {
@@ -38,16 +38,15 @@ namespace YesPojiQuota.Tasks
             var status = await _ls.LoginAsync(account);
             ToastHelper.PopToast("LOGIN", status.ToString());
 
-
-            //var details = args.TaskInstance.TriggerDetails as ToastNotificationActionTriggerDetail;
-            //if (details != null)
-            //{
-            //    string arguments = details.Argument;
-            //    var userInput = details.UserInput;
-
-            //    // Perform tasks
-
-            //}
+            /*
+            var details = args.taskinstance.triggerdetails as toastnotificationactiontriggerdetail;
+            if (details != null)
+            {
+                string arguments = details.argument;
+                var userinput = details.userinput;
+                // perform tasks
+            }
+            */
             deferral.Complete();
         }
     }

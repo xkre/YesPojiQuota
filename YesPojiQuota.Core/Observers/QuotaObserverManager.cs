@@ -12,7 +12,6 @@ namespace YesPojiQuota.Core.Observers
     public class QuotaObserverManager
     {
         ////TODO: Change the subscription strategy...
-
         //private static QuotaObserverManager _instance;
         private Dictionary<Account, Func<Task>> _subscribed;
         private List<Func<Task>> _refreshTasks;
@@ -52,7 +51,6 @@ namespace YesPojiQuota.Core.Observers
             //    if (_yesConnected)
             //        b();
             //    }, ex=>Debug.WriteLine($"Error Refreshing Quota (in observable) {ex.Message}"));
-
             _subscribed.Add(a, b);
             _refreshTasks.Add(b);
         }

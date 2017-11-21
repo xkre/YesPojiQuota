@@ -107,7 +107,6 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Helpers\ToastHelper.cs" />
     <Compile Include="NetworkChangeTask.cs" />
     <Compile Include="LoginToastActionTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

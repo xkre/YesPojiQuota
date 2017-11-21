@@ -9,6 +9,5 @@ namespace YesPojiQuota.Core.Models
     public class App
     {
         public string Version { get; set; }
-
     }
 }

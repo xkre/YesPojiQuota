@@ -1,5 +1,4 @@
-﻿
-namespace YesPojiQuota.Core.Models
+﻿namespace YesPojiQuota.Core.Models
 {
     public class Quota
     {

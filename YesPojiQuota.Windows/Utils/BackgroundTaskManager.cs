@@ -13,12 +13,12 @@ namespace YesPojiQuota.Utils
         public static async Task RegisterTaskAsync(IBackgroundTrigger trigger, string name, string entryPoint)
         {
             if (BackgroundTaskRegistration.AllTasks.Any(i => i.Value.Name.Equals(name)))
-                return ;
+                return;
 
             BackgroundAccessStatus status = await BackgroundExecutionManager.RequestAccessAsync();
 
             if (status == BackgroundAccessStatus.DeniedBySystemPolicy || status == BackgroundAccessStatus.DeniedByUser)
-                return ;
+                return;
 
             BackgroundTaskBuilder builder = new BackgroundTaskBuilder()
             {
@@ -32,7 +32,7 @@ namespace YesPojiQuota.Utils
 
             //registration.Completed += OnCompleted;
             //registration.Progress += Progress;
-            return ;
+            return;
         }
 
         public static bool UnregisterTask(string name)
@@ -59,6 +59,5 @@ namespace YesPojiQuota.Utils
         {
             throw new NotImplementedException();
         }
-
     }
 }

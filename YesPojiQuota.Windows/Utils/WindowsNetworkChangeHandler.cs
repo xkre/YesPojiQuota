@@ -20,12 +20,14 @@ namespace YesPojiQuota.Utils
             base.InitNetworkChangeMonitor();
 
             NetworkInformation.NetworkStatusChanged += CheckNetworkCondition;
-            //{
-            //    //var profile = NetworkInformation.GetInternetConnectionProfile();
-            //    //var isConnected = (profile != null
-            //    //    && profile.GetNetworkConnectivityLevel() ==
-            //    //    NetworkConnectivityLevel.InternetAccess);
-            //};
+            /*
+            {
+                var profile = NetworkInformation.GetInternetConnectionProfile();
+                var isConnected = (profile != null
+                    && profile.GetNetworkConnectivityLevel() ==
+                    NetworkConnectivityLevel.InternetAccess);
+            };
+            */
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 using Windows.UI.Notifications;
 using YesPojiQuota.Core.Observers;
+using YesPojiQuota.Core.Windows.Utils;
 using YesPojiQuota.Utils.Notifications;
 
 namespace YesPojiQuota.Utils
@@ -15,7 +16,6 @@ namespace YesPojiQuota.Utils
     {
         private ToastNotifier _toastNotier;
         private NetworkChangeHandler _nch;
-
 
         public ToastManager(NetworkChangeHandler nch)
         {

@@ -115,7 +115,6 @@
     <Compile Include="Utils\LoadingMessage.cs" />
     <Compile Include="Utils\LoginMessage.cs" />
     <Compile Include="Utils\Notifications\LoginToast.cs" />
-    <Compile Include="Utils\ToastHelper.cs" />
     <Compile Include="Utils\ToastManager.cs" />
     <Compile Include="Utils\WindowsNetworkChangeHandler.cs" />
     <Compile Include="ViewModels\AccountsPanelViewModel.cs" />

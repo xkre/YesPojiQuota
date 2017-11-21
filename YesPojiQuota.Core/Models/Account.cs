@@ -1,5 +1,4 @@
-﻿
-using YesPojiUtmLib.Models;
+﻿using YesPojiUtmLib.Models;
 
 namespace YesPojiQuota.Core.Models
 {
@@ -13,7 +12,6 @@ namespace YesPojiQuota.Core.Models
 
         public Account()
         {
-
         }
 
         public Account(string u, string p = "")

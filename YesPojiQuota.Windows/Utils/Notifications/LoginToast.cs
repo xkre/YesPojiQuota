@@ -11,7 +11,6 @@ namespace YesPojiQuota.Utils.Notifications
     internal class LoginToast
     {
         ToastContent tc;
-
         public ToastContent Content => tc;
 
         public LoginToast()
@@ -39,7 +38,6 @@ namespace YesPojiQuota.Utils.Notifications
                             Text = content
                         }
                     }
-
                     //AppLogoOverride = new ToastGenericAppLogo()
                     //{
                     //    Source = logo,
@@ -47,7 +45,6 @@ namespace YesPojiQuota.Utils.Notifications
                     //}
                 }
             };
-
 
             // In a real app, these would be initialized with actual data
             int conversationId = 384928;
@@ -62,8 +59,8 @@ namespace YesPojiQuota.Utils.Notifications
                         DefaultSelectionBoxItemId = "ac1",
                         Items =
                         {
-                            new ToastSelectionBoxItem("makram23@live.utm.my", "makram23@live.utm.my"),
-                            new ToastSelectionBoxItem("makram23@utm.my", "makram23@utm.my")
+                            new ToastSelectionBoxItem("aaa@live.utm.my", "aaa@live.utm.my"),
+                            new ToastSelectionBoxItem("aaa@utm.my", "aaa@utm.my")
                         }
                     }
                 },
@@ -93,6 +90,5 @@ namespace YesPojiQuota.Utils.Notifications
                 Actions = actions
             };
         }
-
     }
 }
