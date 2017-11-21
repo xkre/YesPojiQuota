@@ -140,10 +140,6 @@
     <EmbeddedResource Include="Properties\YesPojiQuota.Core.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\YesPojiQuota.Tasks\YesPojiQuota.Tasks.csproj">
-      <Project>{661bc159-0560-4a9e-8ffe-9b62d7896416}</Project>
-      <Name>YesPojiQuota.Tasks</Name>
-    </ProjectReference>
     <ProjectReference Include="..\YesPojiUtmLib\YesPojiUtmLib\YesPojiUtmLib.csproj">
       <Project>{F1A6413C-DB09-47F7-BC35-BA17A7AE56DD}</Project>
       <Name>YesPojiUtmLib</Name>

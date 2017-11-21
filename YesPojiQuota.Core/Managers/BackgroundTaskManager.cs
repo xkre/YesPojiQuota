@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
-using YesPojiQuota.Tasks;
+
 
 namespace YesPojiQuota.Core.Managers
 {
@@ -60,6 +60,7 @@ namespace YesPojiQuota.Core.Managers
             BackgroundTaskRegistration registration = builder.Register();
         }
 
+        /*
         public static async Task RegisterTestTask()
         {
             var task = new BackgroundTaskBuilder
@@ -76,5 +77,6 @@ namespace YesPojiQuota.Core.Managers
 
             await trigger.RequestAsync();
         }
+        */
     }
 }
