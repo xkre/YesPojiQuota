@@ -8,9 +8,9 @@ using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
 using Windows.UI.Notifications;
 
-namespace YesPojiQuota.Tasks.Helpers
+namespace YesPojiQuota.Core.Windows.Utils
 {
-    internal class ToastHelper
+    public class ToastHelper
     {
         public static ToastNotification PopToast(string title, string content)
         {
@@ -52,7 +52,6 @@ namespace YesPojiQuota.Tasks.Helpers
         {
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xml);
-
 
             return PopCustomToast(doc, tag, group);
         }
