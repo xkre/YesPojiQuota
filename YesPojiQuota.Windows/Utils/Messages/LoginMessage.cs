@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using YesPojiUtmLib.Enums;
 
-namespace YesPojiQuota.Utils
+namespace YesPojiQuota.Utils.Messages
 {
     internal class LoginMessage : MessageBase
     {

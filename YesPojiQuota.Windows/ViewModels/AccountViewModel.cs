@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
+using GalaSoft.MvvmLight.Threading;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Practices.ServiceLocation;
 using System;
@@ -13,13 +14,11 @@ using YesPojiQuota.Core.Data;
 using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Helpers;
 using YesPojiQuota.Core.Models;
-using YesPojiQuota.Utils;
 using YesPojiQuota.Core.Observers;
-using GalaSoft.MvvmLight.Threading;
+using YesPojiQuota.Core.Enums;
+using YesPojiQuota.Utils.Messages;
 using YesPojiUtmLib.Services;
 using YesPojiUtmLib.Enums;
-using YesPojiQuota.Core.Enums;
-using YesPojiUtmLib.Models;
 
 namespace YesPojiQuota.ViewModels
 {

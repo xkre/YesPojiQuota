@@ -6,20 +6,25 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 using Windows.UI.Notifications;
+using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Observers;
+using YesPojiQuota.Core.Services;
+using YesPojiQuota.Core.Windows.Managers;
+using YesPojiQuota.Core.Windows.Notifications.Toasts;
 using YesPojiQuota.Core.Windows.Utils;
-using YesPojiQuota.Utils.Notifications;
 
-namespace YesPojiQuota.Utils
+namespace YesPojiQuota.Core.Windows.Utils
 {
     public class ToastManager
     {
         private ToastNotifier _toastNotier;
         private NetworkChangeHandler _nch;
+        private IDataService _dts;
 
-        public ToastManager(NetworkChangeHandler nch)
+        public ToastManager(NetworkChangeHandler nch, IDataService dts)
         {
             _nch = nch;
+            _dts = dts;
         }
 
         public void ShowToast()
@@ -27,7 +32,9 @@ namespace YesPojiQuota.Utils
             _toastNotier = ToastNotificationManager.CreateToastNotifier();
 
             var loginToast = new LoginToast();
-            var toast = new ToastNotification(loginToast.Content.GetXml());
+            loginToast.SetAccounts(_dts.Accounts.ToList());
+
+            var toast = new ToastNotification(loginToast.Xml);
 
             _toastNotier.Show(toast);
         }
@@ -38,7 +45,7 @@ namespace YesPojiQuota.Utils
             UnregisterTask();
 
             await RegisterToastBackgroundTasks();
-            //ShowToast();
+            ShowToast();
         }
 
         private async Task RegisterToastBackgroundTasks()

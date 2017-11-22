@@ -2,19 +2,18 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Views;
+using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using YesPojiQuota.Utils;
-using Windows.UI.Core;
 using System.Data;
-using GalaSoft.MvvmLight.Ioc;
-using YesPojiQuota.Core.Interfaces;
-using YesPojiUtmLib.Enums;
+using Windows.UI.Core;
 using YesPojiQuota.Core.Windows.Services;
+using YesPojiQuota.Utils;
+using YesPojiQuota.Utils.Messages;
 
 namespace YesPojiQuota.ViewModels
 {

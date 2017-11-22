@@ -103,19 +103,11 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\20170405092719_MyFirstMigration.cs" />
-    <Compile Include="Migrations\20170405092719_MyFirstMigration.designer.cs">
-      <DependentUpon>20170405092719_MyFirstMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\YesContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils\BackgroundTaskManager.cs" />
     <Compile Include="Utils\ColourHelper.cs" />
     <Compile Include="Utils\Converters\AccountTypeConverter.cs" />
-    <Compile Include="Utils\LoadingMessage.cs" />
-    <Compile Include="Utils\LoginMessage.cs" />
-    <Compile Include="Utils\Notifications\LoginToast.cs" />
-    <Compile Include="Utils\ToastManager.cs" />
+    <Compile Include="Utils\Messages\LoadingMessage.cs" />
+    <Compile Include="Utils\Messages\LoginMessage.cs" />
     <Compile Include="Utils\WindowsNetworkChangeHandler.cs" />
     <Compile Include="ViewModels\AccountsPanelViewModel.cs" />
     <Compile Include="ViewModels\AccountViewModel.cs" />

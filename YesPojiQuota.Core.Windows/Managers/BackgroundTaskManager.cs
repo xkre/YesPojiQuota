@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,75 +8,56 @@ using Windows.ApplicationModel.Background;
 
 namespace YesPojiQuota.Core.Windows.Managers
 {
-    public class BackgroundTaskManager
+    public static class BackgroundTaskManager
     {
-        /*
-        public static async Task<bool> RegisterAsync(string name, string entryPoint, IBackgroundTrigger trigger, Action onCompleted = null)
+        public static async Task RegisterTaskAsync(IBackgroundTrigger trigger, string name, string entryPoint)
         {
-            //var access = await BackgroundExecutionManager.RequestAccessAsync();
-            //if (access == BackgroundAccessStatus.DeniedByUser || access == BackgroundAccessStatus.DeniedBySystemPolicy)
-            //{
-            //    return false;
-            //}
+            if (BackgroundTaskRegistration.AllTasks.Any(i => i.Value.Name.Equals(name)))
+                return;
 
-            foreach (var t in BackgroundTaskRegistration.AllTasks)
-            {
-                if (t.Value.Name == name)
-                {
-                    //t.Value.Unregister(false);
-                    return false;
-                }
-            }
-
-            var builder = new BackgroundTaskBuilder();
-            builder.Name = name;
-            builder.TaskEntryPoint = entryPoint;
-            builder.SetTrigger(trigger);
-
-            var registration = builder.Register();
-            if (onCompleted != null)
-            {
-                registration.Completed += (s, a) =>
-                {
-                    onCompleted();
-                };
-            }
-
-            return true;
-        }*/
-
-        public static async Task RegisterBackgroundTasks()
-        {
             BackgroundAccessStatus status = await BackgroundExecutionManager.RequestAccessAsync();
+
+            if (status == BackgroundAccessStatus.DeniedBySystemPolicy || status == BackgroundAccessStatus.DeniedByUser)
+                return;
 
             BackgroundTaskBuilder builder = new BackgroundTaskBuilder()
             {
-                Name = "LoginToastTask",
-                TaskEntryPoint = "YesPojiQuota.Tasks.LoginToastActionBackgroundTask"
+                Name = name,
+                TaskEntryPoint = entryPoint
             };
+            builder.SetTrigger(trigger);
 
-            builder.SetTrigger(new ToastNotificationActionTrigger());
-
+            Debug.WriteLine($"Registering BG Task : {name}");
             BackgroundTaskRegistration registration = builder.Register();
+
+            //registration.Completed += OnCompleted;
+            //registration.Progress += Progress;
+            return;
         }
 
-        /*
-        public static async Task RegisterTestTask()
+        public static bool UnregisterTask(string name)
         {
-            var task = new BackgroundTaskBuilder
+            var tasks = BackgroundTaskRegistration.AllTasks.Values.Where(i => i.Name.Equals(name));
+
+            if (tasks.Count() < 1)
+                return false;
+
+            foreach (var task in tasks)
             {
-                Name = "My Task",
-                TaskEntryPoint = typeof(TestTask).ToString()
-            };
+                task.Unregister(true);
+            }
 
-            var trigger = new ApplicationTrigger();
-            task.SetTrigger(trigger);
-
-            var condition = new SystemCondition(SystemConditionType.InternetNotAvailable);
-            task.Register();
-
-            await trigger.RequestAsync();
+            return true;
         }
-        */
+
+        public static void AttachTaskCompletionEventHandler()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void AttachTaskProgressEventHandler()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
