@@ -50,7 +50,8 @@ namespace YesPojiQuota.Core.Windows.Notifications.Toasts
             if (accounts.Count > 0)
             {
                 if (accounts.Count > 5)
-                    accounts = accounts.OrderBy(x=> x.Quota.Available).Take(5).ToList();
+                    accounts = accounts.Where(x=> x.Password.Length > 0)
+                                    .OrderBy(x=> x.Quota.Available).Take(5).ToList();
 
                 var toastSelectionBox = _actions.Inputs[0] as ToastSelectionBox;
 
