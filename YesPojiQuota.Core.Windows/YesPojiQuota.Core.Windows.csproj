@@ -106,7 +106,10 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Notifications\Live Tiles\AccountLiveTile.cs" />
+    <Compile Include="Notifications\Live Tiles\LiveTileBase.cs" />
     <Compile Include="Notifications\Toasts\LoginToast.cs" />
+    <Compile Include="Notifications\Toasts\QuotaToast.cs" />
     <Compile Include="Notifications\Toasts\ToastBase.cs" />
     <Compile Include="Services\ICustomNavigatorService.cs" />
     <Compile Include="Services\WindowsEncryptionService.cs" />
