@@ -29,7 +29,7 @@ namespace YesPojiQuota.Core.Windows.Notifications.Toasts
 
                 Buttons =
                 {
-                    new ToastButton("Login", new QueryString(){{ "action", "login" }}.ToString())
+                    new ToastButton("Login", "login")
                     {
                         ActivationType = ToastActivationType.Background,
                         //ImageUri = "Assets/Reply.png",

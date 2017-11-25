@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace YesPojiQuota.Core.Windows.Utils.Messages
 {
-    internal class LoadingMessage : MessageBase
+    public class LoadingMessage : MessageBase
     {
         public bool IsLoading { get; set; }
         public string Message { get; set; }

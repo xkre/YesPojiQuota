@@ -108,7 +108,7 @@ namespace YesPojiQuota.Core.Windows.ViewModels
             Messenger.Default.Send(new LoadingMessage() { IsLoading = true, Message = message });
         }
 
-        internal void BackRequested(object sender, BackRequestedEventArgs e)
+        public void BackRequested(object sender, BackRequestedEventArgs e)
         {
             var nav = (ICustomNavigationService)_navigationService;
 

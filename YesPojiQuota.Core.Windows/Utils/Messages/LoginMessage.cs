@@ -8,7 +8,7 @@ using YesPojiUtmLib.Enums;
 
 namespace YesPojiQuota.Core.Windows.Utils.Messages
 {
-    internal class LoginMessage : MessageBase
+    public class LoginMessage : MessageBase
     {
         public LoginStatus Status { get; private set; }
         public LoginMessage(LoginStatus status)

@@ -17,18 +17,13 @@ namespace YesPojiQuota.Core.Windows.Notifications.Toasts
         {
         }
 
-        protected override void CreateContent()
+        protected override void CreateActions()
         {
-            base.CreateContent();
-
             _actions = new ToastActionsCustom()
             {
                 Buttons =
                 {
-                    new ToastButton("Logout", new QueryString()
-                    {
-                        { "action", "logout" }
-                    }.ToString())
+                    new ToastButton("Logout", "logout")
                     {
                         ActivationType = ToastActivationType.Background,
                         //ImageUri = "Assets/Reply.png",

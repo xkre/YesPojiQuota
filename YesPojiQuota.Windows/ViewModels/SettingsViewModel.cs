@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Views;
 using Windows.ApplicationModel;
+using YesPojiQuota.Core.Windows.ViewModels;
 
 namespace YesPojiQuota.ViewModels
 {

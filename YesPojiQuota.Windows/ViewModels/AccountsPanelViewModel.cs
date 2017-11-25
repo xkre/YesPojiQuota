@@ -14,7 +14,8 @@ using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Models;
 using YesPojiQuota.Core.Data;
 using YesPojiQuota.Utils;
-using YesPojiQuota.Utils.Messages;
+using YesPojiQuota.Core.Windows.ViewModels;
+using YesPojiQuota.Core.Windows.Utils.Messages;
 
 namespace YesPojiQuota.ViewModels
 {

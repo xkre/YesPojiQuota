@@ -49,13 +49,17 @@ namespace YesPojiQuota.Core.Windows.Notifications.Toasts
             {
                 Buttons =
                 {
-                    new ToastButton("Logout", 
-                            new QueryString(){{ "action", "logout" }}.ToString())
+                    new ToastButton("Logout", "logout")
                     {
                         ActivationType = ToastActivationType.Background
                     }
                 }
             };
+        }
+
+        public void UpdateSessionData()
+        {
+
         }
     }
 }
