@@ -21,12 +21,15 @@ namespace YesPojiQuota.ViewModels
 {
     public class ViewModelLocator
     {
+        private AppServiceLocator _serviceLocator;
         public ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-
+            
             RegisterServices();
             RegisterViewModels();
+
+            _serviceLocator = new AppServiceLocator();
         }
 
         private void RegisterViewModels()
@@ -50,22 +53,6 @@ namespace YesPojiQuota.ViewModels
 
             SimpleIoc.Default.Register<INavigationService>(() => nav);
             SimpleIoc.Default.Register<ICustomNavigationService>(() => nav);
-            SimpleIoc.Default.Register<IDialogService, DialogService>();
-            SimpleIoc.Default.Register<IYesLoginService, YesLoginService>();
-            SimpleIoc.Default.Register<IYesQuotaService, YesQuotaService>();
-            SimpleIoc.Default.Register<IYesNetworkService, YesNetworkService>();
-            SimpleIoc.Default.Register<IEncryptionService, WindowsEncryptionService>();
-
-            SimpleIoc.Default.Register<IDataService, DataService>();
-
-            SimpleIoc.Default.Register<YesSessionService>();
-
-            SimpleIoc.Default.Register<NetworkChangeHandler, WindowsNetworkChangeHandler>();
-            SimpleIoc.Default.Register<YesSessionUpdater>();
-            SimpleIoc.Default.Register<QuotaObserverManager>();
-            SimpleIoc.Default.Register<ToastManager>();
-
-            SimpleIoc.Default.Register<YesContext>();
         }
 
         /*

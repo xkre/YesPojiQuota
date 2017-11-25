@@ -1,6 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Practices.ServiceLocation;
 using System;
 using System.Collections.Generic;
@@ -171,7 +170,7 @@ namespace YesPojiQuota.ViewModels
             }
 
             Username = Username.ToLower();
-            Username += _type == Core.Enums.AccountType.Student ? "@live.utm.my" : "@utm.my";
+            Username += _type == AccountType.Student ? "@live.utm.my" : "@utm.my";
 
             if (null != _db.Accounts.Where(x => x.Username == Username).FirstOrDefault())
             {
