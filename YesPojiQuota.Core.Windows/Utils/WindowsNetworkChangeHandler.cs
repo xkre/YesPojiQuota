@@ -7,11 +7,11 @@ using Windows.Networking.Connectivity;
 using YesPojiQuota.Core.Observers;
 using YesPojiUtmLib.Services;
 
-namespace YesPojiQuota.Utils
+namespace YesPojiQuota.Core.Windows.Utils
 {
     internal class WindowsNetworkChangeHandler : NetworkChangeHandler
     {
-        public WindowsNetworkChangeHandler(IYesNetworkService ns, YesSessionService ys) : base(ns, ys)
+        public WindowsNetworkChangeHandler(IYesNetworkService ns, IYesSessionService ys) : base(ns, ys)
         {
         }
 

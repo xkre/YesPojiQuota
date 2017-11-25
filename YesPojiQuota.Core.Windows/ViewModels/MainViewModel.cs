@@ -12,10 +12,9 @@ using System.Threading.Tasks;
 using System.Data;
 using Windows.UI.Core;
 using YesPojiQuota.Core.Windows.Services;
-using YesPojiQuota.Utils;
-using YesPojiQuota.Utils.Messages;
+using YesPojiQuota.Core.Windows.Utils.Messages;
 
-namespace YesPojiQuota.ViewModels
+namespace YesPojiQuota.Core.Windows.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
