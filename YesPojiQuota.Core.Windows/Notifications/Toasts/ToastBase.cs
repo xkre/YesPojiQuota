@@ -13,9 +13,6 @@ namespace YesPojiQuota.Core.Windows.Notifications.Toasts
         public XmlDocument Xml => Content.GetXml();
         public virtual ToastContent Content => _toastContent;
 
-        protected string _title;
-        protected string _content;
-
         protected ToastContent _toastContent;
 
         protected ToastActionsCustom _actions;
@@ -23,20 +20,17 @@ namespace YesPojiQuota.Core.Windows.Notifications.Toasts
 
         public ToastBase(string title, string content)
         {
-            _title = title;
-            _content = content;
-
-            CreateContent();
+            CreateContent(title, content);
             CreateActions();
-
-            _toastContent = new ToastContent()
-            {
-                Visual = _visual,
-                Actions = _actions
-            };
+            CreateToast();
         }
 
-        protected virtual void CreateContent()
+        public ToastBase()
+        {
+
+        }
+
+        protected virtual void CreateContent(string title, string content)
         {
             _visual = new ToastVisual()
             {
@@ -46,11 +40,11 @@ namespace YesPojiQuota.Core.Windows.Notifications.Toasts
                     {
                         new AdaptiveText()
                         {
-                            Text = _title,
+                            Text = title,
                         },
                         new AdaptiveText()
                         {
-                            Text = _content
+                            Text = content
                         }
                     }
                 }
@@ -60,6 +54,15 @@ namespace YesPojiQuota.Core.Windows.Notifications.Toasts
         protected virtual void CreateActions()
         {
             _actions = new ToastActionsCustom();
+        }
+
+        private void CreateToast()
+        {
+            _toastContent = new ToastContent()
+            {
+                Visual = _visual,
+                Actions = _actions
+            };
         }
     }
 }

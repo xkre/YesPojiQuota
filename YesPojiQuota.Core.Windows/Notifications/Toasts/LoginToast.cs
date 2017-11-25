@@ -9,7 +9,7 @@ using YesPojiQuota.Core.Models;
 
 namespace YesPojiQuota.Core.Windows.Notifications.Toasts
 {
-    internal class LoginToast : ToastBase
+    public class LoginToast : ToastBase
     {
         const string title = "Login to Yes4G Wifi";
         const string content = "You are connected to Yes4G network, would you like to login?";
@@ -29,10 +29,7 @@ namespace YesPojiQuota.Core.Windows.Notifications.Toasts
 
                 Buttons =
                 {
-                    new ToastButton("Login", new QueryString()
-                    {
-                        { "action", "login" }
-                    }.ToString())
+                    new ToastButton("Login", new QueryString(){{ "action", "login" }}.ToString())
                     {
                         ActivationType = ToastActivationType.Background,
                         //ImageUri = "Assets/Reply.png",
