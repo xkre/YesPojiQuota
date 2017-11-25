@@ -1,17 +1,11 @@
-﻿using GalaSoft.MvvmLight.Messaging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 using Windows.UI.Notifications;
 using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Observers;
-using YesPojiQuota.Core.Services;
 using YesPojiQuota.Core.Windows.Managers;
 using YesPojiQuota.Core.Windows.Notifications.Toasts;
-using YesPojiQuota.Core.Windows.Utils;
 
 namespace YesPojiQuota.Core.Windows.Utils
 {
@@ -25,27 +19,38 @@ namespace YesPojiQuota.Core.Windows.Utils
         {
             _nch = nch;
             _dts = dts;
+
+            Init();
         }
 
         public void ShowToast()
         {
+            //var loginToast = new LoginToast();
+            //loginToast.SetAccounts(_dts.Accounts.ToList());
+
+            //var toast = new ToastNotification(loginToast.Xml);
+
+            //_toastNotier.Show(toast);
+        }
+
+        public void ShowToast(ToastBase toast)
+        {
+            var toastNotification = new ToastNotification(toast.Xml);
+            _toastNotier.Show(toastNotification);
+        }
+
+        private void Init()
+        {
             _toastNotier = ToastNotificationManager.CreateToastNotifier();
 
-            var loginToast = new LoginToast();
-            loginToast.SetAccounts(_dts.Accounts.ToList());
-
-            var toast = new ToastNotification(loginToast.Xml);
-
-            _toastNotier.Show(toast);
+            _nch.LoginRequired += ShowToast;
         }
 
         public async Task InitAsync()
         {
-            _nch.LoginRequired += ShowToast;
             UnregisterTask();
-
             await RegisterToastBackgroundTasks();
-            ShowToast();
+            //ShowToast();
         }
 
         private async Task RegisterToastBackgroundTasks()

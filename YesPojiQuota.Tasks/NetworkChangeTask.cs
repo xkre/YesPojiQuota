@@ -10,102 +10,77 @@ using Windows.Networking.Connectivity;
 using Windows.Networking.NetworkOperators;
 using Windows.UI.Notifications;
 using YesPojiQuota.Core.Windows.Utils;
+using YesPojiQuota.Core.Windows.Notifications.Toasts;
 using YesPojiUtmLib.Services;
+using System.Diagnostics;
 
 namespace YesPojiQuota.Tasks
 {   
     public sealed class NetworkChangeTask : IBackgroundTask
     {
         private BackgroundTaskDeferral _deferral;
+        private ConnectionProfile _networkStatus;
 
         public void Run(IBackgroundTaskInstance taskInstance)
         {
             _deferral = taskInstance.GetDeferral();
 
-            var networkStatus = NetworkInformation.GetInternetConnectionProfile();
+            _networkStatus = NetworkInformation.GetInternetConnectionProfile();
+            var networkLevel = _networkStatus.GetNetworkConnectivityLevel();
+            AppServiceLocator appService = new AppServiceLocator();
 
-            if (networkStatus.IsWlanConnectionProfile &&
-                networkStatus.WlanConnectionProfileDetails.GetConnectedSsid() == "4G WiFi by Yes @ UTM")
+            try
             {
-                var networkLevel = networkStatus.GetNetworkConnectivityLevel();
-
-                if (networkLevel == NetworkConnectivityLevel.ConstrainedInternetAccess)
+                if (_networkStatus.IsWlanConnectionProfile)
                 {
-                    var networkService = new YesNetworkService();
-                    ToastHelper.PopToast("From NetworkChange", "Need to Login???");
+                    switch (networkLevel)
+                    {
+                        case NetworkConnectivityLevel.ConstrainedInternetAccess:
+                            if (IsConnectedToYesWifi())
+                            {
+                                ShowLoginToast();
+                            }
+
+                            break;
+                        case NetworkConnectivityLevel.InternetAccess:
+                            if (IsConnectedToYesWifi())
+                            {
+                                ShowSessionToast();
+                            }
+                            break;
+                    }
                 }
-            }
-            _deferral.Complete();
-            /*
-            Do the background task activity.
-            First, get the authentication context.
-
-            var details = taskInstance.TriggerDetails as
-               HotspotAuthenticationEventDetails;
-
-            HotspotAuthenticationContext context;
-            if (!HotspotAuthenticationContext.
-                  TryGetAuthenticationContext
-               (details.EventToken, out context))
+            }catch(Exception e)
             {
-                // Event is not of interest. Abort.
-                return;
+                ToastHelper.PopToast("Error", e.Message);
             }
 
-            byte[] ssid = context.WirelessNetworkId;
-
-            // Get configuration from application storage.
-
-            // Check if authentication is handled by foreground app.
-            //if (!Config.AuthenticateThroughBackgroundTask)
-            //{
-            //    // Pass event token to application
-            //    Config.AuthenticationToken = details.EventToken;
-
-            //    // TriggerAttentionRequired function throws
-            //    // NotImplementedException on phone, we use
-            //    // regular Toast Notification to notify user about
-            //    // the authentication, Tapping on the notification
-            //    // will launch the application where user can
-            //    // complete the authentication.
-            //    var toastXml = ToastNotificationManager.GetTemplateContent
-            //       (ToastTemplateType.ToastText01);
-            //    toastXml.GetElementsByTagName("text")[0].
-            //    AppendChild(toastXml.CreateTextNode("Auth by foreground"));
-            //    IXmlNode toastNode = toastXml.SelectSingleNode("/toast");
-            //    ((XmlElement)toastNode).SetAttribute("launch",
-            //       "AuthByForeground");
-
-            //    dynamic toast = new ToastNotification(toastXml);
-            //    Type typeofToastNotification = toast.GetType();
-            //    PropertyInfo tagProperty =
-            //       typeofToastNotification.GetRuntimeProperty("Tag");
-            //    PropertyInfo groupProperty =
-            //       typeofToastNotification.GetRuntimeProperty("Group");
-            //    if (tagProperty != null) toast.Tag = "AuthByForeground";
-            //    if (groupProperty != null) toast.Group = "HotspotAuthAPI";
-
-            //    var notification =
-            //       ToastNotificationManager.CreateToastNotifier();
-            //    notification.Show(toast);
-
-            //    return;
-            //}
-
-            // Handle authentication in background task.
-
-            // Before calling an asynchronous API from the background task,
-            // get the deferral object from the task instance.
-            _deferral = taskInstance.GetDeferral();
-
-            // Finally, call SkipAuthentication to indicate that we
-            // are not doing native WISPr authentication.
-            // This call also serves the purpose of indicating a
-            // successful authentication.
-            context.SkipAuthentication();
-
             _deferral.Complete();
-            */
+        }
+
+        private void ShowLoginToast()
+        {
+            var toastManager = AppServiceLocator.ToastManager;
+
+            //var networkService = new YesNetworkService();
+            var accounts = AppServiceLocator.DataService.Accounts;
+
+            var toast = new LoginToast();
+            toast.SetAccounts(accounts.ToList());
+
+            Debug.WriteLine(toast.Xml);
+
+            toastManager.ShowToast(toast);
+        }
+
+        private void ShowSessionToast()
+        {
+
+        }
+
+        private bool IsConnectedToYesWifi()
+        {
+            return _networkStatus.WlanConnectionProfileDetails.GetConnectedSsid() == "4G WiFi by Yes @ UTM";
         }
     }
 }
