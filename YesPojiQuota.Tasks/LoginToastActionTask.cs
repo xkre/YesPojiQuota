@@ -12,31 +12,35 @@ using YesPojiUtmLib.Services;
 using YesPojiQuota.Core.Windows.Services;
 using YesPojiQuota.Core.Services;
 using YesPojiQuota.Core.Windows.Utils;
+using YesPojiQuota.Core.Interfaces;
 
 namespace YesPojiQuota.Tasks
 {
     public sealed class LoginToastActionTask : IBackgroundTask
     {
+        private IDataService _data;
+        private IEncryptionService _es;
+        private IYesLoginService _ls;
+
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
-            ToastHelper.PopToast("LOGIN", "debug");
-
             var deferral = taskInstance.GetDeferral();
-
-            YesContext _db = new YesContext();
-            DataService _data = new DataService(_db);
-            WindowsEncryptionService _es = new WindowsEncryptionService();
+            AppServiceLocator appService = new AppServiceLocator();
 
             var details = taskInstance.TriggerDetails as ToastNotificationActionTriggerDetail;
-            var input = details.UserInput.Values.FirstOrDefault().ToString();
 
-            var _ls = new YesLoginService();
-            var account = _data.Accounts.Where(x => x.Username == input).FirstOrDefault();
+            ToastHelper.PopToast("DEBUG", details.Argument);
 
-            account.Password = _es.AES_Decrypt(account.Password, account.Username);
+            switch (details.Argument)
+            {
+                case "login":
+                    await Login(details);
+                    break;
 
-            var status = await _ls.LoginAsync(account);
-            ToastHelper.PopToast("LOGIN", status.ToString());
+                case "logout":
+                    await Logout();
+                    break;
+            }
 
             /*
             var details = args.taskinstance.triggerdetails as toastnotificationactiontriggerdetail;
@@ -48,6 +52,31 @@ namespace YesPojiQuota.Tasks
             }
             */
             deferral.Complete();
+        }
+
+        private async Task Login(ToastNotificationActionTriggerDetail details)
+        {
+            if (details == null)
+                return;
+
+            _data = AppServiceLocator.DataService;
+            _es = AppServiceLocator.EncryptionService;
+            _ls = AppServiceLocator.YesLoginService;
+
+            var input = details.UserInput.Values.FirstOrDefault().ToString();
+            var account = _data.Accounts.Where(x => x.Username == input).FirstOrDefault();
+
+            account.Password = _es.AES_Decrypt(account.Password, account.Username);
+
+            var status = await _ls.LoginAsync(account);
+            ToastHelper.PopToast("LOGIN", status.ToString());
+        }
+
+        private async Task Logout()
+        {
+            _ls = AppServiceLocator.YesLoginService;
+
+            await _ls.LogoutAsync();
         }
     }
 }
