@@ -52,7 +52,7 @@ namespace YesPojiQuota.Tasks
                 }
             }catch(Exception e)
             {
-                ToastHelper.PopToast("Error", e.Message);
+                //ToastHelper.PopToast("Error", e.Message);
             }
 
             _deferral.Complete();

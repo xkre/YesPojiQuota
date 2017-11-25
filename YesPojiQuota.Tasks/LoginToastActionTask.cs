@@ -29,8 +29,7 @@ namespace YesPojiQuota.Tasks
 
             var details = taskInstance.TriggerDetails as ToastNotificationActionTriggerDetail;
 
-            ToastHelper.PopToast("DEBUG: toast argument", details.Argument);
-
+            //ToastHelper.PopToast("DEBUG: toast argument", details.Argument
             if (details != null)
             {
                 switch (details.Argument)
@@ -45,15 +44,6 @@ namespace YesPojiQuota.Tasks
                 }
             }
 
-            /*
-            var details = args.taskinstance.triggerdetails as toastnotificationactiontriggerdetail;
-            if (details != null)
-            {
-                string arguments = details.argument;
-                var userinput = details.userinput;
-                // perform tasks
-            }
-            */
             deferral.Complete();
         }
 
@@ -69,7 +59,7 @@ namespace YesPojiQuota.Tasks
             account.Password = _es.AES_Decrypt(account.Password, account.Username);
 
             var status = await _ls.LoginAsync(account);
-            ToastHelper.PopToast("LOGIN", status.ToString());
+            ToastHelper.PopToast("LOGIN Status:", status.ToString());
         }
 
         private async Task Logout()
