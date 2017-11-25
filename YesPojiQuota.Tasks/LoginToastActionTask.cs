@@ -29,17 +29,20 @@ namespace YesPojiQuota.Tasks
 
             var details = taskInstance.TriggerDetails as ToastNotificationActionTriggerDetail;
 
-            ToastHelper.PopToast("DEBUG", details.Argument);
+            ToastHelper.PopToast("DEBUG: toast argument", details.Argument);
 
-            switch (details.Argument)
+            if (details != null)
             {
-                case "login":
-                    await Login(details);
-                    break;
+                switch (details.Argument)
+                {
+                    case "login":
+                        await Login(details);
+                        break;
 
-                case "logout":
-                    await Logout();
-                    break;
+                    case "logout":
+                        await Logout();
+                        break;
+                }
             }
 
             /*
@@ -56,9 +59,6 @@ namespace YesPojiQuota.Tasks
 
         private async Task Login(ToastNotificationActionTriggerDetail details)
         {
-            if (details == null)
-                return;
-
             _data = AppServiceLocator.DataService;
             _es = AppServiceLocator.EncryptionService;
             _ls = AppServiceLocator.YesLoginService;
