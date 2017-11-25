@@ -16,13 +16,13 @@ namespace YesPojiQuota.Core.Observers
     {
         public event SessionDataUpdateEvent SessionUpdated;
 
-        private YesSessionData _session;
+        //private YesSessionData _session;
         private IDisposable _updateTimer;
 
-        private YesSessionService _ys;
+        private IYesSessionService _ys;
         private NetworkChangeHandler _nch;
 
-        public YesSessionUpdater(YesSessionService ys, NetworkChangeHandler nch)
+        public YesSessionUpdater(IYesSessionService ys, NetworkChangeHandler nch)
         {
             _ys = ys;
             _nch = nch;

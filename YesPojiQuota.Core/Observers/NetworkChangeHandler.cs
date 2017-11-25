@@ -24,14 +24,14 @@ namespace YesPojiQuota.Core.Observers
         public event SimpleEvent LoginRequired;
 
         private IYesNetworkService _ns;
-        private YesSessionService _ys;
+        private IYesSessionService _ys;
 
         private NetworkCondition _currentNetwork;
         private IDisposable _networkChangeSubscription;
         private bool _yesConnected;
         private bool _isInitialized;
 
-        public NetworkChangeHandler(IYesNetworkService ns, YesSessionService ys)
+        public NetworkChangeHandler(IYesNetworkService ns, IYesSessionService ys)
         {
             _ns = ns;
             _ys = ys;
