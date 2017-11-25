@@ -20,7 +20,7 @@
     <PackageCertificateKeyFile>YesPojiQuota.Windows_StoreKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
     <PackageCertificateThumbprint>3F6483D45AEA1DE256213485675108FF8A22BBA0</PackageCertificateThumbprint>
     <AppxPackageDir>C:\Users\Akram\Source\Repos\YesPojiQuota\YesPojiQuota.Windows\AppPackages\</AppxPackageDir>
