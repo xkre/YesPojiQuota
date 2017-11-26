@@ -1,15 +1,10 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Collections.Concurrent;
 using YesPojiQuota.Core.Data;
 using YesPojiQuota.Core.Interfaces;
-using YesPojiQuota.Core.Helpers;
 using YesPojiQuota.Core.Models;
 using YesPojiQuota.Core.Observers;
 using YesPojiQuota.Core.Enums;

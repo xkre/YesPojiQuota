@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2005
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YesPojiQuota.Windows", "YesPojiQuota.Windows\YesPojiQuota.Windows.csproj", "{0C0FE9B1-C331-4FE2-9385-171EECFEDB3A}"
 EndProject
@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YesPojiUtmLib", "YesPojiUtm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YesPojiQuota.Core.Windows", "YesPojiQuota.Core.Windows\YesPojiQuota.Core.Windows.csproj", "{36813669-2F68-4A6F-A871-70F507AC7633}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YesPojiQuota.Core", "YesPojiQuota.Core\YesPojiQuota.Core.csproj", "{5E4540D5-7074-4720-93BE-E7F095060FC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YesPojiQuota.Core", "YesPojiQuota.Core\YesPojiQuota.Core.csproj", "{5E4540D5-7074-4720-93BE-E7F095060FC4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
