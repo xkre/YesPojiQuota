@@ -59,7 +59,6 @@ namespace YesPojiQuota.Core.Windows.Notifications.Toasts
 
         public void UpdateSessionData()
         {
-
         }
     }
 }

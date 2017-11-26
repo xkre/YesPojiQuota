@@ -35,8 +35,6 @@ namespace YesPojiQuota.Core.Windows.Services
 
             navStack.Clear();
             return false;
-
-
         }
 
         public void GoBack()

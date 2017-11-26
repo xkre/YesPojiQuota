@@ -25,9 +25,7 @@ namespace YesPojiQuota.Core.Windows.ViewModels
         }
         #endregion Constructors
 
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async virtual Task InitAsync()
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
         }
 
@@ -41,53 +39,9 @@ namespace YesPojiQuota.Core.Windows.ViewModels
             }
         }
 
-        private string _pageContent;
-        public string PageContent
-        {
-            get { return _pageContent; }
-            set { Set("PageContent", ref _pageContent, value); }
-        }
-
-        private bool _canLogin = false;
-        public bool CanLogin
-        {
-            get { return _canLogin; }
-            set { Set("CanLogin", ref _canLogin, value); }
-        }
-
-        //private RelayCommand _sendNotificationMessage;
-        //public RelayCommand SendNotificationMessage
-        //{
-        //    get
-        //    {
-        //        return _sendNotificationMessage
-        //            ?? (_sendNotificationMessage = new RelayCommand(() =>
-        //            {
-        //                Messenger.Default.Send(
-        //                    new NotificationMessageAction<string>(
-        //                        "Testing",
-        //                        reply =>
-        //                        {
-        //                            PageTitle = reply;
-        //                        }));
-        //            }));
-        //    }
-        //}
-
         protected void SendNotificationMessage(string message)
         {
-            //Messenger.Default.Send(message);
             SendDialogMessage(message, (x) => {; });
-
-            //Messenger.Default.Send(
-            //    new NotificationMessageAction<string>(
-            //        message,
-            //        reply =>
-            //        {
-            //            //PageTitle = reply;
-            //        }
-            //    )
-            //);
         }
 
         protected void SendDialogMessage(string message, Action<string> action)

@@ -90,8 +90,6 @@ namespace YesPojiQuota.ViewModels
             {
                 _yesConnected = true;
                 RefreshAccounts();
-
-                //_ls.InitAsync();
             };
             _nch.YesDisconnected += () => _yesConnected = false;
         }
@@ -137,29 +135,5 @@ namespace YesPojiQuota.ViewModels
         {
             NavigationService.NavigateTo(ViewModelKeys.SETTINGS_PAGE);
         }
-
-        //private RelayCommand _navigateToSettings;
-        //public RelayCommand NavigateToSettings
-        //{
-        //    get
-        //    {
-        //        return _navigateToSettings ?? (_navigateToSettings = new RelayCommand(() => _navigationService.NavigateTo(ViewModelKeys.SETTINGS_PAGE)));
-        //    }
-        //}
-
-        /* Unused Code
-        public async void SendNotificationMessage()
-        {
-            Messenger.Default.Send(
-                new NotificationMessageAction<string>(
-                    key,
-                    reply =>
-                    {
-                        PageTitle = reply;
-                    }
-                )
-            );
-        }
-        */
     }
 }

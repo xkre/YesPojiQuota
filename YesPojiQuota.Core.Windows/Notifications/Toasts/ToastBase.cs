@@ -27,7 +27,6 @@ namespace YesPojiQuota.Core.Windows.Notifications.Toasts
 
         public ToastBase()
         {
-
         }
 
         protected virtual void CreateContent(string title, string content)
