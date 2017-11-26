@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Data;
 
-namespace YesPojiQuota.Utils.Converters
+namespace YesPojiQuota.UWP.Utils.Converters
 {
     class AccountTypeConverter : IValueConverter
     {

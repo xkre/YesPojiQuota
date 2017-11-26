@@ -1,5 +1,4 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
-using GalaSoft.MvvmLight.Threading;
 using GalaSoft.MvvmLight.Views;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,32 +12,25 @@ using YesPojiQuota.Core.Observers;
 using YesPojiQuota.Core.Services;
 using YesPojiQuota.Core.Utils;
 using YesPojiQuota.Core.ViewModels;
-using YesPojiQuota.Core.Windows.Services;
-using YesPojiQuota.Core.Windows.Utils;
-using YesPojiQuota.Core.Windows.ViewModels;
-using YesPojiQuota.Utils;
-using YesPojiQuota.Views;
+
 using YesPojiUtmLib.Services;
 
-namespace YesPojiQuota.ViewModels
+namespace YesPojiQuota.Core.ViewModels
 {
-    public class ViewModelLocator
+    public abstract class ViewModelLocator
     {
-        private AppServiceLocator _serviceLocator;
         public ViewModelLocator()
         {
-            RegisterServices();
             RegisterViewModels();
-
-            _serviceLocator = new AppServiceLocator();
+            RegisterServices();
+            ConfigureNavigation();
         }
 
-        private void RegisterViewModels()
+        protected virtual void RegisterViewModels()
         {
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<MainPageViewModel>();
             SimpleIoc.Default.Register<AccountsPanelViewModel>();
-            SimpleIoc.Default.Register<SettingsViewModel>();
             SimpleIoc.Default.Register<StatusViewModel>();
 
             //Multiple Instance ViewModel
@@ -46,14 +38,14 @@ namespace YesPojiQuota.ViewModels
             SimpleIoc.Default.Register<AccountViewModel>();
         }
 
-        private void RegisterServices()
+        protected virtual void RegisterServices()
         {
-            var nav = new NavigationServiceEx();
+            SimpleIoc.Default.GetInstance<BaseServiceLocator>();
+        }
 
-            nav.Configure(ViewModelKeys.SETTINGS_PAGE, typeof(SettingsPage));
-
-            SimpleIoc.Default.Register<INavigationService>(() => nav);
-            SimpleIoc.Default.Register<IDispatcherHelper, DispatcherHelperEx>();
+        private void ConfigureNavigation()
+        {
+            SimpleIoc.Default.GetInstance<IViewModelNavigationConfigurer>().ConfigureNavigation();
         }
 
         /*
@@ -83,7 +75,6 @@ namespace YesPojiQuota.ViewModels
         public MainViewModel Main => SimpleIoc.Default.GetInstance<MainViewModel>();
         public MainPageViewModel MainPage => SimpleIoc.Default.GetInstance<MainPageViewModel>();
         public AccountsPanelViewModel Accounts => SimpleIoc.Default.GetInstance<AccountsPanelViewModel>();
-        public SettingsViewModel Settings => SimpleIoc.Default.GetInstance<SettingsViewModel>();
-        public StatusViewModel InnAppToast => SimpleIoc.Default.GetInstance<StatusViewModel>();
+        public StatusViewModel Status => SimpleIoc.Default.GetInstance<StatusViewModel>();
     }
 }

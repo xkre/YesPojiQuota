@@ -3,12 +3,12 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:YesPojiQuota"
-    xmlns:vm="using:YesPojiQuota.ViewModels"
+    xmlns:vm="using:YesPojiQuota.UWP.ViewModels"
     RequestedTheme="Dark">
 
     <Application.Resources>
-        <vm:ViewModelLocator x:Key="Locator" />
+        <vm:WindowsViewModelLocator x:Key="Locator" />
     </Application.Resources>
-
+    
 
 </Application>

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI;
 
-namespace YesPojiQuota.Utils
+namespace YesPojiQuota.UWP.Utils
 {
     public static class ColourHelper
     {

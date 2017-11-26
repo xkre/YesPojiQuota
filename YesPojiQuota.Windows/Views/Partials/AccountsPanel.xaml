@@ -13,7 +13,7 @@
     d:DesignWidth="400">
 
     <UserControl.Resources>
-
+        
         <DataTemplate x:Name="AccountsPanelTemplate" x:DataType="viewModels:AccountViewModel">
             <Grid>
                 <Grid.ContextFlyout>
@@ -107,5 +107,5 @@
             <TextBlock Text="Status Bar Text" FontSize="10"/>
         </StackPanel>
     </Grid>
-    
+
 </UserControl>

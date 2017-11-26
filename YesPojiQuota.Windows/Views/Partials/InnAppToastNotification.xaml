@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    DataContext="{Binding InnAppToast, Source={StaticResource Locator}}"
+    DataContext="{Binding Status, Source={StaticResource Locator}}"
     d:DesignHeight="130"
     d:DesignWidth="400"
     Visibility="{x:Bind Vm.Visibility, Mode=OneWay}"
