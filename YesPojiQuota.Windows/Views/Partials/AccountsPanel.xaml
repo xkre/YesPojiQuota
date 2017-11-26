@@ -5,7 +5,7 @@
     xmlns:local="using:YesPojiQuota.Views.Partials"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewModels="using:YesPojiQuota.ViewModels"
+    xmlns:viewModels="using:YesPojiQuota.Core.ViewModels"
     mc:Ignorable="d"
     DataContext="{Binding Accounts, Source={StaticResource Locator}}"
     Loaded="UserControl_Loaded"

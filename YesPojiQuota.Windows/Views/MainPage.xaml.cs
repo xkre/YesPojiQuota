@@ -19,6 +19,7 @@ using GalaSoft.MvvmLight.Messaging;
 using System.Threading.Tasks;
 using YesPojiQuota.Core.Windows.Services;
 using GalaSoft.MvvmLight.Ioc;
+using YesPojiQuota.Core.ViewModels;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
