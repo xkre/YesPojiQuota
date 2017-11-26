@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
+using GalaSoft.MvvmLight.Threading;
 using GalaSoft.MvvmLight.Views;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,6 +11,8 @@ using YesPojiQuota.Core.Data;
 using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Observers;
 using YesPojiQuota.Core.Services;
+using YesPojiQuota.Core.Utils;
+using YesPojiQuota.Core.ViewModels;
 using YesPojiQuota.Core.Windows.Services;
 using YesPojiQuota.Core.Windows.Utils;
 using YesPojiQuota.Core.Windows.ViewModels;
@@ -50,6 +53,7 @@ namespace YesPojiQuota.ViewModels
             nav.Configure(ViewModelKeys.SETTINGS_PAGE, typeof(SettingsPage));
 
             SimpleIoc.Default.Register<INavigationService>(() => nav);
+            SimpleIoc.Default.Register<IDispatcherHelper, DispatcherHelperEx>();
         }
 
         /*
