@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight.Threading;
-using System;
+﻿using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,11 +8,10 @@ using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using YesPojiQuota.Core.Models;
 using YesPojiQuota.Core.Data;
-using YesPojiQuota.Core.Windows.ViewModels;
-using YesPojiQuota.Core.Windows.Utils.Messages;
 using GalaSoft.MvvmLight.Ioc;
+using YesPojiQuota.Core.Utils.Messages;
 
-namespace YesPojiQuota.ViewModels
+namespace YesPojiQuota.Core.ViewModels
 {
     public class AccountsPanelViewModel : MainViewModel
     {
@@ -48,7 +46,7 @@ namespace YesPojiQuota.ViewModels
                 foreach (var a in accounts)
                 {
                     var acvm = CreateAccountViewModel(a);
-                    DispatcherHelper.RunAsync(() => Accounts.Add(acvm));
+                    DispatcherHelper.CheckBeginInvokeOnUi(() => Accounts.Add(acvm));
                     await acvm.InitAsync();
                 }
             }

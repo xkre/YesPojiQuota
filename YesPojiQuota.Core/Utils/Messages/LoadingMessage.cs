@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace YesPojiQuota.Core.Windows.Utils.Messages
+namespace YesPojiQuota.Core.Utils.Messages
 {
     public class LoadingMessage : MessageBase
     {

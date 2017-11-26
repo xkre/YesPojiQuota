@@ -11,10 +11,9 @@ using Microsoft.EntityFrameworkCore;
 using YesPojiQuota.Core.Observers;
 using System.Diagnostics;
 using YesPojiUtmLib.Services;
-using YesPojiQuota.Core.Windows.Utils;
-using YesPojiQuota.Core.Windows.ViewModels;
+using YesPojiQuota.Core.Utils;
 
-namespace YesPojiQuota.ViewModels
+namespace YesPojiQuota.Core.ViewModels
 {
     public class MainPageViewModel : MainViewModel
     {

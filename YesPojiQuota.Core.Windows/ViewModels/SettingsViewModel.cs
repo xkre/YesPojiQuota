@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Views;
 using Windows.ApplicationModel;
 using YesPojiQuota.Core.Windows.ViewModels;
+using YesPojiQuota.Core.ViewModels;
 
-namespace YesPojiQuota.ViewModels
+namespace YesPojiQuota.Core.Windows.ViewModels
 {
     public class SettingsViewModel : MainViewModel
     {

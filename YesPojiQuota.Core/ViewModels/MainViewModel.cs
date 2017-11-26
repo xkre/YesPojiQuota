@@ -1,5 +1,4 @@
 ﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Views;
 using GalaSoft.MvvmLight.Ioc;
@@ -8,16 +7,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data;
-using Windows.UI.Core;
-using YesPojiQuota.Core.Windows.Services;
-using YesPojiQuota.Core.Windows.Utils.Messages;
+using YesPojiQuota.Core.Utils.Messages;
+using YesPojiQuota.Core.Interfaces;
 
-namespace YesPojiQuota.Core.Windows.ViewModels
+namespace YesPojiQuota.Core.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
         protected INavigationService NavigationService { get; } = SimpleIoc.Default.GetInstance<INavigationService>();
+        protected IDispatcherHelper DispatcherHelper { get; } = SimpleIoc.Default.GetInstance<IDispatcherHelper>();
 
         #region Constructors
         public MainViewModel()

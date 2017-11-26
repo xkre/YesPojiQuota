@@ -1,5 +1,4 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
-using GalaSoft.MvvmLight.Threading;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,11 +15,10 @@ using YesPojiQuota.Core.Observers;
 using YesPojiQuota.Core.Enums;
 using YesPojiUtmLib.Services;
 using YesPojiUtmLib.Enums;
-using YesPojiQuota.Core.Windows.ViewModels;
-using YesPojiQuota.Core.Windows.Utils.Messages;
 using GalaSoft.MvvmLight.Ioc;
+using YesPojiQuota.Core.Utils.Messages;
 
-namespace YesPojiQuota.ViewModels
+namespace YesPojiQuota.Core.ViewModels
 {
     public class AccountViewModel : MainViewModel
     {
@@ -150,12 +148,12 @@ namespace YesPojiQuota.ViewModels
 
         private void YesConnected()
         {
-            DispatcherHelper.RunAsync(() => CanLogin = true);
+            DispatcherHelper.CheckBeginInvokeOnUi(() => CanLogin = true);
         }
 
         private void YesDisconnected()
         {
-            DispatcherHelper.RunAsync(() => CanLogin = false);
+            DispatcherHelper.CheckBeginInvokeOnUi(() => CanLogin = false);
         }
 
         public async Task RefreshDataAsync() => await Quota.RefreshQuotaAsync();
@@ -224,7 +222,7 @@ namespace YesPojiQuota.ViewModels
             if (currentConnectivity == NetworkCondition.YesWifiConnected ||
                 currentConnectivity == NetworkCondition.Online)
             {
-                DispatcherHelper.RunAsync(() => CanLogin = true);
+                DispatcherHelper.CheckBeginInvokeOnUi(() => CanLogin = true);
             }
         }
 

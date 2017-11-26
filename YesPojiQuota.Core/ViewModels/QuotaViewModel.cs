@@ -1,5 +1,4 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
-using GalaSoft.MvvmLight.Threading;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,10 +12,9 @@ using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Models;
 using YesPojiQuota.Core.Observers;
 using YesPojiQuota.Core.Services;
-using YesPojiQuota.Core.Windows.ViewModels;
 using YesPojiUtmLib.Services;
 
-namespace YesPojiQuota.ViewModels
+namespace YesPojiQuota.Core.ViewModels
 {
     public class QuotaViewModel : MainViewModel
     {
@@ -107,7 +105,7 @@ namespace YesPojiQuota.ViewModels
                 _isChanged = available != Available;
 
                 Quota.Available = Available;
-                await DispatcherHelper.RunAsync(() => Available = available);
+                DispatcherHelper.CheckBeginInvokeOnUi(() => Available = available);
             }
             catch
             {

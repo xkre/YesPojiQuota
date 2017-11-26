@@ -1,6 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
-using GalaSoft.MvvmLight.Threading;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,15 +10,12 @@ using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Models;
 using YesPojiQuota.Core.Observers;
 using YesPojiQuota.Core.Services;
-using YesPojiQuota.Core.Windows.Utils;
-using YesPojiQuota.Core.Windows.Utils.Messages;
-using YesPojiQuota.Core.Windows.ViewModels;
-using YesPojiQuota.Utils;
+using YesPojiQuota.Core.Utils.Messages;
 using YesPojiUtmLib.Enums;
 using YesPojiUtmLib.Models;
 using YesPojiUtmLib.Services;
 
-namespace YesPojiQuota.ViewModels
+namespace YesPojiQuota.Core.ViewModels
 {
     public class StatusViewModel : MainViewModel
     {
@@ -28,18 +24,15 @@ namespace YesPojiQuota.ViewModels
         private YesSessionUpdater _ys;
         private NetworkChangeHandler _nch;
 
-        private ToastManager _tm;
-
         private IDisposable _messageTimer;
 
         public StatusViewModel(IYesNetworkService ns, IYesLoginService ls,
-            YesSessionUpdater ys, NetworkChangeHandler nch, ToastManager tm)
+            YesSessionUpdater ys, NetworkChangeHandler nch)
         {
             _ns = ns;
             _ls = ls;
             _ys = ys;
             _nch = nch;
-            _tm = tm;
         }
 
         #region Properties
@@ -109,8 +102,6 @@ namespace YesPojiQuota.ViewModels
             _nch.NetworkChanged += UpdateNetworkStatusDisplay;
             _ys.SessionUpdated += ProcessSessionUpdate;
 
-            await _tm.InitAsync();
-
             //_ls.OnLoginFailed += ProcessLoginFail;
             //_ls.OnLoginSuccess += ProcessLoginSuccess;
 
@@ -137,7 +128,8 @@ namespace YesPojiQuota.ViewModels
 
         private async Task InitLoading()
         {
-            await DispatcherHelper.RunAsync(() =>
+            //check1
+            DispatcherHelper.CheckBeginInvokeOnUi(() =>
             {
                 Message = "Checking network status";
                 IsLoading = true;
@@ -153,15 +145,17 @@ namespace YesPojiQuota.ViewModels
             {
                 _messageTimer?.Dispose();
 
-                await DispatcherHelper.RunAsync(() =>
+                //check1
+                DispatcherHelper.CheckBeginInvokeOnUi(() =>
                 {
                     Message = message.Message;
                     IsLoading = message.IsLoading;
                 });
 
-                _messageTimer = Observable.Timer(TimeSpan.FromSeconds(5)).Subscribe(async (x) =>
+                _messageTimer = Observable.Timer(TimeSpan.FromSeconds(5)).Subscribe((x) =>
                 {
-                    await DispatcherHelper.RunAsync(() =>
+                    //check1
+                    DispatcherHelper.CheckBeginInvokeOnUi(() =>
                     {
                         Message = "";
                         IsLoading = false;
@@ -176,7 +170,7 @@ namespace YesPojiQuota.ViewModels
         private void ProcessSessionUpdate(YesSessionData data)
         {
             #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            DispatcherHelper.RunAsync(() =>
+            DispatcherHelper.CheckBeginInvokeOnUi(() =>
             {
                  Received      = $"{(data.Received / 1024):N3} MB";
                  Sent          = $"{(data.Sent     / 1024):N3} MB";
@@ -188,17 +182,17 @@ namespace YesPojiQuota.ViewModels
 
         private void HandleNotification(string a)
         {
-            DispatcherHelper.RunAsync(() => Message = a);
+            DispatcherHelper.CheckBeginInvokeOnUi(() => Message = a);
         }
 
         private void HandleNotification(bool a)
         {
-            DispatcherHelper.RunAsync(() => IsConnected = a);
+            DispatcherHelper.CheckBeginInvokeOnUi(() => IsConnected = a);
         }
 
         private async void UpdateNetworkStatusDisplay(NetworkCondition condition)
         {
-            await DispatcherHelper.RunAsync(() =>
+            DispatcherHelper.CheckBeginInvokeOnUi(() =>
             {
                 Message = "";
                 IsConnected = false;
@@ -223,12 +217,12 @@ namespace YesPojiQuota.ViewModels
             });
         }
 
-        private async void HandleLoginMessage(LoginMessage message)
+        private void HandleLoginMessage(LoginMessage message)
         {
             //TODO: Maybe separate this into a class
             if (message.Status == LoginStatus.Success)
             {
-                await DispatcherHelper.RunAsync(() =>
+                DispatcherHelper.CheckBeginInvokeOnUi(() =>
                 {
                     Message = "Login Success";
                     IsConnected = true;
@@ -237,7 +231,7 @@ namespace YesPojiQuota.ViewModels
             }
             else
             {
-                await DispatcherHelper.RunAsync(() =>
+                DispatcherHelper.CheckBeginInvokeOnUi(() =>
                 {
                     Message = $"Login Not Successful - {message.ToString()}";
                     IsLoading = false;
