@@ -17,7 +17,7 @@
             </AppBarButton>
             <AppBarButton Label="Refresh" Icon="Refresh" Click="{x:Bind vm.RefreshAccounts}"/>
             <CommandBar.SecondaryCommands>
-                <AppBarButton Label="Settings / About" Icon="Setting" Command="{Binding NavigateToSettings}"/>
+                <AppBarButton Label="Settings / About" Icon="Setting" Click="{x:Bind vm.NavigateToSettings}"/>
             </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>

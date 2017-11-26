@@ -1,7 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Practices.ServiceLocation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,8 +24,6 @@ namespace YesPojiQuota.ViewModels
         private AppServiceLocator _serviceLocator;
         public ViewModelLocator()
         {
-            ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-            
             RegisterServices();
             RegisterViewModels();
 
@@ -39,7 +36,7 @@ namespace YesPojiQuota.ViewModels
             SimpleIoc.Default.Register<MainPageViewModel>();
             SimpleIoc.Default.Register<AccountsPanelViewModel>();
             SimpleIoc.Default.Register<SettingsViewModel>();
-            SimpleIoc.Default.Register<InnAppToastViewModel>();
+            SimpleIoc.Default.Register<StatusViewModel>();
 
             //Multiple Instance ViewModel
             SimpleIoc.Default.Register<QuotaViewModel>();
@@ -48,12 +45,11 @@ namespace YesPojiQuota.ViewModels
 
         private void RegisterServices()
         {
-            var nav = new CustomNavigationService(new NavigationService());
+            var nav = new NavigationServiceEx();
 
             nav.Configure(ViewModelKeys.SETTINGS_PAGE, typeof(SettingsPage));
 
             SimpleIoc.Default.Register<INavigationService>(() => nav);
-            SimpleIoc.Default.Register<ICustomNavigationService>(() => nav);
         }
 
         /*
@@ -78,17 +74,12 @@ namespace YesPojiQuota.ViewModels
             return vm;
         }
         */
+        public static INavigationService NavigationService => SimpleIoc.Default.GetInstance<INavigationService>();
 
-        public MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
-        public MainPageViewModel MainPage => ServiceLocator.Current.GetInstance<MainPageViewModel>();
-        public AccountsPanelViewModel Accounts => ServiceLocator.Current.GetInstance<AccountsPanelViewModel>();
-        public SettingsViewModel Settings => ServiceLocator.Current.GetInstance<SettingsViewModel>();
-        public InnAppToastViewModel InnAppToast => ServiceLocator.Current.GetInstance<InnAppToastViewModel>();
-
-        public static void Cleanup()
-        {
-            //TODO
-            throw new NotImplementedException();
-        }
+        public MainViewModel Main => SimpleIoc.Default.GetInstance<MainViewModel>();
+        public MainPageViewModel MainPage => SimpleIoc.Default.GetInstance<MainPageViewModel>();
+        public AccountsPanelViewModel Accounts => SimpleIoc.Default.GetInstance<AccountsPanelViewModel>();
+        public SettingsViewModel Settings => SimpleIoc.Default.GetInstance<SettingsViewModel>();
+        public StatusViewModel InnAppToast => SimpleIoc.Default.GetInstance<StatusViewModel>();
     }
 }

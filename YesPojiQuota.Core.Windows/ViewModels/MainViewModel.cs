@@ -3,7 +3,6 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Views;
 using GalaSoft.MvvmLight.Ioc;
-using Microsoft.Practices.ServiceLocation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,16 +17,11 @@ namespace YesPojiQuota.Core.Windows.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        #region Constructors
-        [PreferredConstructor]
-        public MainViewModel(INavigationService navigationService) : this()
-        {
-            _navigationService = navigationService;
-        }
+        protected INavigationService NavigationService { get; } = SimpleIoc.Default.GetInstance<INavigationService>();
 
+        #region Constructors
         public MainViewModel()
         {
-            PageTitle = "Main Page";
         }
         #endregion Constructors
 
@@ -36,8 +30,6 @@ namespace YesPojiQuota.Core.Windows.ViewModels
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
         }
-
-        protected readonly INavigationService _navigationService;
 
         private string _pageTitle;
         public string PageTitle
@@ -106,16 +98,6 @@ namespace YesPojiQuota.Core.Windows.ViewModels
         protected void SetLoadingMessage(string message)
         {
             Messenger.Default.Send(new LoadingMessage() { IsLoading = true, Message = message });
-        }
-
-        public void BackRequested(object sender, BackRequestedEventArgs e)
-        {
-            var nav = (ICustomNavigationService)_navigationService;
-
-            if (nav.GoBackSystem())
-            {
-                e.Handled = true;
-            }
         }
     }
 }

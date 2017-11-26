@@ -19,7 +19,7 @@ namespace YesPojiQuota.ViewModels
     public class MainPageViewModel : MainViewModel
     {
         private AccountsPanelViewModel _accountsVM;
-        private InnAppToastViewModel _inAppToastVM;
+        private StatusViewModel _inAppToastVM;
 
         private IYesLoginService _ls;
         private IYesNetworkService _ns;
@@ -36,11 +36,10 @@ namespace YesPojiQuota.ViewModels
             IYesNetworkService ns,
             IDialogService ds,
             AccountsPanelViewModel acsvm,
-            InnAppToastViewModel iatvm,
+            StatusViewModel iatvm,
             NetworkChangeHandler nch,
             YesSessionUpdater ysu,
             YesContext db)
-            : base(navS)
         {
             _ls = ls;
             _ns = ns;
@@ -134,14 +133,19 @@ namespace YesPojiQuota.ViewModels
                 _accountsVM.RefreshQuota();
         }
 
-        private RelayCommand _navigateToSettings;
-        public RelayCommand NavigateToSettings
+        public void NavigateToSettings()
         {
-            get
-            {
-                return _navigateToSettings ?? (_navigateToSettings = new RelayCommand(() => _navigationService.NavigateTo(ViewModelKeys.SETTINGS_PAGE)));
-            }
+            NavigationService.NavigateTo(ViewModelKeys.SETTINGS_PAGE);
         }
+
+        //private RelayCommand _navigateToSettings;
+        //public RelayCommand NavigateToSettings
+        //{
+        //    get
+        //    {
+        //        return _navigateToSettings ?? (_navigateToSettings = new RelayCommand(() => _navigationService.NavigateTo(ViewModelKeys.SETTINGS_PAGE)));
+        //    }
+        //}
 
         /* Unused Code
         public async void SendNotificationMessage()

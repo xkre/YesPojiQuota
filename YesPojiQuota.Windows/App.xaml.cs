@@ -1,7 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
 using GalaSoft.MvvmLight.Views;
-using Microsoft.Practices.ServiceLocation;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,6 +28,7 @@ using YesPojiUtmLib.Services;
 using YesPojiQuota.Core.Data;
 using YesPojiQuota.Core.Helpers;
 using Windows.Networking.NetworkOperators;
+using GalaSoft.MvvmLight.Ioc;
 
 namespace YesPojiQuota
 {
@@ -156,7 +156,7 @@ namespace YesPojiQuota
         private void HandleNotification(NotificationMessageAction<string> message)
         {
             //message.Execute("Success from <App.xaml>");
-            var dialog = ServiceLocator.Current.GetInstance<IDialogService>();
+            var dialog = SimpleIoc.Default.GetInstance<IDialogService>();
             DispatcherHelper.RunAsync(() => dialog.ShowMessage(message.Notification, "Message"));
         }
 

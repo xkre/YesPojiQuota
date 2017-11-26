@@ -11,8 +11,9 @@ namespace YesPojiQuota.ViewModels
 {
     public class SettingsViewModel : MainViewModel
     {
-        public SettingsViewModel(INavigationService ns) : base(ns)
+        public SettingsViewModel()
         {
+            PageTitle = "Settings Page";
         }
 
         #region Properties

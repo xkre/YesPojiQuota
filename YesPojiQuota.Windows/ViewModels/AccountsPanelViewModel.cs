@@ -1,6 +1,4 @@
 ﻿using GalaSoft.MvvmLight.Threading;
-using GalaSoft.MvvmLight.Views;
-using GalaSoft.MvvmLight.Ioc;
 using System;
 using System.Linq;
 using System.Text;
@@ -9,13 +7,11 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Practices.ServiceLocation;
-using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Models;
 using YesPojiQuota.Core.Data;
-using YesPojiQuota.Utils;
 using YesPojiQuota.Core.Windows.ViewModels;
 using YesPojiQuota.Core.Windows.Utils.Messages;
+using GalaSoft.MvvmLight.Ioc;
 
 namespace YesPojiQuota.ViewModels
 {
@@ -60,7 +56,7 @@ namespace YesPojiQuota.ViewModels
 
         public AccountViewModel CreateAccountViewModel()
         {
-            var acvm = ServiceLocator.Current.GetInstance<AccountViewModel>(Guid.NewGuid().ToString());
+            var acvm = SimpleIoc.Default.GetInstance<AccountViewModel>(Guid.NewGuid().ToString());
 
             acvm.OnSuccessOperation += async o =>
             {
@@ -81,7 +77,7 @@ namespace YesPojiQuota.ViewModels
 
         public AccountViewModel CreateAccountViewModel(Account a)
         {
-            var acvm = ServiceLocator.Current.GetInstance<AccountViewModel>(a.AccountId.ToString());
+            var acvm = SimpleIoc.Default.GetInstance<AccountViewModel>(a.AccountId.ToString());
             acvm.Account = a;
             acvm.Removed += AccountRemoved;
 

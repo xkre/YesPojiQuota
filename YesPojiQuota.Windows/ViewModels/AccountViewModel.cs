@@ -1,6 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
-using Microsoft.Practices.ServiceLocation;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -19,6 +18,7 @@ using YesPojiUtmLib.Services;
 using YesPojiUtmLib.Enums;
 using YesPojiQuota.Core.Windows.ViewModels;
 using YesPojiQuota.Core.Windows.Utils.Messages;
+using GalaSoft.MvvmLight.Ioc;
 
 namespace YesPojiQuota.ViewModels
 {
@@ -55,7 +55,7 @@ namespace YesPojiQuota.ViewModels
                 Password = value.Password;
                 Id = value.AccountId;
 
-                var qvm = ServiceLocator.Current.GetInstance<QuotaViewModel>(Id.ToString());
+                var qvm = SimpleIoc.Default.GetInstance<QuotaViewModel>(Id.ToString());
                 qvm.Quota = value.Quota;
                 Quota = qvm;
 

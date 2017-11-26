@@ -1,6 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
-using Microsoft.Practices.ServiceLocation;
 using YesPojiQuota.Core.Data;
 using YesPojiQuota.Core.Interfaces;
 using YesPojiQuota.Core.Observers;
@@ -14,8 +13,6 @@ namespace YesPojiQuota.Core.Windows.Utils
     {
         public AppServiceLocator()
         {
-            ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-
             RegisterService();
         }
 
@@ -39,19 +36,19 @@ namespace YesPojiQuota.Core.Windows.Utils
             SimpleIoc.Default.Register<YesContext>();
         }
 
-        public static IYesLoginService YesLoginService => ServiceLocator.Current.GetInstance<IYesLoginService>();
-        public static IYesQuotaService YesQuotaService => ServiceLocator.Current.GetInstance<IYesQuotaService>();
-        public static IYesNetworkService YesNetworkService => ServiceLocator.Current.GetInstance<IYesNetworkService>();
-        public static IYesSessionService YesSessionService => ServiceLocator.Current.GetInstance<IYesSessionService>();
+        public static IYesLoginService YesLoginService => SimpleIoc.Default.GetInstance<IYesLoginService>();
+        public static IYesQuotaService YesQuotaService => SimpleIoc.Default.GetInstance<IYesQuotaService>();
+        public static IYesNetworkService YesNetworkService => SimpleIoc.Default.GetInstance<IYesNetworkService>();
+        public static IYesSessionService YesSessionService => SimpleIoc.Default.GetInstance<IYesSessionService>();
 
-        public static NetworkChangeHandler NetworkChangeHandler => ServiceLocator.Current.GetInstance<NetworkChangeHandler>();
-        public static QuotaObserverManager QuotaObserverManager => ServiceLocator.Current.GetInstance<QuotaObserverManager>();
-        public static ToastManager ToastManager => ServiceLocator.Current.GetInstance<ToastManager>();
+        public static NetworkChangeHandler NetworkChangeHandler => SimpleIoc.Default.GetInstance<NetworkChangeHandler>();
+        public static QuotaObserverManager QuotaObserverManager => SimpleIoc.Default.GetInstance<QuotaObserverManager>();
+        public static ToastManager ToastManager => SimpleIoc.Default.GetInstance<ToastManager>();
 
-        public static IEncryptionService EncryptionService => ServiceLocator.Current.GetInstance<IEncryptionService>();
-        public static IDataService DataService => ServiceLocator.Current.GetInstance<IDataService>();
+        public static IEncryptionService EncryptionService => SimpleIoc.Default.GetInstance<IEncryptionService>();
+        public static IDataService DataService => SimpleIoc.Default.GetInstance<IDataService>();
 
-        public static YesContext YesContext => ServiceLocator.Current.GetInstance<YesContext>();
-        public static YesSessionUpdater YesSessionUpdater => ServiceLocator.Current.GetInstance<YesSessionUpdater>();
+        public static YesContext YesContext => SimpleIoc.Default.GetInstance<YesContext>();
+        public static YesSessionUpdater YesSessionUpdater => SimpleIoc.Default.GetInstance<YesSessionUpdater>();
     }
 }

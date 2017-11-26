@@ -22,7 +22,7 @@ namespace YesPojiQuota.Views.Partials
     {
         private bool _isAnimating;
 
-        public InnAppToastViewModel Vm => (InnAppToastViewModel)DataContext;
+        public StatusViewModel Vm => (StatusViewModel)DataContext;
 
         public InnAppToastNotification()
         {

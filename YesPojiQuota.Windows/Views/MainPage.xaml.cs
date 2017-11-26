@@ -1,5 +1,4 @@
-﻿using Microsoft.Practices.ServiceLocation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,6 +17,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Messaging;
 using System.Threading.Tasks;
+using YesPojiQuota.Core.Windows.Services;
+using GalaSoft.MvvmLight.Ioc;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -33,12 +34,12 @@ namespace YesPojiQuota.Views
         public MainPage()
         {
             this.InitializeComponent();
-            SystemNavigationManager.GetForCurrentView().BackRequested += vm.BackRequested;
+            SystemNavigationManager.GetForCurrentView().BackRequested += BackRequested;
         }
 
         private async void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            var avm = ServiceLocator.Current.GetInstance<AccountsPanelViewModel>();
+            var avm = SimpleIoc.Default.GetInstance<AccountsPanelViewModel>();
 
             AccountInputDialog accountInput = new AccountInputDialog();
             accountInput.DataContext = avm.CreateAccountViewModel();
@@ -65,6 +66,18 @@ namespace YesPojiQuota.Views
 
                     e.Handled = true;
                 }
+            }
+        }
+
+        private void BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            var nav = ViewModelLocator.NavigationService as NavigationServiceEx;
+
+            if (nav.CanGoBack)
+            {
+                nav.GoBack();
+                nav.RefreshSystemBackButton();
+                e.Handled = true;
             }
         }
     }

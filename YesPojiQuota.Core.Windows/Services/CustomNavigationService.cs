@@ -8,7 +8,8 @@ using Windows.UI.Core;
 
 namespace YesPojiQuota.Core.Windows.Services
 {
-    public class CustomNavigationService : INavigationService, ICustomNavigationService
+    /* Unused
+    public class CustomNavigationService : INavigationService
     {
         private NavigationService nav;
         private Stack<string> navStack;
@@ -34,6 +35,8 @@ namespace YesPojiQuota.Core.Windows.Services
 
             navStack.Clear();
             return false;
+
+
         }
 
         public void GoBack()
@@ -87,4 +90,5 @@ namespace YesPojiQuota.Core.Windows.Services
             return false;
         }
     }
+    */
 }
