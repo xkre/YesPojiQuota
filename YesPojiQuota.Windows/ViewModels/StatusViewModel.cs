@@ -21,7 +21,7 @@ using YesPojiUtmLib.Services;
 
 namespace YesPojiQuota.ViewModels
 {
-    public class InnAppToastViewModel : MainViewModel
+    public class StatusViewModel : MainViewModel
     {
         private IYesNetworkService _ns;
         private IYesLoginService _ls;
@@ -32,7 +32,7 @@ namespace YesPojiQuota.ViewModels
 
         private IDisposable _messageTimer;
 
-        public InnAppToastViewModel(IYesNetworkService ns, IYesLoginService ls,
+        public StatusViewModel(IYesNetworkService ns, IYesLoginService ls,
             YesSessionUpdater ys, NetworkChangeHandler nch, ToastManager tm)
         {
             _ns = ns;
