@@ -20,6 +20,6 @@ YesPojiQuota is an UWP app that helps with checking Yes 4G UTM (Universiti Tekno
     ```
 2. Initialise and update submodules.
   
-#### Requirement
-Windows 10 Creators Update SDK (1703)  
-Visual Studio 2017
+### Requirement
+- Windows 10 Creators Update SDK (1703)  
+- Visual Studio 2017
